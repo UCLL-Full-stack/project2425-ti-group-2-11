@@ -39,6 +39,16 @@ export class Address {
         return this.country;
     }
 
+    public equals(address: Address): boolean {
+        return (
+            this.street == address.street &&
+            this.city == address.city &&
+            this.state == address.state &&
+            this.postalCode == address.postalCode &&
+            this.country == address.country
+        );
+    }
+
     // public setId(id: number): void {
     //     this.id = id;
     // }
