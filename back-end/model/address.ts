@@ -73,3 +73,20 @@ export class Address {
     //     this.country = country;
     // }
 }
+
+/*
+scheduleRouter.post('/', (req: Resuest, res:Response) =>{
+    try{
+        const Schedule = <ScheduleInput>req.body;
+        const result = scheduleService.createSchedule(schedule);
+        res.status(200).json(result);
+    } catch (error: unknown){
+        let msg= "unknown error";
+        if(error instanceof Error){
+            msg = error.message;
+        } 
+    }
+});
+
+
+*/
