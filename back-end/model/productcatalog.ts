@@ -16,4 +16,10 @@ export class ProductCatalog {
     public getProducts() : Array<Product> {
         return this.products;
     }
+
+    public addProduct(product: Product) : Product {
+        this.products.push(product)
+        console.log(this.products)
+        return product;
+    }
 }
