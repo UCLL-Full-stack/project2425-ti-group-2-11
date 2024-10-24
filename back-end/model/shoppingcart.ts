@@ -6,7 +6,7 @@ export class ShoppingCart {
 
     constructor(shoppingCart : {id? : number | undefined}) {
         this.id = shoppingCart.id;
-        this.products = []
+        this.products = [];
     }
 
     public getId(): number | undefined {
@@ -19,6 +19,7 @@ export class ShoppingCart {
 
     public addProduct(product: Product) : Product {
         this.products.push(product)
+        console.log(this.products)
         return product;
     }
 }
