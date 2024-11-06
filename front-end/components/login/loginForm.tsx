@@ -13,7 +13,7 @@ const LoginForm: React.FC = () => {
                     <input type="password" id="password" placeholder="password" required className="mt-5 p-2" />
                     <input type="submit" id="submit" value="Login" className="mt-5 bg-white max-w-12 p-1 self-center hover:cursor-pointer hover:bg-gray-600" />
                 </form>
-                <p>No account? Register <u className="text-blue-800" onClick={() => { window.location.href = "/login"; }}>here</u></p>
+                <p>No account? Register <u className="text-blue-800 hover:cursor-pointer" onClick={() => { window.location.href = "/register"; }}>here</u></p>
             </div>
         </>
     );
