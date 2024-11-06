@@ -1,6 +1,9 @@
 const RegisterForm: React.FC = () => {
     return (
         <>
+            <head>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+            </head>
             <main>
                 <form className="grid grid-cols-3 gap-y-3">
                     <label htmlFor="firstName">First Name:</label>
@@ -273,20 +276,26 @@ const RegisterForm: React.FC = () => {
                         <option value="Zimbabwe">Zimbabwe</option>
                     </select>
 
-                    <label htmlFor="seller">Seller?:</label>
+                    <div title="Do you want to sell products on this site?">
+                        <label htmlFor="seller" className="mr-2">Seller</label>
+                        <i style={{ fontSize: '24px' }} className="fa fa-question-circle"></i>
+                    </div>
                     <div className="col-span-2 text-center">
-                        <label htmlFor="seller yes" className="mr-2">Yes:</label>
-                        <input type="radio" name="seller" value="yes" className="mr-4" required/>
-                        <label htmlFor="seller no" className="mr-2">No:</label>
+                        <label htmlFor="seller yes" className="mr-2" title="Select 'Yes' if you are a seller">Yes:</label>
+                        <input type="radio" name="seller" value="yes" className="mr-4" required />
+                        <label htmlFor="seller no" className="mr-2" title="Select 'No' if you are not a seller">No:</label>
                         <input type="radio" name="seller" value="no" />
                     </div>
 
-                    <label htmlFor="newsletter">Newsletter?:</label>
+                    <div title="Do you want to receive a newsletter?">
+                        <label htmlFor="newsletter" className="mr-2">Newsletter</label>
+                        <i style={{ fontSize: '24px' }} className="fa fa-question-circle"></i>
+                    </div>
                     <div className="col-span-2 text-center">
-                        <label htmlFor="newsletter yes" className="mr-2">Yes:</label>
-                        <input type="radio" name="newsletter" value="yes" className="mr-4" required/>
-                        <label htmlFor="newsletter no" className="mr-2">No:</label>
-                        <input type="radio" name="newsletter" value="no" />
+                        <label htmlFor="newsletter yes" title="Select yes if you want to receive the newsletter" className="mr-2">Yes:</label>
+                        <input type="radio" name="newsletter" value="yes" className="mr-4" required />
+                        <label htmlFor="newsletter no" title="Select no if you do not want to receive the newsletter" className="mr-2">No:</label>
+                        <input type="radio" name="newsletter"  value="no" />
                     </div>
 
                     <div className="col-span-3 text-center mt-5">
