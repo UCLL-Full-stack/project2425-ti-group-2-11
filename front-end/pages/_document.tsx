@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </Head>
-        <body>
+        <body className="h-vh">
           <Main />
           <NextScript />
         </body>
