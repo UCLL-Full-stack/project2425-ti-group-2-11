@@ -1,5 +1,6 @@
-import Navbar from '@/components/header/navbar';
-import Head from 'next/head';
+import Navbar from "@/components/header/navbar";
+import Main from "@/components/mainhome/main";
+import Head from "next/head";
 
 const Home: React.FC = () => {
   return (
@@ -10,14 +11,14 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo-512-white.svg" />
       </Head>
-      <header>
-        <Navbar />
-      </header>
-      <main className="w-full min-w-[320px] sm:min-w-0">
-        {/* Add your main content here */}
-      </main>
+        <header>
+          <Navbar />
+        </header>
+        <main className="w-full h-full">
+          <Main />
+        </main>
     </>
   );
-}
+};
 
 export default Home;
