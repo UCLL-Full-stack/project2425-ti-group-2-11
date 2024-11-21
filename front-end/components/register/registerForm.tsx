@@ -1,37 +1,106 @@
+import { useState } from "react";
+
 const RegisterForm: React.FC = () => {
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phoneNumber: '',
+        emailAddress: '',
+        password: '',
+        street: '',
+        houseNumber: '',
+        postalCode: '',
+        city: '',
+        state: '',
+        country: '',
+        seller: false,
+        newsLetter: false,
+        role: 'user'
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        e.preventDefault();
+        var { name, value } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const address = {
+            street: formData.street,
+            houseNumber: formData.houseNumber,
+            postalCode: formData.postalCode,
+            state: formData.state,
+            city: formData.city,
+            country: formData.country
+        };
+        const userInput = {
+            name: formData.name,
+            phoneNumber: formData.phoneNumber,
+            emailAddress: formData.emailAddress,
+            password: formData.password,
+            address,
+            seller: formData.seller,
+            newsLetter: formData.newsLetter,
+            role: formData.role
+        };
+        try {
+            const response = await fetch('http://localhost:3000/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userInput)
+            });
+            if (response.ok) {
+                console.log('User registered successfully');
+            } else {
+                console.error('Failed to register user');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <>
-            <head>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-            </head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
             <main>
-                <form className="grid grid-cols-3 gap-y-3">
-                    <label htmlFor="firstName">First Name:</label>
-                    <input type="text" name="firstName" placeholder="John" className="text-center ml-1 col-span-2" required />
-
-                    <label htmlFor="lastName">Last Name:</label>
-                    <input type="text" name="lastName" placeholder="Doe" className="text-center ml-1 col-span-2" required />
-
-                    <label htmlFor="email">Email:</label>
-                    <input type="text" name="email" placeholder="John.doe@gmail.com" className="text-center ml-1 col-span-2" required />
+                <form className="grid grid-cols-3 gap-y-3"
+                onSubmit={handleSubmit}>
+                    <label htmlFor="name">Full Name:</label>
+                    <input type="text" name="name" placeholder="John Doe" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
 
                     <label htmlFor="phoneNumber">Phone Number:</label>
-                    <input type="text" name="phoneNumber" placeholder="+32 123 45 67 89" className="text-center ml-1 col-span-2" required />
+                    <input type="text" name="phoneNumber" placeholder="+32 123 45 67 89" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
 
-                    <label htmlFor="streetName">Street Name:</label>
-                    <input type="text" name="streetName" placeholder="Bondgenotenlaan" className="text-center ml-1 col-span-2" required />
+                    <label htmlFor="email">Email:</label>
+                    <input type="email" name="emailAddress" placeholder="John.doe@gmail.com" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
+
+                    <label htmlFor="password">Password: </label>
+                    <input type="password" name="password" placeholder="password" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange}/>
+
+                    <label htmlFor="street">Street Name:</label>
+                    <input type="text" name="street" placeholder="Bondgenotenlaan" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
 
                     <label htmlFor="houseNumber">House Number:</label>
-                    <input type="number" name="houseNumber" placeholder="40" className="text-center ml-1 col-span-2" required />
+                    <input type="number" name="houseNumber" placeholder="40" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
 
                     <label htmlFor="postalCode">Postal Code:</label>
-                    <input type="number" name="postalCode" placeholder="3000" className="text-center ml-1 col-span-2" required />
+                    <input type="number" name="postalCode" placeholder="3000" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
 
                     <label htmlFor="city">City:</label>
-                    <input type="text" name="city" placeholder="Leuven" className="text-center ml-1 col-span-2" required />
+                    <input type="text" name="city" placeholder="Leuven" className="text-center ml-1 col-span-2 rounded-lg" required onChange={handleChange} />
+
+                    <label htmlFor="state">State:</label>
+                    <input type="text" name="state" placeholder="Vlaams Brabant" className="text-center ml-0 col-span-2 rounded-lg" required onChange={handleChange}></input>
 
                     <label htmlFor="country">Country: </label>
-                    <select name="country" className="text-center ml-1 col-span-2" required>
+                    <select name="country" className="text-center ml-1 col-span-2 rounded-lg bg-white" required onChange={handleChange}>
                         <option value="">Select a country</option>
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Åland Islands">Åland Islands</option>
@@ -282,20 +351,20 @@ const RegisterForm: React.FC = () => {
                     </div>
                     <div className="col-span-2 text-center">
                         <label htmlFor="seller yes" className="mr-2" title="Select 'Yes' if you are a seller">Yes:</label>
-                        <input type="radio" name="seller" value="yes" className="mr-4" required />
+                        <input type="radio" name="seller" value="true" className="mr-4" required onChange={handleChange} />
                         <label htmlFor="seller no" className="mr-2" title="Select 'No' if you are not a seller">No:</label>
-                        <input type="radio" name="seller" value="no" />
+                        <input type="radio" name="seller" value="false" required onChange={handleChange} />
                     </div>
 
                     <div title="Do you want to receive a newsletter?">
-                        <label htmlFor="newsletter" className="mr-2">Newsletter</label>
+                        <label htmlFor="newsLetter" className="mr-2">Newsletter</label>
                         <i style={{ fontSize: '24px' }} className="fa fa-question-circle"></i>
                     </div>
                     <div className="col-span-2 text-center">
                         <label htmlFor="newsletter yes" title="Select yes if you want to receive the newsletter" className="mr-2">Yes:</label>
-                        <input type="radio" name="newsletter" value="yes" className="mr-4" required />
+                        <input type="radio" name="newsletter" value="true" className="mr-4" required onChange={handleChange} />
                         <label htmlFor="newsletter no" title="Select no if you do not want to receive the newsletter" className="mr-2">No:</label>
-                        <input type="radio" name="newsletter"  value="no" />
+                        <input type="radio" name="newsletter" value="false" required onChange={handleChange} />
                     </div>
 
                     <div className="col-span-3 text-center mt-5">
