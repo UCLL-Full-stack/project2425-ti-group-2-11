@@ -3,12 +3,12 @@ import { User } from '../model/user';
 import userDb from '../repository/user.db';
 import { UserInput, AddressInput } from '../types';
 
-const getAllUsers = (): User[] => {
-    return [...userDb.getAllUsers()];
+const getAllUsers = async (): Promise<User[]> => {
+    return [...await userDb.getAllUsers()];
 };
 
-const getUserById = (id: number): User | undefined => {
-    const user = userDb.getUserById(id);
+const getUserById = async (id: number): Promise<User | undefined> => {
+    const user = await userDb.getUserById({ id });
     if (user) {
         return user;
     }
