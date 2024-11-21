@@ -1,35 +1,47 @@
 import { useState } from "react";
 
+interface FormData {
+    name: string;
+    phoneNumber: string;
+    emailAddress: string;
+    password: string;
+    street: string;
+    houseNumber: string;
+    postalCode: string;
+    city: string;
+    state: string;
+    country: string;
+    seller: boolean;
+    newsLetter: boolean;
+    role: string;
+}
+
 const RegisterForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    phoneNumber: "",
-    emailAddress: "",
-    password: "",
-    street: "",
-    houseNumber: "",
-    postalCode: "",
-    city: "",
-    state: "",
-    country: "",
-    seller: false,
-    newsLetter: false,
-    role: "user",
-  });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    e.preventDefault();
-    var { name, value } = e.target;
-    
-    console.log(name, value);
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        phoneNumber: '',
+        emailAddress: '',
+        password: '',
+        street: '',
+        houseNumber: '',
+        postalCode: '',
+        city: '',
+        state: '',
+        country: '',
+        seller: false,
+        newsLetter: false,
+        role: 'user'
+    })
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+        }));
+    };
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
