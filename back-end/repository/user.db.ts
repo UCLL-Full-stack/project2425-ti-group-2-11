@@ -1,5 +1,7 @@
+import { UserInfo } from 'os';
 import { Address } from '../model/address';
 import { User } from '../model/user';
+import { UserInput } from '../types';
 const users: User[] = [];
 
 const user1: User = new User({
@@ -11,6 +13,7 @@ const user1: User = new User({
     address: new Address({
         id: 1,
         street: 'Kerkstraat',
+        houseNumber: '4',
         city: 'Leuven',
         state: 'Vlaams-Brabant',
         postalCode: '3000',
@@ -29,7 +32,8 @@ const user2: User = new User({
     password: 'wachtwoord',
     address: new Address({
         id: 1,
-        street: 'bondgenotenlaan 1',
+        street: 'bondgenotenlaan',
+        houseNumber: '1',
         city: 'Leuven',
         state: 'Vlaams-Brabant',
         postalCode: '3000',
@@ -51,4 +55,10 @@ const getUserById = (id: number): User | undefined => {
     return users.find((user) => user.getId() === id);
 };
 
-export default { getAllUsers, getUserById };
+const addUser = (user : User): User => {
+
+    users.push(user);
+    return user;
+}
+
+export default { getAllUsers, getUserById, addUser };

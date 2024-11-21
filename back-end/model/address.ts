@@ -1,14 +1,16 @@
 export class Address {
     private id: number | undefined;
     private street: string;
+    private houseNumber: string;
     private city: string;
     private state: string;
     private postalCode: string;
     private country: string;
 
-    constructor(address: { street: string, city: string, state: string, postalCode: string, country: string, id?: number | undefined }) {
+    constructor(address: { street: string, city: string, state: string, houseNumber: string, postalCode: string, country: string, id?: number | undefined }) {
         this.id = address.id;
         this.street = address.street;
+        this.houseNumber = address.houseNumber;
         this.city = address.city;
         this.state = address.state;
         this.postalCode = address.postalCode;
@@ -21,6 +23,10 @@ export class Address {
 
     public getStreet(): string {
         return this.street;
+    }
+
+    public getHouseNumber(): string {
+        return this.houseNumber
     }
 
     public getCity(): string {
@@ -84,7 +90,7 @@ scheduleRouter.post('/', (req: Resuest, res:Response) =>{
         let msg= "unknown error";
         if(error instanceof Error){
             msg = error.message;
-        } 
+        }
     }
 });
 

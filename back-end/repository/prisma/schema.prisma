@@ -8,19 +8,21 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String
-  phoneNumber  String
-  emailAddress String
-  password     String
-  seller       Boolean
-  newsLetter   Boolean
-  role         String
-  addressId    Int      @unique
-  address      Address  @relation(fields: [addressId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  reviews      Review[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  phoneNumber    String
+  emailAddress   String
+  password       String
+  seller         Boolean
+  newsLetter     Boolean
+  role           String
+  addressId      Int             @unique
+  address        Address         @relation(fields: [addressId], references: [id])
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  reviews        Review[]
+  ProductCatalog ProductCatalog?
+  ShoppingCart   ShoppingCart?
 }
 
 model Address {
@@ -53,6 +55,8 @@ model Product {
 model ProductCatalog {
   id        Int       @id @default(autoincrement())
   products  Product[]
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -60,6 +64,8 @@ model ProductCatalog {
 model ShoppingCart {
   id        Int       @id @default(autoincrement())
   products  Product[]
+  userId    Int       @unique
+  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
