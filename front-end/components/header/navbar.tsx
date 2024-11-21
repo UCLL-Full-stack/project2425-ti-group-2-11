@@ -13,7 +13,8 @@ const Navbar: React.FC = () => {
           <img
             src="/google-person.svg"
             alt="Person Icon link to profile"
-            className="w-2/12 min-w-[40px]"
+            className="w-2/12 min-w-[40px] hover:cursor-pointer"
+            onClick={() => { location.href = '/login' }}
           />
           <img
             src="/google-shopping-cart.svg"

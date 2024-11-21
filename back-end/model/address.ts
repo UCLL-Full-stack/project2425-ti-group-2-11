@@ -1,3 +1,5 @@
+import {Address as AddressPrisma} from '@prisma/client'
+
 export class Address {
     private id: number | undefined;
     private street: string;
@@ -53,6 +55,25 @@ export class Address {
             this.postalCode == address.postalCode &&
             this.country == address.country
         );
+    }
+
+    static from({
+        street,
+        houseNumber,
+        city,
+        state,
+        postalCode,
+        country
+    }: AddressPrisma & { id?: number }) {
+        return new Address({
+            id: undefined,
+            street,
+            houseNumber,
+            city,
+            state,
+            postalCode,
+            country
+        })
     }
 
     // public setId(id: number): void {

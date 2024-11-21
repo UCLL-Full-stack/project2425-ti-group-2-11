@@ -2,6 +2,7 @@ import { UserInfo } from 'os';
 import { Address } from '../model/address';
 import { User } from '../model/user';
 import { UserInput } from '../types';
+import database from './database';
 const users: User[] = [];
 
 const user1: User = new User({
@@ -55,10 +56,47 @@ const getUserById = (id: number): User | undefined => {
     return users.find((user) => user.getId() === id);
 };
 
-const addUser = (user : User): User => {
-
-    users.push(user);
-    return user;
-}
+const addUser = async (user: User): Promise<User> => {
+    try {
+        const UserPrisma = await database.user.create({
+            data: {
+                name: user.getName(),
+                phoneNumber: user.getPhoneNumber(),
+                emailAddress: user.getEmailAddress(),
+                password: user.getPassword(),
+                address: {
+                    create: {
+                        street: user.getAddress().getStreet(),
+                        houseNumber: user.getAddress().getHouseNumber(),
+                        city: user.getAddress().getCity(),
+                        state: user.getAddress().getState(),
+                        postalCode: user.getAddress().getPostalCode(),
+                        country: user.getAddress().getCountry(),
+                    }
+                },
+                seller: user.getSeller(),
+                newsLetter: user.getNewsLetter(),
+                role: user.getRole()
+            },
+        });
+        return User.from({
+            ...UserPrisma,
+            address: {
+                id: UserPrisma.addressId,
+                street: user.getAddress().getStreet(),
+                houseNumber: user.getAddress().getHouseNumber(),
+                city: user.getAddress().getCity(),
+                state: user.getAddress().getState(),
+                postalCode: user.getAddress().getPostalCode(),
+                country: user.getAddress().getCountry(),
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
 
 export default { getAllUsers, getUserById, addUser };

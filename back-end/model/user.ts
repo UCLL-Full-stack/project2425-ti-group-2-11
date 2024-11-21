@@ -1,4 +1,8 @@
 import { Address } from './address';
+import {User as UserPrisma,
+        Address as AddressPrisma
+}
+from '@prisma/client'
 
 export class User {
     private id?: number;
@@ -107,5 +111,29 @@ export class User {
             this.newsLetter == user.newsLetter &&
             this.role == user.role
         );
+    }
+
+    static from ({
+        id,
+        name,
+        phoneNumber,
+        emailAddress,
+        password,
+        address,
+        seller,
+        newsLetter,
+        role
+    }: UserPrisma & {address: AddressPrisma}) {
+        return new User ({
+            id,
+            name,
+            phoneNumber,
+            emailAddress,
+            password,
+            address: Address.from(address),
+            seller,
+            newsLetter,
+            role
+        })
     }
 }
