@@ -12,14 +12,20 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+
 userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.send(await userService.getUserById(Number(req.params.id)));
+        const userId = req.params.id;
+        if (userId) {
+            const user = await userService.getUserById(Number(userId));
+            res.status(200).send(user);
+        } else {
+            res.status(400).send({ error: 'No user id provided' });
+        }
     } catch (error) {
         next(error);
     }
 });
-
 userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = userService.addUser(<UserInput>req.body);
