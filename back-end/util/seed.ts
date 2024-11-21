@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const main = async () => {
     // Delete data in the reverse order of dependency to avoid conflicts
@@ -78,8 +78,8 @@ const main = async () => {
             role: 'Admin',
             address: {
                 connect: { id: addressJhon.id },
-            }
-        }
+            },
+        },
     });
 
     const Jane = await prisma.user.create({
@@ -145,11 +145,11 @@ const main = async () => {
 
 (async () => {
     try {
-        await main()
-        await prisma.$disconnect()
+        await main();
+        await prisma.$disconnect();
     } catch (error) {
-        console.error("Error:", error);
-        await prisma.$disconnect()
-        process.exit(1)
+        console.error('Error:', error);
+        await prisma.$disconnect();
+        process.exit(1);
     }
 })();

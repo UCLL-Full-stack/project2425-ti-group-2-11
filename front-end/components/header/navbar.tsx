@@ -13,16 +13,16 @@ const Navbar: React.FC = () => {
           <img
             src="/google-person.svg"
             alt="Person Icon link to profile"
-            className="w-2/12"
+            className="w-2/12 min-w-[40px]"
           />
           <img
             src="/google-shopping-cart.svg"
             alt="Person Icon link to shopping cart"
-            className="w-2/12"
+            className="w-2/12 min-w-[40px]"
           />
         </div>
       </div>
-      <div className="flex place-content-center w-full mt-4">
+      <div className="flex place-content-center w-full mt-4 sticky  top-0">
         <div className="relative w-full ml-5 mr-5">
           <input
             type="text"

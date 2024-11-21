@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
+import { productRouter } from './controller/product.routes';
 import errorHandler from './middelware/errorHandler';
 
 
@@ -24,7 +25,7 @@ app.get('/status', (req, res) => {
 // const swaggerSpec = swaggerJSDoc(swaggerOpts);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/users', userRouter);
-
+app.use('/products', productRouter);
 app.use(errorHandler);
 
 app.listen(port || 3000, () => {

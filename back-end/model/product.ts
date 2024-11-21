@@ -1,11 +1,33 @@
+import {Product as ProductPrisma} from '@prisma/client';
+
 export class Product {
     private id: number | undefined;
     private name: string;
     private description: string;
-    private media: string; //path to source image
+    private media: string;
     private stock: number;
     private price: number;
     private details: string;
+
+    static from({
+        id,
+        name,
+        description,
+        media,
+        stock,
+        price,
+        details,
+    }: ProductPrisma) {
+        return new Product({
+            id,
+            name,
+            description,
+            media,
+            stock,
+            price,
+            details,
+        });
+    }
 
     constructor(product: {name: string, description: string, media: string, stock: number, price: number, details: string, id?: number | undefined}) {
         this.id = product.id;
