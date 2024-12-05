@@ -2,18 +2,20 @@
     "app.title": "User Bazaar",
     "register" : {
         "register" : "Registeer",
-        "fullnaam": "Volledige Naam",
+        "fullname": "Volledige Naam",
         "phonenumber": "Telefoonnummer",
         "email": "Email",
         "password": "Wachtwoord",
         "streetname": "Straat Naam",
         "housenumber": "Huis Nummer",
         "postalcode": "Postcode",
+        "state": "Provincie",
         "city" : "Stad",
         "country": "Land",
         "newsletter": "Nieuwsletter",
         "yes": "Ja",
         "no": "Nee",
-        "seller": "Verkoper"
+        "seller": "Verkoper",
+        "selectcountry": "Selecteer een land"
     }
 }

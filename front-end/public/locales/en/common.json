@@ -9,11 +9,13 @@
         "streetname": "Street Name",
         "housenumber": "House Number",
         "postalcode": "Postal Code",
+        "state": "State",
         "city" : "City",
         "country": "Country",
         "newsletter": "Newsletter",
         "yes": "Yes",
         "no": "No",
-        "seller": "Seller"
+        "seller": "Seller",
+        "selectcountry": "Select a country"
     }
 }

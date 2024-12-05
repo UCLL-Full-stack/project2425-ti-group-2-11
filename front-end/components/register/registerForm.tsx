@@ -105,7 +105,7 @@ const RegisterForm: React.FC = () => {
             <main>
                 <Language />
                 <form className="grid grid-cols-3 gap-y-3" onSubmit={handleSubmit}>
-                    <label htmlFor="name">{t("register.fullname")}</label>
+                    <label htmlFor="name">{t("register.fullname")}:</label>
                     <input
                         type="text"
                         name="name"
@@ -115,7 +115,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="phoneNumber">Phone Number:</label>
+                    <label htmlFor="phoneNumber">{t("register.phonenumber")}: </label>
                     <input
                         type="text"
                         name="phoneNumber"
@@ -125,7 +125,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email">{t("register.fullname")}: </label>
                     <input
                         type="email"
                         name="emailAddress"
@@ -135,7 +135,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="password">Password: </label>
+                    <label htmlFor="password">{t("register.password")}: </label>
                     <input
                         type="password"
                         name="password"
@@ -145,7 +145,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="street">Street Name:</label>
+                    <label htmlFor="street">{t("register.streetname")}:</label>
                     <input
                         type="text"
                         name="street"
@@ -155,7 +155,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="houseNumber">House Number:</label>
+                    <label htmlFor="houseNumber">{t("register.housenumber")}:</label>
                     <input
                         type="number"
                         name="houseNumber"
@@ -165,7 +165,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="postalCode">Postal Code:</label>
+                    <label htmlFor="postalCode">{t("register.postalcode")}:</label>
                     <input
                         type="number"
                         name="postalCode"
@@ -175,7 +175,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="city">City:</label>
+                    <label htmlFor="city">{t("register.city")}:</label>
                     <input
                         type="text"
                         name="city"
@@ -185,7 +185,7 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <label htmlFor="state">State:</label>
+                    <label htmlFor="state">{t("register.state")}:</label>
                     <input
                         type="text"
                         name="state"
@@ -195,14 +195,14 @@ const RegisterForm: React.FC = () => {
                         onChange={handleChange}
                     ></input>
 
-                    <label htmlFor="country">Country: </label>
+                    <label htmlFor="country">{t("register.country")}: </label>
                     <select
                         name="country"
                         className="text-center ml-1 col-span-2 rounded-lg bg-white"
                         required
                         onChange={handleChange}
                     >
-                        <option value="">Select a country</option>
+                        <option value="">{t("register.selectcountry")}</option>
                         <option value="Afghanistan">Afghanistan</option>
                         <option value="Åland Islands">Åland Islands</option>
                         <option value="Albania">Albania</option>
@@ -482,7 +482,7 @@ const RegisterForm: React.FC = () => {
 
                     <div title="Do you want to sell products on this site?">
                         <label htmlFor="seller" className="mr-2">
-                            Seller
+                        {t("register.seller")}
                         </label>
                         <i
                             style={{ fontSize: "24px" }}
@@ -495,7 +495,7 @@ const RegisterForm: React.FC = () => {
                             className="mr-2"
                             title="Select 'Yes' if you are a seller"
                         >
-                            Yes:
+                            {t("register.yes")}:
                         </label>
                         <input
                             type="radio"
@@ -511,7 +511,7 @@ const RegisterForm: React.FC = () => {
                             className="mr-2"
                             title="Select 'No' if you are not a seller"
                         >
-                            No:
+                            {t("register.no")}:
                         </label>
                         <input
                             type="radio"
@@ -525,7 +525,7 @@ const RegisterForm: React.FC = () => {
 
                     <div title="Do you want to receive a newsletter?">
                         <label htmlFor="newsLetter" className="mr-2">
-                            Newsletter
+                        {t("register.newsletter")}
                         </label>
                         <i
                             style={{ fontSize: "24px" }}
@@ -538,7 +538,7 @@ const RegisterForm: React.FC = () => {
                             title="Select yes if you want to receive the newsletter"
                             className="mr-2"
                         >
-                            Yes:
+                            {t("register.yes")}:
                         </label>
                         <input
                             type="radio"
@@ -554,7 +554,7 @@ const RegisterForm: React.FC = () => {
                             title="Select no if you do not want to receive the newsletter"
                             className="mr-2"
                         >
-                            No:
+                            {t("register.no")}:
                         </label>
                         <input
                             type="radio"
