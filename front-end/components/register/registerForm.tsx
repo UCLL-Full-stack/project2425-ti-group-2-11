@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 
 interface FormData {
@@ -17,6 +18,8 @@ interface FormData {
 }
 
 const RegisterForm: React.FC = () => {
+
+    const [statusMessage, setStatusMessage] = React.useState<string | null>(null);
 
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -81,6 +84,7 @@ const RegisterForm: React.FC = () => {
             });
             if (response.ok) {
                 console.log("User registered successfully");
+                setStatusMessage("Successfully registered");
             } else {
                 console.error("Failed to register user");
             }
@@ -565,6 +569,11 @@ const RegisterForm: React.FC = () => {
                         />
                     </div>
                 </form>
+                {statusMessage && (
+                <div className="m-1 p-1 bg-green-300 text-green-700">
+                    {statusMessage}
+                </div>
+            )}
             </main>
         </>
     );
