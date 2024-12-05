@@ -75,7 +75,7 @@ const main = async () => {
             password: 'XX',
             seller: true,
             newsLetter: true,
-            role: 'Admin',
+            role: 'Owner',
             address: {
                 connect: { id: addressJhon.id },
             },
@@ -120,7 +120,7 @@ const main = async () => {
             password: "SuperSecretPassword",
             seller: true,
             newsLetter: false,
-            role: "Moderator",
+            role: "Admin",
             address: {
                 connect: { id: addressEmily.id },
             }
