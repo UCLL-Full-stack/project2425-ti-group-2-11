@@ -102,8 +102,11 @@ const RegisterForm: React.FC = () => {
                 rel="stylesheet"
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
             />
+            <div className="absolute top-0 right-0 m-3">
+                    <Language />
+            </div>
             <main>
-                <Language />
+
                 <form className="grid grid-cols-3 gap-y-3" onSubmit={handleSubmit}>
                     <label htmlFor="name">{t("register.fullname")}:</label>
                     <input
@@ -569,7 +572,7 @@ const RegisterForm: React.FC = () => {
                     <div className="col-span-3 text-center mt-5">
                         <input
                             type="submit"
-                            value="Register"
+                            value={t('register.register')}
                             className="px-4 py-2 bg-blue-500 text-white rounded hover:cursor-pointer"
                         />
                     </div>
