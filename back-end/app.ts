@@ -8,7 +8,6 @@ import { userRouter } from './controller/user.routes';
 import { productRouter } from './controller/product.routes';
 import errorHandler from './middelware/errorHandler';
 
-
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;

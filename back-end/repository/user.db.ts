@@ -3,11 +3,10 @@ import { User } from '../model/user';
 import { UserInput } from '../types';
 import database from './database';
 
-
 const getAllUsers = async (): Promise<User[]> => {
     try {
         const UserPrisma = await database.user.findMany({
-            include: { address: true }
+            include: { address: true },
         });
         return UserPrisma.map((UserPrisma) => User.from(UserPrisma));
     } catch (error) {
@@ -16,11 +15,11 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 };
 
-const getUserById =  async ({ id }: { id: number }): Promise<User | null> => {
+const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findUnique({
             where: { id },
-            include: {address: true}
+            include: { address: true },
         });
 
         return userPrisma ? User.from(userPrisma) : null;
@@ -46,11 +45,11 @@ const addUser = async (user: User): Promise<User> => {
                         state: user.getAddress().getState(),
                         postalCode: user.getAddress().getPostalCode(),
                         country: user.getAddress().getCountry(),
-                    }
+                    },
                 },
                 seller: user.getSeller(),
                 newsLetter: user.getNewsLetter(),
-                role: user.getRole()
+                role: user.getRole(),
             },
         });
         return User.from({
@@ -64,8 +63,8 @@ const addUser = async (user: User): Promise<User> => {
                 postalCode: user.getAddress().getPostalCode(),
                 country: user.getAddress().getCountry(),
                 createdAt: new Date(),
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         });
     } catch (error) {
         console.error(error);
@@ -73,4 +72,17 @@ const addUser = async (user: User): Promise<User> => {
     }
 };
 
-export default { getAllUsers, getUserById, addUser };
+const getUserByEmail = async ({ emailAddress }: { emailAddress: string }): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: { emailAddress },
+            include: { address: true },
+        });
+        console.log(userPrisma);
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+export default { getAllUsers, getUserByEmail, getUserById, addUser };

@@ -4,7 +4,7 @@ import userDb from '../repository/user.db';
 import { UserInput, AddressInput } from '../types';
 
 const getAllUsers = async (): Promise<User[]> => {
-    return [...await userDb.getAllUsers()];
+    return [...(await userDb.getAllUsers())];
 };
 
 const getUserById = async (id: number): Promise<User | undefined> => {
@@ -15,7 +15,24 @@ const getUserById = async (id: number): Promise<User | undefined> => {
     throw new Error(`User with id ${id} not found`);
 };
 
-const addUser = async ({ name, phoneNumber, emailAddress, password, address, seller, newsLetter, role }: UserInput): Promise<User> => {
+const getUserByEmail = async (emailAddress: string): Promise<User | undefined> => {
+    const user = await userDb.getUserByEmail({ emailAddress });
+    if (user) {
+        return user;
+    }
+    throw new Error(`User with email ${emailAddress} not found`);
+};
+
+const addUser = async ({
+    name,
+    phoneNumber,
+    emailAddress,
+    password,
+    address,
+    seller,
+    newsLetter,
+    role,
+}: UserInput): Promise<User> => {
     if (!name) {
         throw new Error('Name is missing');
     }
@@ -63,9 +80,18 @@ const addUser = async ({ name, phoneNumber, emailAddress, password, address, sel
     }
 
     const addressInstance = new Address({ street, houseNumber, city, state, postalCode, country });
-    const user = new User({ name, phoneNumber, emailAddress, password, address: addressInstance, seller, newsLetter, role });
+    const user = new User({
+        name,
+        phoneNumber,
+        emailAddress,
+        password,
+        address: addressInstance,
+        seller,
+        newsLetter,
+        role,
+    });
     await userDb.addUser(user);
     return user;
 };
 
-export default { getAllUsers, getUserById, addUser };
+export default { getAllUsers, getUserById, addUser, getUserByEmail };

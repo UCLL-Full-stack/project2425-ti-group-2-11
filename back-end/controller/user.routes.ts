@@ -12,7 +12,28 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+userRouter.get('/login', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const email = req.body.email;
+        if (email) {
+            const user = await userService.getUserByEmail(email);
+            res.status(200).send(user);
+        } else {
+            res.status(400).send({ error: 'No user id provided' });
+        }
+    } catch (error) {
+        next(error);
+    }
+});
 
+userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = userService.addUser(<UserInput>req.body);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+});
 userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.params.id;
@@ -26,13 +47,5 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
         next(error);
     }
 });
-userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const user = userService.addUser(<UserInput>req.body);
-        res.status(200).json(user);
-    } catch (error) {
-        next(error);
-    }
-})
 
 export { userRouter };
