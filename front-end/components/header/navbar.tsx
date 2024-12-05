@@ -1,4 +1,5 @@
 import React from 'react';
+import Language from '../language/Language';
 
 const Navbar: React.FC = () => {
   return (
@@ -37,7 +38,6 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      <div></div>
     </nav>
   );
 };

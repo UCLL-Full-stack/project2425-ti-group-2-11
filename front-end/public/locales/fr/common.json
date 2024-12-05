@@ -1,0 +1,19 @@
+{
+    "app.title": "User Bazaar",
+    "register" : {
+        "register" : "Registre",
+        "fullnaam": "Nom et prénom",
+        "phonenumber": "Numéro de telephone",
+        "email": "Email",
+        "password": "Mot de passe",
+        "streetname": "Nom de la rue",
+        "housenumber": "Numéro de maison",
+        "postalcode": "Code Postal",
+        "city" : "Ville",
+        "country": "Pays",
+        "newsletter": "Bulletin",
+        "yes": "Oui",
+        "no": "No",
+        "seller": "Vendeuse"
+    }
+}

@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
+import Language from "../language/Language";
 
 interface FormData {
     name: string;
@@ -20,6 +22,8 @@ interface FormData {
 const RegisterForm: React.FC = () => {
 
     const [statusMessage, setStatusMessage] = React.useState<string | null>(null);
+
+    const { t } = useTranslation();
 
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -99,8 +103,9 @@ const RegisterForm: React.FC = () => {
                 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
             />
             <main>
+                <Language />
                 <form className="grid grid-cols-3 gap-y-3" onSubmit={handleSubmit}>
-                    <label htmlFor="name">Full Name:</label>
+                    <label htmlFor="name">{t("register.fullname")}</label>
                     <input
                         type="text"
                         name="name"
@@ -578,5 +583,4 @@ const RegisterForm: React.FC = () => {
         </>
     );
 };
-
 export default RegisterForm;
