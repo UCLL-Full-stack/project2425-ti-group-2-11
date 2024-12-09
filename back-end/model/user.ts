@@ -1,3 +1,4 @@
+import { Role } from '../types';
 import { Address } from './address';
 import {User as UserPrisma,
         Address as AddressPrisma
@@ -13,7 +14,7 @@ export class User {
     private address: Address;
     private seller: boolean;
     private newsLetter: boolean;
-    private role: string;
+    private role: Role;
 
     constructor(user: {
         id?: number;
@@ -24,7 +25,7 @@ export class User {
         address: Address;
         seller: boolean;
         newsLetter: boolean;
-        role: string;
+        role: Role;
     }) {
         this.id = user.id;
         this.name = user.name;
@@ -95,7 +96,7 @@ export class User {
     getNewsLetter(): boolean {
         return this.newsLetter;
     }
-    getRole(): string {
+    getRole(): Role {
         return this.role;
     }
 
@@ -122,7 +123,7 @@ export class User {
         address,
         seller,
         newsLetter,
-        role
+        role,
     }: UserPrisma & {address: AddressPrisma}) {
         return new User ({
             id,
@@ -133,7 +134,7 @@ export class User {
             address: Address.from(address),
             seller,
             newsLetter,
-            role
+            role: role as Role,
         })
     }
 }

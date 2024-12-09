@@ -1,3 +1,5 @@
+type Role = 'User' | 'Admin' | 'Owner';
+
 type AddressInput = {
     id?: number;
     street?: string;
@@ -6,7 +8,7 @@ type AddressInput = {
     state?: string;
     postalCode?: string;
     country?: string;
-}
+};
 
 type UserInput = {
     id?: number;
@@ -17,7 +19,14 @@ type UserInput = {
     address?: AddressInput;
     seller?: boolean;
     newsLetter?: boolean;
-    role?: string;
-}
+    role?: Role;
+};
 
-export type {UserInput, AddressInput}
+
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    fullname: string;
+};
+
+export type { UserInput, AddressInput, AuthenticationResponse , Role};
