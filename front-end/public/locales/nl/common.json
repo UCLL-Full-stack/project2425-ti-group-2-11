@@ -18,5 +18,11 @@
         "seller": "Verkoper",
         "selectcountry": "Selecteer een land"
     },
+    "login":{
+        "email": "Email",
+        "password": "Wachtwoord",
+        "login": "Inloggen",
+        "NoAccount": "Nog geen account? Registreer hier"
+    },
     "language":"Taal"
 }

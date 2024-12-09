@@ -18,5 +18,11 @@
         "seller": "Seller",
         "selectcountry": "Select a country"
     },
+    "login":{
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "NoAccount": "No account? Register here"
+    },
     "language":"Language"
 }

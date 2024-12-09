@@ -18,5 +18,11 @@
         "seller": "Vendeuse",
         "selectcountry": "Sélectionnez un pays"
     },
+    "login":{
+        "email": "Email",
+        "password": "Mot de passe",
+        "login": "Connexion",
+        "NoAccount": "Pas de compte ? Inscrivez-vous ici"
+    },
     "language":"Langue"
 }
