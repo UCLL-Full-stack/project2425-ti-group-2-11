@@ -25,7 +25,16 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/login', '/register', '/status', '/users/register', '/users/login', /^\/products\/.*/],
+        path: [
+            '/api-docs',
+            /^\/api-docs\/.*/,
+            '/login',
+            '/register',
+            '/status',
+            '/users/register',
+            '/users/login',
+            /^\/products\/(desc|asc)\/limit\/\d+$/,
+        ],
     })
 );
 // const swaggerOpts = {};
@@ -35,7 +44,6 @@ app.use(
 app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use(errorHandler);
-
 
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);
