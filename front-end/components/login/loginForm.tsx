@@ -3,6 +3,7 @@ import Navbar from "../header/navbar";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import next from "next";
+import Link from "next/link";
 
 interface LoginFormData {
   email: string;
@@ -85,51 +86,72 @@ const LoginForm: React.FC = () => {
     // console.log(formData)
   };
   return (
-    <>
-      <div className="w-1/3 h-1/2 flex flex-col items-center justify-center">
-        <h1 className="font-bold text-3xl">{t("login.login")}</h1>
-        <form
-          action="login"
-          className="flex flex-col pt-10"
-          onSubmit={handleSubmit}
-        >
-          <label htmlFor="email">{t("login.email")}:</label>
-          <input
-            type="text"
-            placeholder={t("login.email")}
-            id="email"
-            required
-            className="p-2"
-            name="email"
-            onChange={handleChange}
-          />
-          <label htmlFor="password">{t("login.password")}:</label>
-          <input
-            type="password"
-            id="password"
-            placeholder={t("login.password")}
-            required
-            className="p-2"
-            name="password"
-            onChange={handleChange}
-          />
-          <input
-            type="submit"
-            id="submit"
-            value={t("login.login")}
-            className="mt-5 bg-white p-1 self-center hover:cursor-pointer hover:bg-gray-600"
-          />
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-md sm:p-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            {t("login.login")}
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {t("login.loginSubtitle")}
+          </p>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                {t("login.email")}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                onChange={handleChange}
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                {t("login.password")}
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                onChange={handleChange}
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              {t("login.login")}
+            </button>
+          </div>
         </form>
-        <p
-          className="mt-5 hover:cursor-pointer"
-          onClick={() => {
-            window.location.href = "/register";
-          }}
-        >
-          {t("login.NoAccount")}
-        </p>
+        <div className="text-sm text-center">
+          <p className="text-gray-600">
+            {t("login.NoAccount")}{" "}
+            <Link
+              href="/register"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              {t("login.signup")}
+            </Link>
+          </p>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -22,7 +22,9 @@
         "email": "Email",
         "password": "Password",
         "login": "Login",
-        "NoAccount": "No account? Register here"
+        "NoAccount": "Don't have an account?",
+        "loginSubtitle": "Welcome back! Please enter your details.",
+        "signup": "Signup!"
     },
     "language":"Language"
 }

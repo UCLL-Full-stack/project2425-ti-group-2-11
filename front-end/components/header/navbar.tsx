@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Language from "../language/Language";
+import { ShoppingCart, User } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,7 +16,7 @@ const Navbar: React.FC = () => {
   }, []);
   return (
     <nav className="l:flex l:flex-row pb-5 pt-5">
-      <div className="flex justify-between	">
+      <div className="flex justify-between	items-center">
         <img
           src="/logo-512.svg"
           alt="Logo User Bazaar"
@@ -25,9 +26,7 @@ const Navbar: React.FC = () => {
           }}
         />
         <div className="flex mr-5 justify-end">
-          <img
-            src="/google-person.svg"
-            alt="Person Icon link to profile"
+          <User
             className="w-2/12 min-w-[40px] hover:cursor-pointer"
             {...(isLoggedIn
               ? {
@@ -41,10 +40,19 @@ const Navbar: React.FC = () => {
                   },
                 })}
           />
-          <img
-            src="/google-shopping-cart.svg"
-            alt="Person Icon link to shopping cart"
+          <ShoppingCart
             className="w-2/12 min-w-[40px] hover:cursor-pointer"
+            {...(isLoggedIn
+              ? {
+                  onClick: () => {
+                    location.href = "/cart";
+                  },
+                }
+              : {
+                  onClick: () => {
+                    location.href = "/login";
+                  },
+                })}
           />
         </div>
       </div>

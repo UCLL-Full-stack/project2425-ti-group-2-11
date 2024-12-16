@@ -22,7 +22,9 @@
         "email": "Email",
         "password": "Wachtwoord",
         "login": "Inloggen",
-        "NoAccount": "Nog geen account? Registreer hier"
+        "NoAccount": "Nog geen account?",
+        "loginSubtitle": "Welkom terug! Voer uw gegevens in.",
+        "signup": "Registreren!"
     },
     "language":"Taal"
 }

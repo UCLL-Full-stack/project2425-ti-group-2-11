@@ -22,7 +22,9 @@
         "email": "Email",
         "password": "Mot de passe",
         "login": "Connexion",
-        "NoAccount": "Pas de compte ? Inscrivez-vous ici"
+        "NoAccount": "Pas encore de compte?",
+        "loginSubtitle": "Bienvenue! Veuillez entrer vos coordonnées.",
+        "signup": "S'inscrire!"
     },
     "language":"Langue"
 }

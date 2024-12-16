@@ -1,6 +1,5 @@
 import { Carousel } from "@/components/main/Carousel";
 import { ScrollableRow } from "@/components/main/ScrollableRow";
-import { CategoryCard } from "@/components/main/CategoryCard";
 import { ProductCard } from "@/components/main/ProductCard";
 import { useEffect, useState } from "react";
 
@@ -30,7 +29,7 @@ export default function Home() {
           }
         );
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -41,32 +40,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      {/* <section className="mb-12">
-        <h2 className="mb-4 text-2xl font-semibold">Categories</h2>
-        <div className="md:hidden">
-          <Carousel
-            items={categories.map((category) => (
-              <CategoryCard
-                key={category.id}
-                name={category.name}
-                image={category.image}
-              />
-            ))}
-          />
-        </div>
-        <div className="hidden md:block">
-          <ScrollableRow
-            items={categories.map((category) => (
-              <CategoryCard
-                key={category.id}
-                name={category.name}
-                image={category.image}
-              />
-            ))}
-          />
-        </div>
-      </section> */}
-
       <section>
         <h2 className="mb-4 text-2xl font-semibold">Featured Products</h2>
         <div className="md:hidden">
