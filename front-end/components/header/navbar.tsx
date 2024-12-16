@@ -19,7 +19,10 @@ const Navbar: React.FC = () => {
         <img
           src="/logo-512.svg"
           alt="Logo User Bazaar"
-          className="w-2/12 mr-5 ml-5"
+          className="w-2/12 mr-5 ml-5 hover:cursor-pointer"
+          onClick={() => {
+            location.href = "/";
+          }}
         />
         <div className="flex mr-5 justify-end">
           <img
@@ -41,7 +44,7 @@ const Navbar: React.FC = () => {
           <img
             src="/google-shopping-cart.svg"
             alt="Person Icon link to shopping cart"
-            className="w-2/12 min-w-[40px]"
+            className="w-2/12 min-w-[40px] hover:cursor-pointer"
           />
         </div>
       </div>
