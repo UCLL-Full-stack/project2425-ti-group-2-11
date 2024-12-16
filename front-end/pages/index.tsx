@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         <header>
           <Navbar />
         </header>
-        <main className="w-full h-full">
+        <main className="w-full h-full px-5 ">
           <Main />
         </main>
     </>
