@@ -22,11 +22,16 @@ type UserInput = {
     role?: Role;
 };
 
+type UserInputLogin = {
+    email: string;
+    password: string;
+};
 
 type AuthenticationResponse = {
     token: string;
-    username: string;
+    email: string;
     fullname: string;
+    role: Role;
 };
 
-export type { UserInput, AddressInput, AuthenticationResponse , Role};
+export type { UserInput, AddressInput, AuthenticationResponse, Role, UserInputLogin };

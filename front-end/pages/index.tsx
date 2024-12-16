@@ -1,5 +1,5 @@
 import Navbar from "@/components/header/navbar";
-import Main from "@/components/mainhome/main";
+import Main from "@/components/main/main";
 import Head from "next/head";
 
 const Home: React.FC = () => {

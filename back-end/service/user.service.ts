@@ -24,10 +24,17 @@ const getUserByEmail = async (emailAddress: string): Promise<User | undefined> =
     if (user) {
         return user;
     }
-    throw new Error(`User with email ${emailAddress} not found`);
+    // throw new Error(`User with email ${emailAddress} not found`);
 };
 
-const addUser = async ({
+const getUserByPhoneNumber = async (phoneNumber: string): Promise<User | undefined> => {
+    const user = await userDb.getUserByPhoneNumber({ phoneNumber });
+    if (user) {
+        return user;
+    }
+};
+
+const validateUser = async ({
     name,
     phoneNumber,
     emailAddress,
@@ -80,26 +87,64 @@ const addUser = async ({
         throw new Error('Address country is missing');
     }
 
-    const existing = await getUserByEmail(emailAddress);
+    const existingEmail = await getUserByEmail(emailAddress);
+    const existingPhoneNumber = await getUserByPhoneNumber(phoneNumber);
 
-    if (existing) {
+    if (existingEmail || existingPhoneNumber) {
         throw new Error('User already exists');
     }
-
-    let hashedPassword = await bcrypt.hash(password, 12);
-
     const addressInstance = new Address({ street, houseNumber, city, state, postalCode, country });
+
     const user = new User({
         name,
         phoneNumber,
         emailAddress,
-        password: hashedPassword,
+        password: password,
         address: addressInstance,
         seller,
         newsLetter,
         role,
     });
-    return await userDb.addUser(user);
+
+    return user;
+};
+
+const addUser = async ({
+    name,
+    phoneNumber,
+    emailAddress,
+    password,
+    address,
+    seller,
+    newsLetter,
+    role,
+}: UserInput): Promise<User> => {
+    const validateUserInput = await validateUser({
+        name,
+        phoneNumber,
+        emailAddress,
+        password,
+        address,
+        seller,
+        newsLetter,
+        role,
+    });
+    const user = validateUserInput;
+
+    let hashedPassword = await bcrypt.hash(validateUserInput.getPassword(), 12);
+
+    const userInput = new User({
+        name: user.getName(),
+        phoneNumber: user.getPhoneNumber(),
+        emailAddress: user.getEmailAddress(),
+        password: hashedPassword,
+        address: user.getAddress(),
+        seller: user.getSeller(),
+        newsLetter: user.getNewsLetter(),
+        role: user.getRole(),
+    });
+
+    return await userDb.addUser(userInput);
 };
 
 const authenticate = async ({
@@ -124,12 +169,14 @@ const authenticate = async ({
     if (!isValidPassword) {
         throw new Error('Incorrect password.');
     }
-    const username = user.getName();
+    const email = user.getName();
     const role: Role = user.getRole();
+
     return {
-        token: generateJwtToken(username, role),
-        username,
+        token: generateJwtToken(email, role),
+        email: user.getEmailAddress(),
         fullname: `${user.getName()}`,
+        role: user.getRole(),
     };
 };
 

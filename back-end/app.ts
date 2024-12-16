@@ -19,12 +19,13 @@ app.use(bodyParser.json());
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });
+
 app.use(
     expressjwt({
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/login', '/register', '/status'],
+        path: ['/api-docs', /^\/api-docs\/.*/, '/login', '/register', '/status', '/users/register', '/users/login', '/products/all'],
     })
 );
 // const swaggerOpts = {};

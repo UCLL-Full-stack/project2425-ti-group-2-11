@@ -1,7 +1,18 @@
-import React from 'react';
-import Language from '../language/Language';
+import React, { useEffect, useState } from "react";
+import Language from "../language/Language";
 
 const Navbar: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Check if localStorage is available
+      const token = localStorage.getItem("token");
+      if (token) {
+        setIsLoggedIn(true);
+      }
+    }
+  }, []);
   return (
     <nav className="l:flex l:flex-row pb-5 pt-5">
       <div className="flex justify-between	">
@@ -15,7 +26,17 @@ const Navbar: React.FC = () => {
             src="/google-person.svg"
             alt="Person Icon link to profile"
             className="w-2/12 min-w-[40px] hover:cursor-pointer"
-            onClick={() => { location.href = '/login' }}
+            {...(isLoggedIn
+              ? {
+                  onClick: () => {
+                    location.href = "/profile";
+                  },
+                }
+              : {
+                  onClick: () => {
+                    location.href = "/login";
+                  },
+                })}
           />
           <img
             src="/google-shopping-cart.svg"
