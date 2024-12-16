@@ -7,7 +7,6 @@ import { generateJwtToken } from '../util/jwt';
 import bcrypt from 'bcrypt';
 import { error } from 'console';
 
-
 const getAllUsers = async (): Promise<User[]> => {
     return [...(await userDb.getAllUsers())];
 };
@@ -59,9 +58,6 @@ const addUser = async ({
     if (!role) {
         throw new Error('Role is missing');
     }
-    // if (!address) {
-    //     throw new Error('Address is missing');
-    // }
 
     const { street, houseNumber, city, state, postalCode, country } = address as AddressInput;
 
@@ -84,6 +80,12 @@ const addUser = async ({
         throw new Error('Address country is missing');
     }
 
+    const existing = await getUserByEmail(emailAddress);
+
+    if (existing) {
+        throw new Error('User already exists');
+    }
+
     let hashedPassword = await bcrypt.hash(password, 12);
 
     const addressInstance = new Address({ street, houseNumber, city, state, postalCode, country });
@@ -97,22 +99,23 @@ const addUser = async ({
         newsLetter,
         role,
     });
-    await userDb.addUser(user);
-    return user;
+    return await userDb.addUser(user);
 };
 
-const authenticate = async ({ emailAddress, password }: UserInput): Promise<AuthenticationResponse> => {
-    if(!emailAddress){
+const authenticate = async ({
+    emailAddress,
+    password,
+}: UserInput): Promise<AuthenticationResponse> => {
+    if (!emailAddress) {
         throw new Error('Email is missing');
     }
-    if(!password){
+    if (!password) {
         throw new Error('Password is missing');
     }
 
-
     const user = await getUserByEmail(emailAddress);
 
-    if(!user){
+    if (!user) {
         throw new Error('User not found');
     }
 
@@ -124,7 +127,7 @@ const authenticate = async ({ emailAddress, password }: UserInput): Promise<Auth
     const username = user.getName();
     const role: Role = user.getRole();
     return {
-        token: generateJwtToken(username , role),
+        token: generateJwtToken(username, role),
         username,
         fullname: `${user.getName()}`,
     };
