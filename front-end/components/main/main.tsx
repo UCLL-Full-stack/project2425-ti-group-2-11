@@ -13,13 +13,15 @@ interface Product {
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [amountLoaded, setAmountLoaded] = useState(10);
 
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          "http://localhost:3000/products/desc/limit/10",
+          `http://localhost:3000/products/desc/limit/${amountLoaded}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -39,8 +41,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      <h1 className="mb-8 text-3xl font-bold">Welcome to Our Store</h1>
-
       {/* <section className="mb-12">
         <h2 className="mb-4 text-2xl font-semibold">Categories</h2>
         <div className="md:hidden">
