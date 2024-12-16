@@ -4,8 +4,8 @@ export class ProductCatalog {
     private id: number | undefined;
     private products : Array<Product>
 
-    constructor(shoppingCart : {id? : number | undefined}) {
-        this.id = shoppingCart.id;
+    constructor(productCatalog : {id? : number | undefined}) {
+        this.id = productCatalog.id;
         this.products = [];
     }
 
