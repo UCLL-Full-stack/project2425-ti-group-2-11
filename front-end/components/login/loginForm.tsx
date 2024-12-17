@@ -2,6 +2,9 @@ import { useState } from "react";
 import Navbar from "../header/navbar";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
+import { StatusMessage } from "@/types/types";
+import UserService from "@/services/UserService";
+import { useRouter } from "next/router";
 
 interface LoginFormData {
   name: string;
@@ -16,19 +19,70 @@ const LoginForm: React.FC = () => {
     name: '',
     password: '',
   });
+  const [nameError, setNameError] = useState<String | null>(null)
+  const [passwordError, setPasswordError] = useState<String | null>(null)
+  const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([])
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     console.log(name, value, type)
     setFormData((prevFormData) => ({
-        ...prevFormData,
-        
+      ...prevFormData,
+
     }));
-};
+  };
+
+  const clearErrors = () => {
+    setNameError(null);
+    setPasswordError(null);
+    setStatusMessages([]);
+  };
+
+  const validate = (): boolean => {
+    let result = true;
+    if (!formData.name && formData.name.trim() == "") {
+      setNameError("Name is required")
+      result = false
+    }
+
+    if (!formData.password && formData.password.trim() == "") {
+      setPasswordError("Password is required")
+      result = false
+    }
+    return result
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData)
+
+    clearErrors();
+
+    if (!validate()) {
+      return;
+    }
+
+    const user = { username: formData.name, password: formData.password };
+    const response = await UserService.loginUser(user);
+
+    if (response.status == 200) {
+      setStatusMessages([{ message: "login succesfull", type: "success" }])
+
+      const user = await response.json();
+      localStorage.setItem('loggedInUser', JSON.stringify({
+        token: user.token,
+        fullname: user.fullname,
+        username: user.username,
+        rol: user.role,
+      }))
+    }
+    else {
+      setStatusMessages([{ message: "login failed", type: "error" }])
+    }
+    setTimeout(() => {
+      router.push('/profile'), 2000
+    })
   };
 
   return (
