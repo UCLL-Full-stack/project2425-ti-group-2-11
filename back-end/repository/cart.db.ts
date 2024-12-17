@@ -7,6 +7,9 @@ const getCartItems = async (userId: number): Promise<ShoppingCart> => {
             where: {
                 userId: userId,
             },
+            include: {
+                products: true,
+            },
         });
         if (!cart) {
             throw new Error('Cart not found');
