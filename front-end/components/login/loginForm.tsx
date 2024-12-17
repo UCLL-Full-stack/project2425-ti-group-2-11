@@ -12,6 +12,15 @@ interface LoginFormData {
 
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const setError = async (message: string) => {
+    setErrorMessage(message);
+
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
@@ -19,7 +28,6 @@ const LoginForm: React.FC = () => {
   });
 
   useEffect(() => {
-    // Check for pre-filled values when the component mounts
     const emailInput = document.querySelector<HTMLInputElement>(
       "input[name='email']"
     );
@@ -78,8 +86,14 @@ const LoginForm: React.FC = () => {
         } else {
           alert("Invalid email or password");
         }
+      } else {
+        const data = await response.json();
+        setError(data.message);
       }
     } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
       console.error("Error:", error);
     }
 
@@ -150,6 +164,9 @@ const LoginForm: React.FC = () => {
             </Link>
           </p>
         </div>
+        {errorMessage && (
+          <div className="m-1 p-1 bg-red-300 text-red-700">{errorMessage}</div>
+        )}
       </div>
     </div>
   );
