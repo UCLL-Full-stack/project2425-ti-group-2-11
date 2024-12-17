@@ -40,5 +40,14 @@
     "loginSubtitle": "Welcome back! Please enter your details.",
     "signup": "Signup!"
   },
+  "product": {
+    "name": "Name",
+    "description": "Description",
+    "media": "Media",
+    "stock": "Stock",
+    "price": "Price",
+    "details": "Details",
+    "add": "Add Product"
+  },
   "language": "Language"
 }

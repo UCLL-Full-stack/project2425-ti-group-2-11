@@ -41,5 +41,14 @@
     "loginSubtitle": "Bienvenue! Veuillez entrer vos coordonnées.",
     "signup": "S'inscrire!"
   },
+  "product": {
+    "name": "Nom",
+    "description": "Description",
+    "media": "Média",
+    "stock": "Stock",
+    "price": "Prix",
+    "details": "Détails",
+    "add": "Ajouter un Produit"
+},
   "language": "Langue"
 }
