@@ -15,7 +15,7 @@ export type User = {
     role?: Role;
 };
 
-type Address = {
+export type Address = {
     id?: number;
     street?: string;
     houseNumber?: string;
