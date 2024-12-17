@@ -21,12 +21,10 @@ const Language: React.FC = () => {
 
   return (
     <div>
-      <label htmlFor="language" className="text-black justify-start">
-        {t('language')}
-      </label>
       <select
         id="language"
         className="ml-2 p-1 rounded-lg"
+        style={{ position: "absolute", top: "10px", right: "10px" }}
         value={locale}
         onChange={handleLanguageChange}
       >
