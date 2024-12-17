@@ -1,11 +1,11 @@
 import { ShoppingCart } from '@prisma/client';
 import database from './database';
 
-const getCartItems = async (cartId: number): Promise<ShoppingCart> => {
+const getCartItems = async (userId: number): Promise<ShoppingCart> => {
     try {
         const cart = await database.shoppingCart.findFirst({
             where: {
-                id: cartId,
+                userId: userId,
             },
         });
         if (!cart) {
