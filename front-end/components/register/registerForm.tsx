@@ -326,7 +326,7 @@ const RegisterForm: React.FC = () => {
                 <CountryOptions />
               </select>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="items-start flex-col">
               <AnimatedCheckbox
                 label={t("register.sellercheckbox")}
                 onchange={handleChange}
