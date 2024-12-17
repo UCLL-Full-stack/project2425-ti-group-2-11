@@ -1,3 +1,4 @@
+import ShoppingCart from "@/components/cart/ShoppingCart";
 import Navbar from "@/components/header/navbar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
@@ -15,7 +16,9 @@ const Cart: React.FC = () => {
   return (
     <>
       <Navbar />
-      <main>{/* <ShoppingCart shoppingCartId="123" /> */}</main>
+      <main>
+        <ShoppingCart shoppingCartId="123" />
+      </main>
     </>
   );
 };
