@@ -78,11 +78,30 @@ const getUserByEmail = async ({ emailAddress }: { emailAddress: string }): Promi
             where: { emailAddress },
             include: { address: true },
         });
-        console.log(userPrisma);
+        // console.log(userPrisma);
         return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 };
-export default { getAllUsers, getUserByEmail, getUserById, addUser };
+
+const getUserByPhoneNumber = async ({
+    phoneNumber,
+}: {
+    phoneNumber: string;
+}): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findFirst({
+            where: { phoneNumber },
+            include: { address: true },
+        });
+
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+export default { getAllUsers, getUserByEmail, getUserById, addUser , getUserByPhoneNumber};

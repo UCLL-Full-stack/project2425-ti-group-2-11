@@ -16,9 +16,7 @@ const Profile: React.FC = () => {
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </Head>
     <main>
-      <div className="flex justify-center items-center h-screen">
           <LoginForm />
-      </div>
     </main>
     </>
   );

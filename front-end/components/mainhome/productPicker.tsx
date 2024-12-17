@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from "react";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  media: string;
+}
+
 const ProductPicker: React.FC = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/products/desc/limit/10");
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          "http://localhost:3000/products/desc/limit/10",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
+        console.log(data);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);

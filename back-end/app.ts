@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import { productRouter } from './controller/product.routes';
 import errorHandler from './middelware/errorHandler';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
@@ -19,10 +20,27 @@ app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
 });
 
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: [
+            '/api-docs',
+            /^\/api-docs\/.*/,
+            '/login',
+            '/register',
+            '/status',
+            '/users/register',
+            '/users/login',
+            /^\/products\/(desc|asc)\/limit\/\d+$/,
+        ],
+    })
+);
 // const swaggerOpts = {};
-
 // const swaggerSpec = swaggerJSDoc(swaggerOpts);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use(errorHandler);

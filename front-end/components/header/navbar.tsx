@@ -1,26 +1,58 @@
-import React from 'react';
-import Language from '../language/Language';
+import React, { useEffect, useState } from "react";
+import Language from "../language/Language";
+import { ShoppingCart, User } from "lucide-react";
 
 const Navbar: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Check if localStorage is available
+      const token = localStorage.getItem("token");
+      if (token) {
+        setIsLoggedIn(true);
+      }
+    }
+  }, []);
   return (
     <nav className="l:flex l:flex-row pb-5 pt-5">
-      <div className="flex justify-between	">
+      <div className="flex justify-between	items-center">
         <img
           src="/logo-512.svg"
           alt="Logo User Bazaar"
-          className="w-2/12 mr-5 ml-5"
+          className="w-2/12 mr-5 ml-5 hover:cursor-pointer"
+          onClick={() => {
+            location.href = "/";
+          }}
         />
         <div className="flex mr-5 justify-end">
-          <img
-            src="/google-person.svg"
-            alt="Person Icon link to profile"
+          <User
             className="w-2/12 min-w-[40px] hover:cursor-pointer"
-            onClick={() => { location.href = '/login' }}
+            {...(isLoggedIn
+              ? {
+                  onClick: () => {
+                    location.href = "/profile";
+                  },
+                }
+              : {
+                  onClick: () => {
+                    location.href = "/login";
+                  },
+                })}
           />
-          <img
-            src="/google-shopping-cart.svg"
-            alt="Person Icon link to shopping cart"
-            className="w-2/12 min-w-[40px]"
+          <ShoppingCart
+            className="w-2/12 min-w-[40px] hover:cursor-pointer"
+            {...(isLoggedIn
+              ? {
+                  onClick: () => {
+                    location.href = "/cart";
+                  },
+                }
+              : {
+                  onClick: () => {
+                    location.href = "/login";
+                  },
+                })}
           />
         </div>
       </div>

@@ -10,8 +10,8 @@ datasource db {
 model User {
   id             Int             @id @default(autoincrement())
   name           String
-  phoneNumber    String
-  emailAddress   String
+  phoneNumber    String          @unique
+  emailAddress   String          @unique
   password       String
   seller         Boolean
   newsLetter     Boolean

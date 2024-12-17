@@ -1,5 +1,5 @@
 import Navbar from "@/components/header/navbar";
-import Main from "@/components/mainhome/main";
+import Main from "@/components/main/main";
 import Head from "next/head";
 
 const Home: React.FC = () => {
@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         <header>
           <Navbar />
         </header>
-        <main className="w-full h-full">
+        <main className="w-full h-full px-5 ">
           <Main />
         </main>
     </>
