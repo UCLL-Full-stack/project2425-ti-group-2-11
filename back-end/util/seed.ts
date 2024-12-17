@@ -166,23 +166,23 @@ const main = async () => {
 
     const product1Emily = await prisma.product.create({
         data: {
-            name: 'Product 1',
-            description: 'Description for product 1',
-            media: 'https://example.com/product1.jpg',
-            stock: 100,
-            price: 50,
-            details: 'Details for product 1',
+            name: 'JBL Headphones',
+            description: 'Noise-cancelling over-ear headphones',
+            media: '/productPictures/jbl.png',
+            stock: 50,
+            price: 199,
+            details: 'Wireless, 20 hours battery life',
         },
     });
 
     const product2Emily = await prisma.product.create({
         data: {
-            name: 'Product 2',
-            description: 'Description for product 2',
-            media: 'https://example.com/product2.jpg',
-            stock: 100,
-            price: 75,
-            details: 'Details for product 2',
+            name: 'Samsung QLED TV',
+            description: 'Smart TV with Quantum Dot technology',
+            media: '/productPictures/SamsungQled.jpg',
+            stock: 10,
+            price: 1499,
+            details: '65-inch, 4K UHD, HDR',
         },
     });
 
@@ -216,12 +216,12 @@ const main = async () => {
 
     const product1Chris = await prisma.product.create({
         data: {
-            name: 'Product 1',
-            description: 'Description for product 1',
-            media: 'https://example.com/product1.jpg',
-            stock: 100,
-            price: 50,
-            details: 'Details for product 1',
+            name: 'JBL Headphones',
+            description: 'Noise-cancelling over-ear headphones',
+            media: '/productPictures/jbl.png',
+            stock: 50,
+            price: 199,
+            details: 'Wireless, 20 hours battery life',
         },
     });
 
