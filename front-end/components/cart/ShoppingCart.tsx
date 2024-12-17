@@ -7,6 +7,7 @@ import { Trash } from "lucide-react";
 interface CartItem {
   id: string;
   name: string;
+  stock: number;
   price: number;
   quantity: number;
   image: string;
@@ -20,12 +21,12 @@ interface ShoppingCart {
 
 function useShoppingCart(userId: number) {
   const [cart, setCart] = useState<ShoppingCart | null>(null);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchShoppingCart = async () => {
-      // console.log(userId);
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`http://localhost:3000/cart/items/${userId}`, {
@@ -35,22 +36,28 @@ function useShoppingCart(userId: number) {
           },
         });
         const data = await res.json();
+        const total = data.products.reduce((sum: number, item: any) => {
+          const price = Number(item.price);
+          return sum + price;
+        }, 0);
+        console.log("Fetched data:", data); // Debugging line
         const cart: ShoppingCart = {
           id: data.id,
           items: data.products.map((item: any) => ({
             id: item.id,
+            stock: item.stock,
             name: item.name,
             price: item.price,
-            quantity: item.quantity,
+            quantity: item.quantity || 1,
             image: item.media,
           })),
-          total: data.total,
+          total: total,
         };
-        console.log(cart);
+        console.log("Constructed cart:", cart.total); // Debugging line
         setCart(cart);
         setLoading(false);
       } catch (error) {
-        setError("Failed to fetch cart data" + error);
+        setError("Failed to fetch cart data: " + error);
         setLoading(false);
       }
     };
@@ -151,6 +158,7 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
                   <input
                     type="number"
                     min="1"
+                    max={item.stock}
                     value={item.quantity}
                     onChange={(e) =>
                       updateQuantity(item.id, parseInt(e.target.value))
@@ -170,7 +178,7 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
         )}
         <div className="px-4 sm:px-6 py-4 bg-gray-100 border-t flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
           <div className="text-lg font-semibold">
-            {/* Total: ${cart.total.toFixed(2)} */}
+            Total: €{cart.total.toFixed(2)}
           </div>
           <button className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             Checkout
