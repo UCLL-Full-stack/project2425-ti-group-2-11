@@ -28,7 +28,7 @@ interface loginUserInput {
   password: string;
 }
 
-const RegisterForm: React.FC = () => {
+  const RegisterForm: React.FC = () => {
   const [statusMessage, setStatusMessage] = React.useState<string | null>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const { t } = useTranslation();
@@ -138,7 +138,7 @@ const RegisterForm: React.FC = () => {
       if (response.ok) {
         console.log("User registered successfully");
         setStatusMessage("Successfully registered");
-        setStatusMessage("Loggin in...");
+        setStatusMessage("Logging in...");
         console.log(userInput.emailAddress, userInput.password);
         loginAfterRegister(userInput.emailAddress, userInput.password);
       } else {
