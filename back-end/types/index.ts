@@ -29,6 +29,7 @@ type UserInputLogin = {
 
 type AuthenticationResponse = {
     token: string;
+    userId: number;
     email: string;
     fullname: string;
     role: Role;

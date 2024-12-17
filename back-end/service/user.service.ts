@@ -171,9 +171,11 @@ const authenticate = async ({
     }
     const email = user.getName();
     const role: Role = user.getRole();
+    const userId: number | any = user.getId();
 
     return {
-        token: generateJwtToken(email, role),
+        token: generateJwtToken(email, role, userId),
+        userId: userId,
         email: user.getEmailAddress(),
         fullname: `${user.getName()}`,
         role: user.getRole(),
