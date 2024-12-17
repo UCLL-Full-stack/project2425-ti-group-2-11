@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Trash } from 'lucide-react';
+import { Trash } from "lucide-react";
 
 interface CartItem {
   id: string;
@@ -18,52 +18,45 @@ interface ShoppingCart {
   total: number;
 }
 
-function useShoppingCart(cartId: string) {
+function useShoppingCart(userId: number) {
   const [cart, setCart] = useState<ShoppingCart | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchCart() {
+    const fetchShoppingCart = async () => {
+      // console.log(userId);
       try {
-        const mockCart: ShoppingCart = {
-          id: cartId,
-          items: [
-            {
-              id: "1",
-              name: "Product 1",
-              price: 19.99,
-              quantity: 2,
-              image: "/placeholder.svg?height=100&width=100",
-            },
-            {
-              id: "2",
-              name: "Product 2",
-              price: 29.99,
-              quantity: 1,
-              image: "/placeholder.svg?height=100&width=100",
-            },
-            {
-              id: "3",
-              name: "Product 3",
-              price: 39.99,
-              quantity: 3,
-              image: "/placeholder.svg?height=100&width=100",
-            },
-          ],
-          total: 189.94,
+        const token = localStorage.getItem("token");
+        const res = await fetch(`http://localhost:3000/cart/items/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        const cart: ShoppingCart = {
+          id: data.id,
+          items: data.products.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.media,
+          })),
+          total: data.total,
         };
-
-        setCart(mockCart);
+        console.log(cart);
+        setCart(cart);
         setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch cart data");
+      } catch (error) {
+        setError("Failed to fetch cart data" + error);
         setLoading(false);
       }
-    }
+    };
 
-    fetchCart();
-  }, [cartId]);
+    fetchShoppingCart();
+  }, [userId]);
 
   const updateQuantity = (itemId: string, newQuantity: number) => {
     if (cart) {
@@ -101,12 +94,12 @@ function useShoppingCart(cartId: string) {
 }
 
 interface ShoppingCartProps {
-  shoppingCartId: string;
+  userId: number;
 }
 
-export default function ShoppingCart({ shoppingCartId }: ShoppingCartProps) {
+export default function ShoppingCart({ userId }: ShoppingCartProps) {
   const { cart, loading, error, updateQuantity, removeItem } =
-    useShoppingCart(shoppingCartId);
+    useShoppingCart(userId);
 
   if (loading) {
     return (
@@ -177,7 +170,7 @@ export default function ShoppingCart({ shoppingCartId }: ShoppingCartProps) {
         )}
         <div className="px-4 sm:px-6 py-4 bg-gray-100 border-t flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
           <div className="text-lg font-semibold">
-            Total: ${cart.total.toFixed(2)}
+            {/* Total: ${cart.total.toFixed(2)} */}
           </div>
           <button className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             Checkout
@@ -187,4 +180,3 @@ export default function ShoppingCart({ shoppingCartId }: ShoppingCartProps) {
     </div>
   );
 }
-
