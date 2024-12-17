@@ -4,8 +4,8 @@ import { useState } from "react";
 interface addProduct {
     name: string;
     description: string;
-    media: string;
     stock: number;
+    media: string;
     price: number;
     details: string;
 }
