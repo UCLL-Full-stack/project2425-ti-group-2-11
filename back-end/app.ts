@@ -8,6 +8,7 @@ import { userRouter } from './controller/user.routes';
 import { productRouter } from './controller/product.routes';
 import errorHandler from './middelware/errorHandler';
 import { expressjwt } from 'express-jwt';
+import cartRouter from './controller/cart.routes';
 
 const app = express();
 dotenv.config();
@@ -43,6 +44,7 @@ app.use(
 
 app.use('/users', userRouter);
 app.use('/products', productRouter);
+app.use('/cart', cartRouter);
 app.use(errorHandler);
 
 app.listen(port || 3000, () => {
