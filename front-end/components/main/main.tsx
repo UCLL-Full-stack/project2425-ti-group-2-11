@@ -4,6 +4,7 @@ import { Carousel } from "@/components/main/Carousel";
 import { ScrollableRow } from "@/components/main/ScrollableRow";
 import { ProductCard } from "@/components/main/ProductCard";
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 interface Product {
   id: number;
@@ -13,6 +14,8 @@ interface Product {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [amountLoaded, setAmountLoaded] = useState(10);
 
@@ -42,7 +45,7 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6">Featured Products</h2>
+        <h2 className="text-2xl font-semibold mb-6">{t('index.featured')}</h2>
         <div className="md:hidden">
           <Carousel
             items={products.map((product) => (
@@ -71,4 +74,3 @@ export default function Home() {
     </div>
   );
 }
-

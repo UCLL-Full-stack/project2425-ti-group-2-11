@@ -1,38 +1,45 @@
 {
-    "app.title": "User Bazaar",
-    "register": {
-        "cardTitle": "Créer un compte",
-        "registerSubtitle": "Entrez vos coordonnées pour vous inscrire.",
-        "register": "Registre",
-        "fullname": "Nom et prénom",
-        "phonenumber": "Numéro de telephone",
-        "email": "Email",
-        "password": "Mot de passe",
-        "confirmPassword": "Confirmer le mot de passe",
-        "streetname": "Nom de la rue",
-        "housenr": "nr",
-        "housenumber": "Numéro de maison",
-        "postalcode": "Code Postal",
-        "state": "État",
-        "city": "Ville",
-        "country": "Pays",
-        "newsletter": "Bulletin",
-        "yes": "Oui",
-        "no": "No",
-        "seller": "Vendeuse",
-        "sellercheckbox": "Je veux vendre des produits",
-        "newslettercheckbox": "Je veux recevoir la newsletter",
-        "selectcountry": "Sélectionnez un pays",
-        "alreadyAccount": "Vous avez déjà un compte?",
-        "login": "Connectez-vous!"
-    },
-    "login":{
-        "email": "Email",
-        "password": "Mot de passe",
-        "login": "Connexion",
-        "NoAccount": "Pas encore de compte?",
-        "loginSubtitle": "Bienvenue! Veuillez entrer vos coordonnées.",
-        "signup": "S'inscrire!"
-    },
-    "language":"Langue"
+  "index": {
+    "title": "User Bazaar",
+    "featured": "Produits en vedette"
+  },
+
+  "navbar": {
+    "search": "Chercher"
+  },
+  "register": {
+    "cardTitle": "Créer un compte",
+    "registerSubtitle": "Entrez vos coordonnées pour vous inscrire.",
+    "register": "Registre",
+    "fullname": "Nom et prénom",
+    "phonenumber": "Numéro de telephone",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "streetname": "Nom de la rue",
+    "housenr": "nr",
+    "housenumber": "Numéro de maison",
+    "postalcode": "Code Postal",
+    "state": "État",
+    "city": "Ville",
+    "country": "Pays",
+    "newsletter": "Bulletin",
+    "yes": "Oui",
+    "no": "No",
+    "seller": "Vendeuse",
+    "sellercheckbox": "Je veux vendre des produits",
+    "newslettercheckbox": "Je veux recevoir la newsletter",
+    "selectcountry": "Sélectionnez un pays",
+    "alreadyAccount": "Vous avez déjà un compte?",
+    "login": "Connectez-vous!"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "login": "Connexion",
+    "NoAccount": "Pas encore de compte?",
+    "loginSubtitle": "Bienvenue! Veuillez entrer vos coordonnées.",
+    "signup": "S'inscrire!"
+  },
+  "language": "Langue"
 }

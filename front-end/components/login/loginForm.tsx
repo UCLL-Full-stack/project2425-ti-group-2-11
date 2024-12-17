@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../header/navbar";
-import Image from "next/image";
 import { useTranslation } from "next-i18next";
-import next from "next";
 import Link from "next/link";
 
 interface LoginFormData {

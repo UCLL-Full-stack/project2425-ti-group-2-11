@@ -1,38 +1,44 @@
 {
-    "app.title": "User Bazaar",
-    "register" : {
-        "cardTitle": "Maak een Account",
-        "registerSubtitle": "Voer uw gegevens in om u aan te melden.",
-        "register" : "Registeer",
-        "fullname": "Volledige Naam",
-        "phonenumber": "Telefoonnummer",
-        "email": "Email",
-        "password": "Wachtwoord",
-        "confirmPassword": "Bevestig Wachtwoord",
-        "streetname": "Straat Naam",
-        "housenumber": "Huis Nummer",
-        "housenr": "nr",
-        "postalcode": "Postcode",
-        "state": "Provincie",
-        "city" : "Stad",
-        "country": "Land",
-        "newsletter": "Nieuwsletter",
-        "yes": "Ja",
-        "no": "Nee",
-        "seller": "Verkoper",
-        "sellercheckbox": "Ik wil producten verkopen",
-        "newslettercheckbox": "Ik wil de nieuwsbrief ontvangen",
-        "selectcountry": "Selecteer een land",
-        "alreadyAccount": "Heeft u al een account?",
-        "login": "log hier in!"
-    },
-    "login":{
-        "email": "Email",
-        "password": "Wachtwoord",
-        "login": "Inloggen",
-        "NoAccount": "Nog geen account?",
-        "loginSubtitle": "Welkom terug! Voer uw gegevens in.",
-        "signup": "Registreren!"
-    },
-    "language":"Taal"
+  "index": {
+    "title": "User Bazaar",
+    "featured": "Uitgelichte Producten"
+  },
+  "navbar": {
+    "search": "Zoeken"
+  },
+  "register": {
+    "cardTitle": "Maak een Account",
+    "registerSubtitle": "Voer uw gegevens in om u aan te melden.",
+    "register": "Registeer",
+    "fullname": "Volledige Naam",
+    "phonenumber": "Telefoonnummer",
+    "email": "Email",
+    "password": "Wachtwoord",
+    "confirmPassword": "Bevestig Wachtwoord",
+    "streetname": "Straat Naam",
+    "housenumber": "Huis Nummer",
+    "housenr": "nr",
+    "postalcode": "Postcode",
+    "state": "Provincie",
+    "city": "Stad",
+    "country": "Land",
+    "newsletter": "Nieuwsletter",
+    "yes": "Ja",
+    "no": "Nee",
+    "seller": "Verkoper",
+    "sellercheckbox": "Ik wil producten verkopen",
+    "newslettercheckbox": "Ik wil de nieuwsbrief ontvangen",
+    "selectcountry": "Selecteer een land",
+    "alreadyAccount": "Heeft u al een account?",
+    "login": "log hier in!"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Wachtwoord",
+    "login": "Inloggen",
+    "NoAccount": "Nog geen account?",
+    "loginSubtitle": "Welkom terug! Voer uw gegevens in.",
+    "signup": "Registreren!"
+  },
+  "language": "Taal"
 }

@@ -1,38 +1,44 @@
 {
-    "app.title": "User Bazaar",
-    "register" : {
-        "cardTitle": "Create an Account",
-        "registerSubtitle": "Enter your details to sign up.",
-        "register" : "Register",
-        "fullname": "Full Name",
-        "phonenumber": "Phone Number",
-        "email": "Email",
-        "password": "Password",
-        "confirmPassword": "Confirm Password",
-        "streetname": "Street Name",
-        "housenr": "nr",
-        "housenumber": "House Number",
-        "postalcode": "Postal Code",
-        "state": "State",
-        "city" : "City",
-        "country": "Country",
-        "newsletter": "Newsletter",
-        "yes": "Yes",
-        "no": "No",
-        "seller": "Seller",
-        "sellercheckbox": "I want to sell products",
-        "newslettercheckbox": "I want to receive the newsletter",
-        "selectcountry": "Select a country",
-        "alreadyAccount": "Already have an account?",
-        "login": "Login!"
-    },
-    "login":{
-        "email": "Email",
-        "password": "Password",
-        "login": "Login",
-        "NoAccount": "Don't have an account?",
-        "loginSubtitle": "Welcome back! Please enter your details.",
-        "signup": "Signup!"
-    },
-    "language":"Language"
+  "index": {
+    "title": "User Bazaar",
+    "featured": "Featured Products"
+  },
+  "navbar": {
+    "search": "Search"
+  },
+  "register": {
+    "cardTitle": "Create an Account",
+    "registerSubtitle": "Enter your details to sign up.",
+    "register": "Register",
+    "fullname": "Full Name",
+    "phonenumber": "Phone Number",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "streetname": "Street Name",
+    "housenr": "nr",
+    "housenumber": "House Number",
+    "postalcode": "Postal Code",
+    "state": "State",
+    "city": "City",
+    "country": "Country",
+    "newsletter": "Newsletter",
+    "yes": "Yes",
+    "no": "No",
+    "seller": "Seller",
+    "sellercheckbox": "I want to sell products",
+    "newslettercheckbox": "I want to receive the newsletter",
+    "selectcountry": "Select a country",
+    "alreadyAccount": "Already have an account?",
+    "login": "Login!"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "NoAccount": "Don't have an account?",
+    "loginSubtitle": "Welcome back! Please enter your details.",
+    "signup": "Signup!"
+  },
+  "language": "Language"
 }
