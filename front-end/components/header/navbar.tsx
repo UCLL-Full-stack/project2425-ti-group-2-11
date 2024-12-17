@@ -1,72 +1,82 @@
+'use client'
+
 import React, { useEffect, useState } from "react";
-import Language from "../language/Language";
-import { ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User, Search } from 'lucide-react';
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Check if localStorage is available
       const token = localStorage.getItem("token");
       if (token) {
         setIsLoggedIn(true);
       }
     }
   }, []);
+
   return (
-    <nav className="l:flex l:flex-row pb-5 pt-5">
-      <div className="flex justify-between	items-center">
-        <img
-          src="/logo-512.svg"
-          alt="Logo User Bazaar"
-          className="w-2/12 mr-5 ml-5 hover:cursor-pointer"
-          onClick={() => {
-            location.href = "/";
-          }}
-        />
-        <div className="flex mr-5 justify-end">
-          <User
-            className="w-2/12 min-w-[40px] hover:cursor-pointer"
-            {...(isLoggedIn
-              ? {
-                  onClick: () => {
-                    location.href = "/profile";
-                  },
-                }
-              : {
-                  onClick: () => {
-                    location.href = "/login";
-                  },
-                })}
-          />
-          <ShoppingCart
-            className="w-2/12 min-w-[40px] hover:cursor-pointer"
-            {...(isLoggedIn
-              ? {
-                  onClick: () => {
-                    location.href = "/cart";
-                  },
-                }
-              : {
-                  onClick: () => {
-                    location.href = "/login";
-                  },
-                })}
-          />
+    <nav className="bg-white shadow-md">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/">
+              <img
+                src="/logo-512.svg"
+                alt="Logo User Bazaar"
+                className="h-8 w-auto sm:h-10 cursor-pointer transition-transform hover:scale-105"
+              />
+            </Link>
+          </div>
+          
+          <div className="hidden sm:flex items-center flex-1 px-4 flex justify-center">
+            <div className="relative w-full max-w-xl">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full py-2 pl-4 pr-10 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center">
+            <Link href={isLoggedIn ? "/profile" : "/login"}>
+              <User className="h-6 w-6 text-gray-600 cursor-pointer mr-4 transition-colors hover:text-blue-500" />
+            </Link>
+            <Link href={isLoggedIn ? "/cart" : "/login"}>
+              <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
+            </Link>
+            <button
+              className="ml-4 sm:hidden"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              aria-label="Toggle search"
+            >
+              <Search className="h-6 w-6 text-gray-600 transition-colors hover:text-blue-500" />
+            </button>
+          </div>
         </div>
       </div>
-      <div className="flex place-content-center w-full mt-4 sticky  top-0">
-        <div className="relative w-full ml-5 mr-5">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full p-5 pr-16 border rounded-full text-2xl"
-          />
-          <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-            <span className="material-icons text-gray-500 text-2xl">
-              search
-            </span>
+
+      <div 
+        className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          isSearchOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-4 py-2">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full py-2 pl-4 pr-10 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
           </div>
         </div>
       </div>
@@ -75,3 +85,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+

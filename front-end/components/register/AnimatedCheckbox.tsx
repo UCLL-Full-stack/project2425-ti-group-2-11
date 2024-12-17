@@ -50,6 +50,7 @@ const AnimatedCheckbox: React.FC<AnimatedCheckboxProps> = ({
               />
             </symbol>
           </svg>
+          
         </div>
         <span className="ml-2">{label}</span>
       </div>

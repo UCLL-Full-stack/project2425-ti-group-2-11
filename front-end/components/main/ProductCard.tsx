@@ -1,3 +1,6 @@
+import { Plus, ShoppingCart } from "lucide-react";
+import Image from "next/image";
+
 interface ProductCardProps {
   name: string;
   price: number;
@@ -6,17 +9,29 @@ interface ProductCardProps {
 
 export function ProductCard({ name, price, media }: ProductCardProps) {
   return (
-    <div className=" w-full overflow-hidden rounded-lg bg-white shadow-md hover:cursor-pointer">
-      <div className="p-2">
-        <img
+    <div className="w-full max-w-xs mx-auto overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
+      <div className="relative w-full aspect-square md:h-48 md:w-56">
+        <Image
           src={media}
           alt={name}
-          className="rounded-md"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+          unoptimized
         />
-        <div className="mt-2 text-sm font-semibold h-16 flex items-start">
-          <p className="line-height-3">{name}</p>
+      </div>
+      <div className="p-4">
+        <h3 className="text-sm font-semibold mb-2 h-12 md:h-14 line-clamp-2 md:line-clamp-3">
+          {name}
+        </h3>
+        <div className="flex justify-between">
+          <p className="text-lg font-bold text-blue-600">€{price.toFixed(2)}</p>
+          <button
+            className="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm sm:text-base py-2 px-3 sm:px-4 rounded-md shadow-sm transition duration-300 ease-in-out transform hover:scale-102 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center space-x-1 sm:space-x-2 w-full sm:w-auto"
+          >
+            <Plus size={16} className="sm:w-5 sm:h-5" />
+          </button>
         </div>
-        <p className="text-xs text-gray-600">${price.toFixed(2)}</p>
       </div>
     </div>
   );

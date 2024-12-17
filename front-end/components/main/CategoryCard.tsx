@@ -7,10 +7,12 @@ interface CategoryCardProps {
 
 export function CategoryCard({ name, image }: CategoryCardProps) {
   return (
-    <div className="w-full max-w-[100px] flex-shrink-0 overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="w-24 sm:w-32 flex-shrink-0 overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
       <div className="p-2">
-        <Image src={image} alt={name} width={96} height={96} className="rounded-md" />
-        <h3 className="mt-2 text-center text-sm font-semibold">{name}</h3>
+        <div className="relative aspect-square">
+          <Image src={image} alt={name} layout="fill" objectFit="cover" className="rounded-md" />
+        </div>
+        <h3 className="mt-2 text-center text-xs sm:text-sm font-semibold truncate">{name}</h3>
       </div>
     </div>
   )
