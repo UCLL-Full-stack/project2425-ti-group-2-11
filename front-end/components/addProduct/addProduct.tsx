@@ -1,26 +1,52 @@
 import { useTranslation } from "next-i18next";
+import { useState } from "react";
 
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+interface addProduct {
+    name: string;
+    description: string;
+    stock: number;
+    media: string;
+    price: number;
+    details: string;
 }
-
-const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type } = e.target;
-    // console.log(name, value, type);
-    // console.log(value);
-
-    // setFormData((prevFormData) => ({
-    //   ...prevFormData,
-    //   [name]: value,
-    // }));
-  };
-
 
 const addProduct: React.FC = () => {
     const { t } = useTranslation();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+    const [formData, setFormData] = useState<addProduct>({
+        name: "",
+        description: "",
+        media: "",
+        stock: 0,
+        price: 0,
+        details: ""
+    });
+
+    const setError = async (message: string) => {
+        setErrorMessage(message);
+
+        setTimeout(() => {
+            setErrorMessage(null);
+        }, 5000);
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+    }
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const { name, value, type } = e.target;
+        console.log(name, value, type);
+        console.log(value);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
+    };
 
     return (
         <>
@@ -68,7 +94,7 @@ const addProduct: React.FC = () => {
                                 <input
                                     id="media"
                                     name="media"
-                                    type="file"
+                                    type="url"
                                     onChange={handleChange}
                                     required
                                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -128,9 +154,12 @@ const addProduct: React.FC = () => {
                             </button>
                         </div>
                     </form>
+                    {errorMessage && (
+                        <div className="m-1 p-1 bg-red-300 text-red-700">{errorMessage}</div>
+                    )}
+                    <footer className="text-gray-500 w-full text-center mt-4">{t("product.disclaimer")}</footer>
                 </div>
             </div>
-
         </>
     )
 }

@@ -2,6 +2,7 @@ import RegisterForm from "@/components/register/registerForm"
 import Head from "next/head";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from "next-i18next";
+import Language from "@/components/language/Language";
 
 const Register: React.FC = () => {
 
@@ -17,6 +18,7 @@ const Register: React.FC = () => {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
             <main>
+                    <Language />
                     <RegisterForm />
             </main>
         </>

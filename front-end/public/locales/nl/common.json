@@ -43,11 +43,12 @@
   "product": {
     "name": "Naam",
     "description": "Beschrijving",
-    "media": "Media",
+    "media": "Media*",
     "stock": "Voorraad",
     "price": "Prijs",
     "details": "Details",
-    "add": "Product Toevoegen"
+    "add": "Product Toevoegen",
+    "disclaimer": "*We ondersteunen momenteel alleen het toevoegen van afbeeldingen via een link. Het uploaden van uw eigen afbeeldingen wordt niet ondersteund."
 },
   "language": "Taal"
 }

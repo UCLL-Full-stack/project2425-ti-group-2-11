@@ -43,11 +43,12 @@
   "product": {
     "name": "Name",
     "description": "Description",
-    "media": "Media",
+    "media": "Media*",
     "stock": "Stock",
     "price": "Price",
     "details": "Details",
-    "add": "Add Product"
+    "add": "Add Product",
+    "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images"
   },
   "language": "Language"
 }

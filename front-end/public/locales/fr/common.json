@@ -44,11 +44,12 @@
   "product": {
     "name": "Nom",
     "description": "Description",
-    "media": "Média",
+    "media": "Média*",
     "stock": "Stock",
     "price": "Prix",
     "details": "Détails",
-    "add": "Ajouter un Produit"
+    "add": "Ajouter un Produit",
+    "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
 },
   "language": "Langue"
 }
