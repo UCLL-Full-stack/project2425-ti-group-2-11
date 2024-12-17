@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import { id } from 'date-fns/locale';
 
 const prisma = new PrismaClient();
 
@@ -67,12 +69,14 @@ const main = async () => {
         },
     });
 
+    const passwordJhon = await bcrypt.hash('XX', 12);
+
     const John = await prisma.user.create({
         data: {
             name: 'Jhon Doe',
             phoneNumber: '+32 123 45 67 89',
             emailAddress: 'jhon@iets.be',
-            password: 'XX',
+            password: passwordJhon,
             seller: true,
             newsLetter: true,
             role: 'Owner',
@@ -82,12 +86,23 @@ const main = async () => {
         },
     });
 
+    const shoppingCartJhon = await prisma.shoppingCart.create({
+        data: {
+            user: {
+                connect: { id: John.id },
+            },
+            products: {},
+        },
+    });
+
+    const passwordJane = await bcrypt.hash('Something_secure', 12);
+
     const Jane = await prisma.user.create({
         data: {
             name: 'Jane Toe',
             phoneNumber: '+32 400 85 96 91',
             emailAddress: 'Jane.Toe@gmail.com',
-            password: 'Something secure',
+            password: passwordJane,
             seller: true,
             newsLetter: true,
             role: 'User',
@@ -97,12 +112,23 @@ const main = async () => {
         },
     });
 
+    const shoppingCartJane = await prisma.shoppingCart.create({
+        data: {
+            user: {
+                connect: { id: Jane.id },
+            },
+            products: {},
+        },
+    });
+
+    const passwordMike = await bcrypt.hash('SecurePassword123', 12);
+
     const Mike = await prisma.user.create({
         data: {
             name: 'Mike Smith',
             phoneNumber: '+32 234 56 78 90',
             emailAddress: 'mike.smith@domain.com',
-            password: 'SecurePassword123',
+            password: passwordMike,
             seller: false,
             newsLetter: false,
             role: 'User',
@@ -112,12 +138,23 @@ const main = async () => {
         },
     });
 
+    const shoppingCartMike = await prisma.shoppingCart.create({
+        data: {
+            user: {
+                connect: { id: Mike.id },
+            },
+            products: {},
+        },
+    });
+
+    const passwordEmily = await bcrypt.hash('SuperSecretPassword', 12);
+
     const Emily = await prisma.user.create({
         data: {
             name: 'Emily White',
             phoneNumber: '+32 499 22 33 44',
             emailAddress: 'emily.white@domain.com',
-            password: 'SuperSecretPassword',
+            password: passwordEmily,
             seller: true,
             newsLetter: false,
             role: 'Admin',
@@ -127,12 +164,47 @@ const main = async () => {
         },
     });
 
+    const product1Emily = await prisma.product.create({
+        data: {
+            name: 'Product 1',
+            description: 'Description for product 1',
+            media: 'https://example.com/product1.jpg',
+            stock: 100,
+            price: 50,
+            details: 'Details for product 1',
+        },
+    });
+
+    const product2Emily = await prisma.product.create({
+        data: {
+            name: 'Product 2',
+            description: 'Description for product 2',
+            media: 'https://example.com/product2.jpg',
+            stock: 100,
+            price: 75,
+            details: 'Details for product 2',
+        },
+    });
+
+    const shoppingCartEmily = await prisma.shoppingCart.create({
+        data: {
+            user: {
+                connect: { id: Emily.id },
+            },
+            products: {
+                connect: [{ id: product1Emily.id }, { id: product2Emily.id }],
+            },
+        },
+    });
+
+    const passwordChris = await bcrypt.hash('AnotherSecurePassword', 10);
+
     const Chris = await prisma.user.create({
         data: {
             name: 'Chris Brown',
             phoneNumber: '+32 488 77 66 55',
             emailAddress: 'chris.brown@domain.com',
-            password: 'AnotherSecurePassword',
+            password: passwordChris,
             seller: false,
             newsLetter: true,
             role: 'User',
@@ -141,12 +213,35 @@ const main = async () => {
             },
         },
     });
+
+    const product1Chris = await prisma.product.create({
+        data: {
+            name: 'Product 1',
+            description: 'Description for product 1',
+            media: 'https://example.com/product1.jpg',
+            stock: 100,
+            price: 50,
+            details: 'Details for product 1',
+        },
+    });
+
+    const shoppingCartChris = await prisma.shoppingCart.create({
+        data: {
+            user: {
+                connect: { id: Chris.id },
+            },
+            products: {
+                connect: [{ id: product1Chris.id }],
+            },
+        },
+    });
+
     // Create Products
     const products = [
         {
             name: 'JBL Headphones',
             description: 'Noise-cancelling over-ear headphones',
-            media: 'https://placehold.co/600x400?text=JBL+Headphones',
+            media: '/productPictures/jbl.png',
             stock: 50,
             price: 199,
             details: 'Wireless, 20 hours battery life',
@@ -154,7 +249,7 @@ const main = async () => {
         {
             name: 'Apple iPhone 13',
             description: 'Latest model of the iPhone series',
-            media: 'https://placehold.co/600x400?text=Apple+Iphone+13',
+            media: '/productPictures/iphone.jpg',
             stock: 30,
             price: 999,
             details: '128GB, Black',
@@ -162,7 +257,7 @@ const main = async () => {
         {
             name: 'Samsung Galaxy S21',
             description: 'Flagship smartphone from Samsung',
-            media: 'https://placehold.co/600x400?text=Samsung+Galaxy+S21',
+            media: '/productPictures/samsung21.jpg',
             stock: 40,
             price: 799,
             details: '256GB, Silver',
@@ -170,7 +265,7 @@ const main = async () => {
         {
             name: 'Sony WH-1000XM4',
             description: 'Industry-leading noise canceling with Dual Noise Sensor technology',
-            media: 'https://placehold.co/600x400?text=Sony+WH-1000XM4',
+            media: '/productPictures/SonyWH.png',
             stock: 25,
             price: 349,
             details: '30 hours battery life, touch sensor controls',
@@ -178,7 +273,7 @@ const main = async () => {
         {
             name: 'Dell XPS 13',
             description: 'High-performance laptop with InfinityEdge display',
-            media: 'https://placehold.co/600x400?text=Dell+XPS+13',
+            media: '/productPictures/Dell_XPS_13.png',
             stock: 15,
             price: 1199,
             details: '13.4-inch FHD+, Intel Core i7, 16GB RAM, 512GB SSD',
@@ -186,7 +281,7 @@ const main = async () => {
         {
             name: 'Google Pixel 6',
             description: "Google's latest smartphone with advanced AI features",
-            media: 'https://placehold.co/600x400?text=Google+Pixel+6',
+            media: '/productPictures/Pixel6.png',
             stock: 35,
             price: 699,
             details: '128GB, Stormy Black',
@@ -194,7 +289,7 @@ const main = async () => {
         {
             name: 'Amazon Echo Dot',
             description: 'Smart speaker with Alexa',
-            media: 'https://placehold.co/600x400?text=Amazon+Echo+Dot',
+            media: '/productPictures/echo.png',
             stock: 100,
             price: 49,
             details: '4th Gen, Charcoal',
@@ -202,7 +297,7 @@ const main = async () => {
         {
             name: 'Apple MacBook Pro',
             description: 'Powerful laptop with M1 chip',
-            media: 'https://placehold.co/600x400?text=Apple+MacBook+Pro',
+            media: '/productPictures/macbook.png',
             stock: 20,
             price: 1299,
             details: '13-inch, 8GB RAM, 256GB SSD',
@@ -210,7 +305,7 @@ const main = async () => {
         {
             name: 'Samsung QLED TV',
             description: 'Smart TV with Quantum Dot technology',
-            media: 'https://placehold.co/600x400?text=Samsung+QLED+TV',
+            media: '/productPictures/SamsungQled.jpg',
             stock: 10,
             price: 1499,
             details: '65-inch, 4K UHD, HDR',
@@ -218,7 +313,7 @@ const main = async () => {
         {
             name: 'Bose QuietComfort 35 II',
             description: 'Wireless Bluetooth headphones',
-            media: 'https://placehold.co/600x400?text=Bose+QuietComfort+35+II',
+            media: '/productPictures/BoseQuietComfort.jpg',
             stock: 45,
             price: 299,
             details: 'Noise-cancelling, Alexa voice control',
@@ -226,7 +321,7 @@ const main = async () => {
         {
             name: 'Fitbit Charge 5',
             description: 'Advanced fitness and health tracker',
-            media: 'https://placehold.co/600x400?text=Fitbit+Charge+5',
+            media: '/productPictures/fitbitCharge5.png',
             stock: 60,
             price: 179,
             details: 'Built-in GPS, stress management tools',
@@ -234,7 +329,7 @@ const main = async () => {
         {
             name: 'Microsoft Surface Pro 7',
             description: 'Versatile 2-in-1 laptop',
-            media: 'https://placehold.co/600x400?text=Microsoft+Surface+Pro+7',
+            media: '/productPictures/MicrosoftSurfacePro7.jpg',
             stock: 25,
             price: 899,
             details: '12.3-inch, Intel Core i5, 8GB RAM, 128GB SSD',
@@ -242,7 +337,7 @@ const main = async () => {
         {
             name: 'Nintendo Switch',
             description: 'Hybrid gaming console',
-            media: 'https://placehold.co/600x400?text=Nintendo+Switch',
+            media: '/productPictures/NintendoSwitch.jpg',
             stock: 50,
             price: 299,
             details: 'Neon Blue and Red Joy-Con',
