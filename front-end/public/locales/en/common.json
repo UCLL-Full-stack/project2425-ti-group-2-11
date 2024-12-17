@@ -1,12 +1,16 @@
 {
     "app.title": "User Bazaar",
     "register" : {
+        "cardTitle": "Create an Account",
+        "registerSubtitle": "Enter your details to sign up.",
         "register" : "Register",
         "fullname": "Full Name",
         "phonenumber": "Phone Number",
         "email": "Email",
         "password": "Password",
+        "confirmPassword": "Confirm Password",
         "streetname": "Street Name",
+        "housenr": "nr",
         "housenumber": "House Number",
         "postalcode": "Postal Code",
         "state": "State",
@@ -16,7 +20,11 @@
         "yes": "Yes",
         "no": "No",
         "seller": "Seller",
-        "selectcountry": "Select a country"
+        "sellercheckbox": "I want to sell products",
+        "newslettercheckbox": "I want to receive the newsletter",
+        "selectcountry": "Select a country",
+        "alreadyAccount": "Already have an account?",
+        "login": "Login!"
     },
     "login":{
         "email": "Email",

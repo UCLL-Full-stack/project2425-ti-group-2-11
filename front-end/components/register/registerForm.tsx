@@ -3,12 +3,15 @@ import { useState } from "react";
 import { useTranslation } from "next-i18next";
 import Language from "../language/Language";
 import CountryOptions from "./CountryOptions";
+import Link from "next/link";
+import AnimatedCheckbox from "./AnimatedCheckbox";
 
 interface FormData {
   name: string;
   phoneNumber: string;
   emailAddress: string;
   password: string;
+  confirmPassword: string;
   street: string;
   houseNumber: string;
   postalCode: string;
@@ -27,7 +30,7 @@ interface loginUserInput {
 
 const RegisterForm: React.FC = () => {
   const [statusMessage, setStatusMessage] = React.useState<string | null>(null);
-
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const { t } = useTranslation();
 
   const [formData, setFormData] = useState<FormData>({
@@ -35,6 +38,7 @@ const RegisterForm: React.FC = () => {
     phoneNumber: "",
     emailAddress: "",
     password: "",
+    confirmPassword: "",
     street: "",
     houseNumber: "",
     postalCode: "",
@@ -46,25 +50,32 @@ const RegisterForm: React.FC = () => {
     role: "user",
   });
 
+  const setError = async (message: string) => {
+    setErrorMessage(message);
+
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
+    let valueBool: boolean = value === "true";
+    console.log(name, value);
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]:
-        type === "radio" || type === "checkbox" ? value === "true" : value,
+      [name]: value,
     }));
-
-    console.log(formData);
   };
 
   const loginAfterRegister = async (email: string, password: string) => {
     const userInput = {
-        emailAddress: email,
-        password: password,
-      };
+      emailAddress: email,
+      password: password,
+    };
     console.log(userInput);
     try {
       const response = await fetch("http://localhost:3000/users/login", {
@@ -79,9 +90,9 @@ const RegisterForm: React.FC = () => {
         localStorage.setItem("token", data.token);
         console.log(data);
         if (data.message === "Authentication Succesful") {
-            setTimeout(() => {
-                window.location.href = "../";
-            }, 2000);
+          setTimeout(() => {
+            window.location.href = "../";
+          }, 2000);
         } else {
           alert("Invalid email or password");
         }
@@ -92,13 +103,8 @@ const RegisterForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData);
     e.preventDefault();
-    let seller: boolean = false;
-    let newsLetter: boolean = false;
-
-    formData.seller ? (seller = true) : (seller = false);
-    formData.newsLetter ? (newsLetter = true) : (newsLetter = false);
-
     const address = {
       street: formData.street,
       houseNumber: formData.houseNumber,
@@ -113,10 +119,14 @@ const RegisterForm: React.FC = () => {
       emailAddress: formData.emailAddress,
       password: formData.password,
       address,
-      seller: seller,
-      newsLetter: newsLetter,
+      seller: formData.seller,
+      newsLetter: formData.newsLetter,
       role: "user",
     };
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     try {
       const response = await fetch("http://localhost:3000/users/register", {
         method: "POST",
@@ -129,7 +139,7 @@ const RegisterForm: React.FC = () => {
         console.log("User registered successfully");
         setStatusMessage("Successfully registered");
         setStatusMessage("Loggin in...");
-        console.log(userInput.emailAddress, userInput.password)
+        console.log(userInput.emailAddress, userInput.password);
         loginAfterRegister(userInput.emailAddress, userInput.password);
       } else {
         console.error("Failed to register user");
@@ -139,218 +149,227 @@ const RegisterForm: React.FC = () => {
     }
   };
   return (
-    <>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
-      <div className="absolute top-0 right-0 m-3">
-        <Language />
-      </div>
-      <main>
-        <form className="grid grid-cols-3 gap-y-3" onSubmit={handleSubmit}>
-          <label htmlFor="name">{t("register.fullname")}:</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="John Doe"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="phoneNumber">{t("register.phonenumber")}: </label>
-          <input
-            type="text"
-            name="phoneNumber"
-            placeholder="+32 123 45 67 89"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="email">{t("register.email")}: </label>
-          <input
-            type="email"
-            name="emailAddress"
-            placeholder="John.doe@gmail.com"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="password">{t("register.password")}: </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="street">{t("register.streetname")}:</label>
-          <input
-            type="text"
-            name="street"
-            placeholder="Bondgenotenlaan"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="houseNumber">{t("register.housenumber")}:</label>
-          <input
-            type="number"
-            name="houseNumber"
-            placeholder="40"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="postalCode">{t("register.postalcode")}:</label>
-          <input
-            type="number"
-            name="postalCode"
-            placeholder="3000"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="city">{t("register.city")}:</label>
-          <input
-            type="text"
-            name="city"
-            placeholder="Leuven"
-            className="text-center ml-1 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          />
-
-          <label htmlFor="state">{t("register.state")}:</label>
-          <input
-            type="text"
-            name="state"
-            placeholder="Vlaams Brabant"
-            className="text-center ml-0 col-span-2 rounded-lg"
-            required
-            onChange={handleChange}
-          ></input>
-
-          <label htmlFor="country">{t("register.country")}: </label>
-          <select
-            name="country"
-            className="text-center ml-1 col-span-2 rounded-lg bg-white"
-            required
-            onChange={handleChange}
-          >
-            <option value="">{t("register.selectcountry")}</option>
-            <CountryOptions />
-          </select>
-
-          <div title="Do you want to sell products on this site?">
-            <label htmlFor="seller" className="mr-2">
-              {t("register.seller")}
-            </label>
-            <i
-              style={{ fontSize: "24px" }}
-              className="fa fa-question-circle"
-            ></i>
-          </div>
-          <div className="col-span-2 text-center">
-            <label
-              htmlFor="seller yes"
-              className="mr-2"
-              title="Select 'Yes' if you are a seller"
-            >
-              {t("register.yes")}:
-            </label>
-            <input
-              type="radio"
-              name="seller"
-              value="true"
-              checked={formData.seller === true}
-              className="mr-4"
-              required
-              onChange={handleChange}
-            />
-            <label
-              htmlFor="seller no"
-              className="mr-2"
-              title="Select 'No' if you are not a seller"
-            >
-              {t("register.no")}:
-            </label>
-            <input
-              type="radio"
-              name="seller"
-              value="false"
-              checked={formData.seller === false}
-              required
-              onChange={handleChange}
-            />
-          </div>
-
-          <div title="Do you want to receive a newsletter?">
-            <label htmlFor="newsLetter" className="mr-2">
-              {t("register.newsletter")}
-            </label>
-            <i
-              style={{ fontSize: "24px" }}
-              className="fa fa-question-circle"
-            ></i>
-          </div>
-          <div className="col-span-2 text-center">
-            <label
-              htmlFor="newsletter yes"
-              title="Select yes if you want to receive the newsletter"
-              className="mr-2"
-            >
-              {t("register.yes")}:
-            </label>
-            <input
-              type="radio"
-              name="newsLetter"
-              value="true"
-              className="mr-4"
-              checked={formData.newsLetter === true}
-              required
-              onChange={handleChange}
-            />
-            <label
-              htmlFor="newsletter no"
-              title="Select no if you do not want to receive the newsletter"
-              className="mr-2"
-            >
-              {t("register.no")}:
-            </label>
-            <input
-              type="radio"
-              name="newsLetter"
-              value="false"
-              checked={formData.newsLetter === false}
-              required
-              onChange={handleChange}
-            />
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-lg sm:p-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            {t("register.cardTitle")}
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {t("register.registerSubtitle")}
+          </p>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md  -space-y-px">
+            <div>
+              <label htmlFor="name" className="sr-only">
+                {t("register.fullname")}
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.fullname")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="phoneNumber" className="sr-only">
+                {t("register.phonenumber")}
+              </label>
+              <input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="text"
+                autoComplete="phoneNumber"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.phonenumber")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="emailAddress" className="sr-only">
+                {t("register.email")}
+              </label>
+              <input
+                id="emailAddress"
+                name="emailAddress"
+                type="emailAddress"
+                autoComplete="emailAddress"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.email")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                {t("register.password")}
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.password")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="confirmPassword" className="sr-only">
+                {t("register.confirmPassword")}
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.confirmPassword")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="street" className="sr-only">
+                {t("register.streetname")}
+              </label>
+              <input
+                id="street"
+                name="street"
+                type="text"
+                autoComplete="street"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.streetname")}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex justify-between	">
+              <label htmlFor="houseNumber" className="sr-only">
+                {t("register.housenumber")}
+              </label>
+              <input
+                id="houseNumber"
+                name="houseNumber"
+                type="text"
+                autoComplete="houseNumber"
+                required
+                className="appearance-none w-4/12 relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.housenumber")}
+                onChange={handleChange}
+              />
+              <label htmlFor="postalCode" className="sr-only">
+                {t("register.postalcode")}
+              </label>
+              <input
+                id="postalCode"
+                name="postalCode"
+                type="number"
+                autoComplete="house-number"
+                required
+                className="appearance-none w-7/12 relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.postalcode")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="city" className="sr-only">
+                {t("register.city")}
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                autoComplete="city"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.city")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="state" className="sr-only">
+                {t("register.state")}
+              </label>
+              <input
+                id="state"
+                name="state"
+                type="text"
+                autoComplete="state"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.state")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="country" className="sr-only">
+                {t("register.country")}
+              </label>
+              <select
+                id="country"
+                name="country"
+                autoComplete="country"
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder={t("register.country")}
+                onChange={handleChange}
+              >
+                <option value="">{t("register.selectcountry")}</option>
+                <CountryOptions />
+              </select>
+            </div>
+            <div className="flex items-center gap-5">
+              <AnimatedCheckbox
+                label={t("register.sellercheckbox")}
+                onchange={handleChange}
+                name="seller"
+              />
+              <AnimatedCheckbox
+                label={t("register.newslettercheckbox")}
+                onchange={handleChange}
+                name="newsLetter"
+              />
+            </div>
           </div>
 
-          <div className="col-span-3 text-center mt-5">
-            <input
+          <div>
+            <button
               type="submit"
-              value={t("register.register")}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:cursor-pointer"
-            />
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              {t("register.register")}
+            </button>
           </div>
         </form>
+        <div className="text-sm text-center">
+          <p className="text-gray-600">
+            {t("register.alreadyAccount")}{" "}
+            <Link
+              href="/login"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              {t("register.login")}{" "}
+            </Link>
+          </p>
+        </div>
         {statusMessage && (
           <div className="m-1 p-1 bg-green-300 text-green-700">
             {statusMessage}
           </div>
         )}
-      </main>
-    </>
+        {errorMessage && (
+          <div className="m-1 p-1 bg-red-300 text-red-700">{errorMessage}</div>
+        )}
+      </div>
+    </div>
   );
 };
 export default RegisterForm;

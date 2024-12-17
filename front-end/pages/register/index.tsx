@@ -16,11 +16,8 @@ const Register: React.FC = () => {
                 <link rel="icon" href="/logo-512-white.svg" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
-            <main className="flex flex-col justify-center items-center h-screen">
-                <p className="font-bold text-2xl mb-5">{t("register.register")}</p>
-                <div>
+            <main>
                     <RegisterForm />
-                </div>
             </main>
         </>
     );

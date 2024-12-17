@@ -1,13 +1,17 @@
 {
     "app.title": "User Bazaar",
     "register" : {
+        "cardTitle": "Maak een Account",
+        "registerSubtitle": "Voer uw gegevens in om u aan te melden.",
         "register" : "Registeer",
         "fullname": "Volledige Naam",
         "phonenumber": "Telefoonnummer",
         "email": "Email",
         "password": "Wachtwoord",
+        "confirmPassword": "Bevestig Wachtwoord",
         "streetname": "Straat Naam",
         "housenumber": "Huis Nummer",
+        "housenr": "nr",
         "postalcode": "Postcode",
         "state": "Provincie",
         "city" : "Stad",
@@ -16,7 +20,11 @@
         "yes": "Ja",
         "no": "Nee",
         "seller": "Verkoper",
-        "selectcountry": "Selecteer een land"
+        "sellercheckbox": "Ik wil producten verkopen",
+        "newslettercheckbox": "Ik wil de nieuwsbrief ontvangen",
+        "selectcountry": "Selecteer een land",
+        "alreadyAccount": "Heeft u al een account?",
+        "login": "log hier in!"
     },
     "login":{
         "email": "Email",

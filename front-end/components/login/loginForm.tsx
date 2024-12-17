@@ -45,13 +45,13 @@ const LoginForm: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    console.log(name, value, type);
+    // console.log(name, value, type);
+    // console.log(value);
 
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -72,7 +72,7 @@ const LoginForm: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        console.log(data);
+        // console.log(data);
         if (data.message === "Authentication Succesful") {
           window.location.href = "../";
         } else {
@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
   };
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-md sm:p-8">
+      <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-lg sm:p-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             {t("login.login")}
@@ -97,7 +97,7 @@ const LoginForm: React.FC = () => {
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md  -space-y-px">
             <div>
               <label htmlFor="email" className="sr-only">
                 {t("login.email")}
@@ -109,7 +109,7 @@ const LoginForm: React.FC = () => {
                 autoComplete="email"
                 onChange={handleChange}
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="mb-3 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
@@ -124,7 +124,7 @@ const LoginForm: React.FC = () => {
                 autoComplete="current-password"
                 onChange={handleChange}
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg  focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
             </div>
