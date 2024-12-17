@@ -10,12 +10,6 @@ type AddressInput = {
     country?: string;
 };
 
-interface ShoppingCartPrisma {
-    id?: number;
-    products: Array<Product>;
-    user: User;
-}
-
 type UserInput = {
     id?: number;
     name?: string;
