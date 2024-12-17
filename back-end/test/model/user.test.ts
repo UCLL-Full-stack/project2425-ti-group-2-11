@@ -3,6 +3,7 @@ import { User } from '../../model/user';
 
 const address = new Address({
     street: 'Bondgenotenlaan',
+    houseNumber: '10',
     city: 'Leuven',
     state: 'Leuven',
     postalCode: '3000',
@@ -17,7 +18,7 @@ const user = new User({
     address: address,
     seller: false,
     newsLetter: true,
-    role: 'user',
+    role: 'User',
 });
 
 test('given: valid user info, when: creating user, then: user is created', () => {
@@ -28,5 +29,5 @@ test('given: valid user info, when: creating user, then: user is created', () =>
     expect(user.getAddress()).toEqual(address);
     expect(user.getSeller()).toEqual(false);
     expect(user.getNewsLetter()).toEqual(true);
-    expect(user.getRole()).toEqual('user');
+    expect(user.getRole()).toEqual('User');
 });

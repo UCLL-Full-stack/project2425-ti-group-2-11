@@ -5,6 +5,7 @@ import { User } from '../../model/user';
 
 const address = new Address({
     street: 'Bondgenotenlaan',
+    houseNumber: '10',
     city: 'Leuven',
     state: 'Leuven',
     postalCode: '3000',
@@ -18,7 +19,7 @@ const user = new User({
     address: address,
     seller: false,
     newsLetter: true,
-    role: 'user',
+    role: 'User',
 });
 let product = new Product({
     name: 'JBL hoofdtelefoon',
