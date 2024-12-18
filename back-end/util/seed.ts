@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 const main = async () => {
     // Delete data in the reverse order of dependency to avoid conflicts
     await prisma.review.deleteMany();
-    await prisma.shoppingCart.deleteMany();
     await prisma.productCatalog.deleteMany();
     await prisma.product.deleteMany();
     await prisma.user.deleteMany();
@@ -86,15 +85,6 @@ const main = async () => {
         },
     });
 
-    const shoppingCartJhon = await prisma.shoppingCart.create({
-        data: {
-            user: {
-                connect: { id: John.id },
-            },
-            products: {},
-        },
-    });
-
     const passwordJane = await bcrypt.hash('Something_secure', 12);
 
     const Jane = await prisma.user.create({
@@ -109,15 +99,6 @@ const main = async () => {
             address: {
                 connect: { id: addressJane.id },
             },
-        },
-    });
-
-    const shoppingCartJane = await prisma.shoppingCart.create({
-        data: {
-            user: {
-                connect: { id: Jane.id },
-            },
-            products: {},
         },
     });
 
@@ -138,14 +119,6 @@ const main = async () => {
         },
     });
 
-    const shoppingCartMike = await prisma.shoppingCart.create({
-        data: {
-            user: {
-                connect: { id: Mike.id },
-            },
-            products: {},
-        },
-    });
 
     const passwordEmily = await bcrypt.hash('SuperSecretPassword', 12);
 
@@ -186,16 +159,6 @@ const main = async () => {
         },
     });
 
-    const shoppingCartEmily = await prisma.shoppingCart.create({
-        data: {
-            user: {
-                connect: { id: Emily.id },
-            },
-            products: {
-                connect: [{ id: product1Emily.id }, { id: product2Emily.id }],
-            },
-        },
-    });
 
     const passwordChris = await bcrypt.hash('AnotherSecurePassword', 10);
 
@@ -222,17 +185,6 @@ const main = async () => {
             stock: 50,
             price: 199,
             details: 'Wireless, 20 hours battery life',
-        },
-    });
-
-    const shoppingCartChris = await prisma.shoppingCart.create({
-        data: {
-            user: {
-                connect: { id: Chris.id },
-            },
-            products: {
-                connect: [{ id: product1Chris.id }],
-            },
         },
     });
 
