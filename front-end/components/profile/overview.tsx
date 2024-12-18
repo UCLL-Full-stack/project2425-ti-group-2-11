@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { User, AtSign, Phone, House, Divide } from 'lucide-react';
-import { useTranslation } from 'next-i18next';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
