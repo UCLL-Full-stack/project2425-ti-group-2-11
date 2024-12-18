@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, AtSign, Phone, House, Divide } from 'lucide-react';
+import { User, AtSign, Phone, House } from 'lucide-react';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
@@ -114,6 +114,7 @@ const Overview: React.FC = () => {
                     <House className='mr-2'/>
                     {street} {houseNumber}, {postalCode} {city} {country}
                 </div>
+                <div onClick={() => window.location.href = '/'} className='absolute top-5 right-5 hover:cursor-pointer'><House /></div>
             </div>
         </>
     );
