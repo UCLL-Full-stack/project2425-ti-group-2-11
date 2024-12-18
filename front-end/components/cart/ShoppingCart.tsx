@@ -141,12 +141,11 @@ function useShoppingCart(userId: number) {
       console.error("Error updating product quantity in cart:", error);
     }
   };
-
   const updateQuantity = async (newQuantity: number, item: CartItem) => {
     console.log(newQuantity, item);
     if (cart) {
-      const updatedItems = cart.items.map((item) =>
-        item.id === item.id ? { ...item, quantity: newQuantity } : item
+      const updatedItems = cart.items.map((cartItem) =>
+        cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem
       );
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
@@ -157,7 +156,7 @@ function useShoppingCart(userId: number) {
         items: updatedItems,
         total: Number(newTotal.toFixed(2)),
       });
-      const product = cart.items.find((item) => item.id === item.id)?.product;
+      const product = cart.items.find((cartItem) => cartItem.id === item.id)?.product;
       if (product) {
         await updateQuantityInDatabase(item.id, item.productId, newQuantity);
       }
