@@ -54,6 +54,7 @@ export default function Home() {
                 name={product.name}
                 price={product.price}
                 media={product.media}
+                productId={product.id}
               />
             ))}
           />
@@ -66,6 +67,7 @@ export default function Home() {
                 name={product.name}
                 price={product.price}
                 media={product.media}
+                productId={product.id}
               />
             ))}
           />

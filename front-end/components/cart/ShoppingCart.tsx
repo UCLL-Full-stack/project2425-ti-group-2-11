@@ -82,6 +82,27 @@ function useShoppingCart(userId: number) {
     }
   };
 
+  const removeFromDatabase = async (itemId: number) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const res = await fetch(`http://localhost:3000/cart/remove/${userId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          method: "DELETE",
+          body: JSON.stringify({ productId: itemId }),
+        });
+        return;
+      } else {
+        throw new Error("Token is null");
+      }
+    } catch (error) {
+      console.error("Error removing product from cart:", error);
+    }
+  };
+
   const removeItem = (itemId: string) => {
     if (cart) {
       const updatedItems = cart.items.filter((item) => item.id !== itemId);
@@ -89,6 +110,7 @@ function useShoppingCart(userId: number) {
         (sum, item) => sum + item.price * item.quantity,
         0
       );
+      removeFromDatabase(Number(itemId));
       setCart({
         ...cart,
         items: updatedItems,
