@@ -5,19 +5,21 @@ import Overview from './overview';
 import Setting from './settings'
 import Bills from './bills';
 import Orders from './orders';
+import { useTranslation } from 'next-i18next';
 
 
 const Selector: React.FC = () => {
     const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
     const [selectedOption, setSelectedOptions] = useState<String>('overview')
+    const {t} = useTranslation()
 
     const router = useRouter();
 
     const navItems = [
-        { name: 'Overview', icon: User, id: 'overview' },
-        { name: 'Settings', icon: Settings, id: 'settings' },
-        { name: 'Bills', icon: FileText, id: 'bills' },
-        { name: 'Orders', icon: ShoppingBag, id: 'orders' },
+        { name: `${t('overview')}`, icon: User, id: 'overview' },
+        { name: `${t('settings')}`, icon: Settings, id: 'settings' },
+        { name: `${t('bills')}`, icon: FileText, id: 'bills' },
+        { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders' },
     ]
 
     const handleLogout = () => {
