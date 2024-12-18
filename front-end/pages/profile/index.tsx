@@ -1,4 +1,5 @@
 import Navbar from "@/components/header/navbar";
+import ProfileOverview from "@/components/profile/profileOverview";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -14,7 +15,7 @@ const Profile: React.FC = () => {
   }, [router]);
   return (
     <>
-      <Navbar />
+      <ProfileOverview />
     </>
   );
 };
