@@ -9,6 +9,7 @@ const main = async () => {
     await prisma.review.deleteMany();
     await prisma.productCatalog.deleteMany();
     await prisma.product.deleteMany();
+    await prisma.shoppingCart.deleteMany();
     await prisma.user.deleteMany();
     await prisma.address.deleteMany();
 
