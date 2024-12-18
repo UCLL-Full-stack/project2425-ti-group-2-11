@@ -230,6 +230,31 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
     return <div>No cart found</div>;
   }
 
+  const checkout = (userId: number, cart: ShoppingCart) => async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}cart/checkout/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "DELETE",
+            body: JSON.stringify({ cart: cart }),
+          }
+        );
+        return;
+      } else {
+        throw new Error("Token is null");
+      }
+    } catch (error) {
+      console.error("Error checking out:", error);
+      
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -286,7 +311,7 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
           <div className="text-lg font-semibold">
             Total: €{cart.total.toFixed(2)}
           </div>
-          <button className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button onClick={checkout(userId, cart)} className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             Checkout
           </button>
         </div>

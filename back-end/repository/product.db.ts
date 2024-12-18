@@ -42,10 +42,37 @@ const getProductById = async (productId: number): Promise<Product> => {
         throw new Error('Database error. See server log for details.');
     }
 };
+
+const updateProductStock = async (productId: number, amount: number): Promise<void> => {
+    try {
+        const existingProduct = await database.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+
+        if (!existingProduct) {
+            throw new Error('Product not found');
+        }
+
+        const newAmount = existingProduct.stock - amount;
+
+        await database.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                stock: newAmount,
+            },
+        });
+    } catch (error) {}
+};
+
 const productDb = {
     getAllProducts,
     getProductsLimitDesc,
     getProductById,
+    updateProductStock,
 };
 
 export { productDb };

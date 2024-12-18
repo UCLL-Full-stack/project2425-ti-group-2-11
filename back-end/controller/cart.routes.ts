@@ -36,4 +36,12 @@ cartRouter.put('/update/:userId', async (req: Request, res: Response, next: Next
     }
 });
 
+cartRouter.delete('/checkout/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(await cartService.checkout(Number(req.params.userId), req.body.cart));
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default cartRouter;

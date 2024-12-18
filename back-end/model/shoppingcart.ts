@@ -1,19 +1,19 @@
-import { User } from '@prisma/client';
+import { CartItem, User } from '@prisma/client';
 import { Product } from './product';
 
 interface ShoppingCartPrisma {
     id?: number;
-    products: Array<Product>;
     user: User;
+    items: Array<CartItem>;
 }
 export class ShoppingCart {
     private id: number | undefined;
-    private products: Array<Product>;
+    private items: Array<CartItem>;
     private user: User;
 
     constructor(shoppingCart: { id?: number | undefined; user: User }) {
         this.id = shoppingCart.id;
-        this.products = [];
+        this.items = [];
         this.user = shoppingCart.user;
     }
 
@@ -21,23 +21,23 @@ export class ShoppingCart {
         return this.id;
     }
 
-    public getProducts(): Array<Product> {
-        return this.products;
+    public getItems(): Array<CartItem> {
+        return this.items;
     }
 
     public getUser(): User {
         return this.user;
     }
 
-    public addProduct(product: Product): Product {
-        this.products.push(product);
-        console.log(this.products);
-        return product;
-    }
+    // public addProduct(item: Product): Product {
+    //     this.items.push(item);
+    //     console.log(this.items);
+    //     return item;
+    // }
 
-    static from({ id, products, user }: ShoppingCartPrisma): ShoppingCart {
+    static from({ id, items, user }: ShoppingCartPrisma): ShoppingCart {
         const shoppingCart = new ShoppingCart({ id, user });
-        shoppingCart.products = products;
+        shoppingCart.items = items;
         return shoppingCart;
     }
 }
