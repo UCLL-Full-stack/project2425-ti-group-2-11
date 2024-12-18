@@ -121,11 +121,12 @@ const getCartItems = async (userId: number): Promise<ShoppingCart> => {
             },
         });
         if (!cart) {
-            throw new Error('Cart not found');
+            const cart = await createShoppingCart(userId);
+            return cart;
         }
         return cart;
     } catch (error) {
-        console.error(error);
+        console.error(`Error in getCartItems for userId: ${userId}`, error);
         throw new Error('Database error. See server log for details.');
     }
 };
