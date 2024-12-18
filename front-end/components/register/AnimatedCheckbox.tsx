@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface AnimatedCheckboxProps {
   label: string;
   onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  checked: boolean;
 }
 
 const AnimatedCheckbox: React.FC<AnimatedCheckboxProps> = ({
   label,
   onchange,
   name,
+  checked,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    setIsChecked(checked)
+  }, [checked])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
@@ -50,7 +56,7 @@ const AnimatedCheckbox: React.FC<AnimatedCheckboxProps> = ({
               />
             </symbol>
           </svg>
-          
+
         </div>
         <span className="ml-2">{label}</span>
       </div>
