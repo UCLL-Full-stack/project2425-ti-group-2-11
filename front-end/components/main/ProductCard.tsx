@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { Plus, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface ProductCardProps {
   name: string;
@@ -15,6 +16,8 @@ export function ProductCard({
   media,
   productId,
 }: ProductCardProps) {
+  const router = useRouter();
+
   const addToCart = async (productId: number) => {
     try {
       const token = localStorage.getItem("token");
@@ -22,14 +25,21 @@ export function ProductCard({
         const decodedToken: any = jwtDecode(token);
         const userId = decodedToken.userId;
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/add/${userId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          method: "POST",
-          body: JSON.stringify({ productId }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}cart/add/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "POST",
+            body: JSON.stringify({ productId }),
+          }
+        );
+        if (!res.ok && res.status === 400) {
+          localStorage.removeItem("token");
+          router.push("/login");
+        }
         return;
       } else {
         throw new Error("Token is null");

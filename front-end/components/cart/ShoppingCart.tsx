@@ -40,7 +40,7 @@ function useShoppingCart(userId: number) {
           }
         );
         const data = await res.json();
-        if (!res.ok) {
+        if (!res.ok && res.status === 400) {
           localStorage.removeItem("token");
           router.push("/login");
         }
@@ -48,7 +48,7 @@ function useShoppingCart(userId: number) {
           const price = Number(item.price);
           return sum + price;
         }, 0);
-        console.log("Fetched data:", data); // Debugging line
+        console.log("Fetched data:", data);
         const cart: ShoppingCart = {
           id: data.id,
           items: data.products.map((item: any) => ({
@@ -61,7 +61,7 @@ function useShoppingCart(userId: number) {
           })),
           total: total,
         };
-        console.log("Constructed cart:", cart.total); // Debugging line
+        console.log("Constructed cart:", cart.total);
         setCart(cart);
         setLoading(false);
       } catch (error) {
