@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, AtSign, Phone, House } from 'lucide-react';
+import { User, AtSign, Phone, House, Divide } from 'lucide-react';
 import { useTranslation } from 'next-i18next';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
@@ -18,7 +18,6 @@ interface ProfileProps {
 }
 
 const Overview: React.FC = () => {
-    const { t } = useTranslation();
     const [userId, setUserId] = useState<number>()
     const [user, setUser] = useState<any>(null);
     const [name, setName] = useState<string>('');
@@ -30,19 +29,20 @@ const Overview: React.FC = () => {
     const [postalCode, setPostalCode] = useState<string>('');
     const [street, setStreet] = useState<string>('');
     const [state, setState] = useState<string>('');
+    const [counter, setCounter] = useState<number>(0);
+
+    const fetchUser = async (userId: number) => {
+        console.log('fetching...')
+        try {
+            const user = await UserService.getUser(userId);
+            console.log('Fetched user:', user);
+            setUser(user);
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchUser = async (userId: number) => {
-            console.log('fetching...')
-            try {
-                const user = await UserService.getUser(userId);
-                console.log('Fetched user:', user);
-                setUser(user);
-            } catch (error) {
-                console.error('Failed to fetch user data:', error);
-            }
-        };
-
         const fetchToken = async () => {
             console.log('fetching token')
             const token = localStorage.getItem('token');
@@ -79,6 +79,23 @@ const Overview: React.FC = () => {
         }
     }, [user]);
 
+
+    const handleFailedFetch = () => {
+        if (counter < 5) {
+            setCounter(counter + 1);
+            if (userId) {
+                fetchUser(userId);
+            }
+        }
+    };
+
+    if (!user) {
+        if (counter >= 5) {
+            return <div>We are working hard to fix the issue. Please come back later.</div>;
+        }
+        return <div onClick={handleFailedFetch} className='hover:cursor-pointer hover:underline inline-block'>Failed to fetch data... Click to try again</div>;
+    }
+
     return (
         <>
             <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4">
@@ -104,3 +121,5 @@ const Overview: React.FC = () => {
 };
 
 export default Overview;
+
+
