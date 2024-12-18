@@ -334,11 +334,13 @@ const RegisterForm: React.FC = () => {
                 label={t("register.sellercheckbox")}
                 onchange={handleChange}
                 name="seller"
+                checked={false}
               />
               <AnimatedCheckbox
                 label={t("register.newslettercheckbox")}
                 onchange={handleChange}
                 name="newsLetter"
+                checked={false}
               />
             </div>
           </div>
