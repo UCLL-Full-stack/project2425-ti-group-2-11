@@ -1,14 +1,15 @@
 import { User, Settings, FileText, ShoppingBag, LogOut } from 'lucide-react'
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import Overview from './overview';
+import Setting from './settings'
+import Bills from './bills';
+import Orders from './orders';
 
 
 const Selector: React.FC = () => {
     const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-
-    useEffect(() => {
-        setLoggedInUser(localStorage.getItem("token"));
-      }, []);
+    const [selectedOption, setSelectedOptions] = useState<String>('overview')
 
     const router = useRouter();
 
@@ -21,8 +22,20 @@ const Selector: React.FC = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        setLoggedInUser(null);
         router.push('/')
+    }
+
+    const renderOptions = () => {
+        switch(selectedOption) {
+            case "overview":
+                return <Overview />;
+            case "settings":
+                return <Setting />;
+            case "bills":
+                return <Bills />;
+            case "orders":
+                return <Orders />;
+        }
     }
 
     return (
@@ -30,7 +43,11 @@ const Selector: React.FC = () => {
             <div className='w-full bg-card text-card-foreground p-4 space-y-4 border-r'>
                 <div className='space-y-2'>
                     {navItems.map((item) => (
-                        <button className="w-full flex items-center justify-start hover:bg-blue-300 pt-2 pb-2 pl-2 rounded-md">
+                        <button
+                        key={item.id}
+                        className="w-full flex items-center justify-start hover:bg-blue-300 pt-2 pb-2 pl-2 rounded-md"
+                        onClick={() => setSelectedOptions(item.id)}
+                        >
                             <item.icon className="mr-2 h-4 w-4" />
                             <span>{item.name}</span>
                         </button>
@@ -44,6 +61,9 @@ const Selector: React.FC = () => {
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Logout</span>
                     </button>
+                </div>
+                <div>
+                    {renderOptions()}
                 </div>
             </div>
         </>
