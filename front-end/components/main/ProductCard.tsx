@@ -33,7 +33,7 @@ export function ProductCard({
               Authorization: `Bearer ${token}`,
             },
             method: "POST",
-            body: JSON.stringify({ productId }),
+            body: JSON.stringify({ productId , quantity: 1 }),
           }
         );
         if (!res.ok && res.status === 400) {
@@ -42,6 +42,7 @@ export function ProductCard({
         }
         return;
       } else {
+        router.push("/login");
         throw new Error("Token is null");
       }
     } catch (error) {

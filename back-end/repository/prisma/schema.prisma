@@ -48,8 +48,27 @@ model Product {
   details         String
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  cartItems       CartItem[]
   productCatalogs ProductCatalog[]
-  shoppingCarts   ShoppingCart[]
+}
+model ShoppingCart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id            Int           @id @default(autoincrement())
+  quantity      Int
+  productId     Int
+  product       Product       @relation(fields: [productId], references: [id])
+  shoppingCartId Int
+  shoppingCart  ShoppingCart  @relation(fields: [shoppingCartId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model ProductCatalog {
@@ -61,14 +80,6 @@ model ProductCatalog {
   updatedAt DateTime  @updatedAt
 }
 
-model ShoppingCart {
-  id        Int       @id @default(autoincrement())
-  products  Product[]
-  userId    Int       @unique
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
 
 model Review {
   id        Int      @id @default(autoincrement())
