@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Address, Role } from "@/types/types";
 import AnimatedCheckbox from "../register/AnimatedCheckbox";
+import { House } from "lucide-react";
 
 
 interface ProfileProps {
@@ -56,21 +57,27 @@ const Settings: React.FC = () => {
         }
     }, [user]);
 
-    const updateSeller = () => {}
+    const updateSeller = () => {} // here to satisfy the requirment to have an onchange function in the animatedCheckbox, does nothing
 
     return (
-        <>
-            <div className="flex flex-row items-center">{t('language')}: <Language /></div>
-            <div className="flex flex-row items-center gap-2 pt-2">
-            {t("register.sellercheckbox")}
-            <AnimatedCheckbox
-                label={""}
-                name="seller"
-                onchange={() => updateSeller()}
-                checked={seller}
-            />
+        <div className="flex flex-col max-h-fit h-screen">
+            <div onClick={() => window.location.href = '/'} className='absolute top-5 right-5 hover:cursor-pointer'><House /></div>à
+            <div className="flex-grow">
+                <div className="flex flex-row items-center">{t('language')}: <Language /></div>
+                <div className="flex flex-row items-center gap-2 pt-2 pointer-events-none">
+                    {t("register.seller")} <span className="bg-transparent">*</span>
+                    <AnimatedCheckbox
+                        label={""}
+                        name="seller"
+                        onchange={() => updateSeller()}
+                        checked={seller}
+                    />
+                </div>
             </div>
-        </>
+            <footer className="mt-20 absolute bottom-0 left-0 text-gray-600">
+                * It is not possible to either attain or relinquish seller status. Please contact customer support to change your status.
+            </footer>
+        </div>
     )
 };
 
