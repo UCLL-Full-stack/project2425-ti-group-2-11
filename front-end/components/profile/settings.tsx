@@ -57,12 +57,11 @@ const Settings: React.FC = () => {
         }
     }, [user]);
 
-    const updateSeller = () => {} // here to satisfy the requirment to have an onchange function in the animatedCheckbox, does nothing
+    const updateSeller = () => { } // here to satisfy the requirment to have an onchange function in the animatedCheckbox, does nothing
 
     return (
-        <div className="flex flex-col max-h-fit h-screen">
-            <div onClick={() => window.location.href = '/'} className='absolute top-5 right-5 hover:cursor-pointer'><House /></div>
-            <div className="flex-grow">
+        <>
+            <div className="flex flex-col min-h-full">
                 <div className="flex flex-row items-center">{t('language')}: <Language /></div>
                 <div className="flex flex-row items-center gap-2 pt-2 pointer-events-none">
                     {t("register.seller")} <span className="bg-transparent">*</span>
@@ -73,12 +72,16 @@ const Settings: React.FC = () => {
                         checked={seller}
                     />
                 </div>
+                <div className="flex-grow"></div>
+                <footer className="text-gray-600">
+                    <p className="text-sm">* It is not possible to either attain or relinquish seller status. Please contact customer support to change your status.</p>
+                </footer>
             </div>
-            <footer className="mt-20 absolute bottom-0 left-0 text-gray-600">
-                * It is not possible to either attain or relinquish seller status. Please contact customer support to change your status.
-            </footer>
-        </div>
-    )
+        </>
+    );
+
+
+
 };
 
 export default Settings;
