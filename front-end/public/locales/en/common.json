@@ -50,5 +50,9 @@
     "add": "Add Product",
     "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images"
   },
-  "language": "Language"
+  "language": "Language",
+  "overview": "Overwiew",
+  "settings": "Settings",
+  "bills": "Bills",
+  "orders": "Orders"
 }

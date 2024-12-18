@@ -51,5 +51,9 @@
     "add": "Ajouter un Produit",
     "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
 },
-  "language": "Langue"
+  "language": "Langue",
+  "overview": "Aperçu",
+  "settings": "Paramètres",
+  "bills": "Factures",
+  "orders": "Commandes"
 }
