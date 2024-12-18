@@ -1,0 +1,106 @@
+import React, { useEffect, useState } from 'react';
+import { User, AtSign, Phone, House } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+import UserService from '@/services/UserService';
+import { jwtDecode } from 'jwt-decode';
+import { Address, Role } from '@/types/types';
+
+interface ProfileProps {
+    userId?: number;
+    name: string;
+    phoneNumber: string;
+    emailAddress: string;
+    password: string;
+    address: Address;
+    seller: boolean;
+    newsLetter: boolean;
+    role: Role;
+}
+
+const Overview: React.FC = () => {
+    const { t } = useTranslation();
+    const [userId, setUserId] = useState<number>()
+    const [user, setUser] = useState<any>(null);
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [city, setCity] = useState<string>('');
+    const [country, setCountry] = useState<string>('');
+    const [houseNumber, setHouseNumber] = useState<string>('');
+    const [postalCode, setPostalCode] = useState<string>('');
+    const [street, setStreet] = useState<string>('');
+    const [state, setState] = useState<string>('');
+
+    useEffect(() => {
+        const fetchUser = async (userId: number) => {
+            console.log('fetching...')
+            try {
+                const user = await UserService.getUser(userId);
+                console.log('Fetched user:', user);
+                setUser(user);
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+            }
+        };
+
+        const fetchToken = async () => {
+            console.log('fetching token')
+            const token = localStorage.getItem('token');
+            if (token) {
+                console.log('token ' + token)
+                const decoded = jwtDecode<ProfileProps>(token);
+                if (decoded && decoded.userId) {
+                    setUserId(decoded.userId);
+                    console.log('Decoded user ID:', decoded.userId);
+                    fetchUser(decoded.userId);
+                }
+            }
+        }
+        fetchToken()
+    }, [])
+
+
+
+
+    useEffect(() => {
+        if (user) {
+            setName(user.name || '');
+            setEmail(user.emailAddress || '');
+            setPhoneNumber(user.phoneNumber || '');
+
+            if (user.address) {
+                setCity(user.address.city || '');
+                setCountry(user.address.country || '');
+                setHouseNumber(user.address.houseNumber || '');
+                setPostalCode(user.address.postalCode || '');
+                setStreet(user.address.street || '');
+                setState(user.address.state || '');
+            }
+        }
+    }, [user]);
+
+    return (
+        <>
+            <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4">
+                <div className="flex items-center">
+                    <User className="mr-2" />
+                    {name}
+                </div>
+                <div className='flex items-center'>
+                    <AtSign className='mr-2' />
+                    {email}
+                </div>
+                <div className='flex items-center'>
+                    <Phone className='mr-2' />
+                    {phoneNumber}
+                </div>
+                <div className='flex items-center'>
+                    <House className='mr-2'/>
+                    {street} {houseNumber}, {postalCode} {city} {country}
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Overview;

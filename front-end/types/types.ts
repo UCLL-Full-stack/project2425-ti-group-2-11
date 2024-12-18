@@ -28,4 +28,4 @@ export type Address = {
     country?: string;
 };
 
-type Role = 'User' | 'Admin' | 'Owner';
+export type Role = 'User' | 'Admin' | 'Owner';
