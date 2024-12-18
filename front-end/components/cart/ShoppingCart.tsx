@@ -1,34 +1,14 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/router";
-
-interface Product {
-  id: string;
-  name: string;
-  stock: number;
-  price: number;
-  media: string;
-}
-
-interface CartItem {
-  id: string;
-  quantity: number;
-  product: Product;
-  productId: number;
-  // name: string;
-  // stock: number;
-  // price: number;
-  // image: string;
-}
-
-interface ShoppingCart {
-  id: string;
-  items: CartItem[];
-  total: number;
-}
+import {
+  checkoutService,
+  fetchShoppingCart,
+  removeFromDatabaseService,
+  updateCartQuantityInDatabase,
+} from "@/services/cartService";
+import type { ShoppingCart, CartItem } from "@/types/cartTypes";
 
 function useShoppingCart(userId: number) {
   const [cart, setCart] = useState<ShoppingCart | null>(null);
@@ -36,27 +16,17 @@ function useShoppingCart(userId: number) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  useEffect(() => {
-    const fetchShoppingCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}cart/items/${userId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await res.json();
-        console.log("Response:", data);
-        if (!res.ok && res.status === 400) {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
 
-        if (data.items.length === 0) {
+  useEffect(() => {
+    const loadShoppinCart = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.push("/login");
+        return;
+      }
+      try {
+        const data = await fetchShoppingCart(userId, token);
+        if (!data.items || data.items.length === 0) {
           setCart({
             id: data.id,
             items: [],
@@ -66,15 +36,10 @@ function useShoppingCart(userId: number) {
           return;
         }
 
-        const total = data.items.reduce(
-          (sum: number, item: any, quantity: number) => {
-            const price = Number(item.product.price);
-            return sum + price * item.quantity;
-          },
-          0
-        );
-
-        console.log("Fetched data:", data);
+        const total = data.items.reduce((sum: number, item: any) => {
+          const price = Number(item.product.price);
+          return sum + price * item.quantity;
+        }, 0);
         const cart: ShoppingCart = {
           id: data.id,
           items: data.items
@@ -100,7 +65,6 @@ function useShoppingCart(userId: number) {
             .filter((item: any) => item !== null),
           total: total,
         };
-        console.log("Constructed cart:", cart.total);
         setCart(cart);
         setLoading(false);
       } catch (error) {
@@ -109,7 +73,7 @@ function useShoppingCart(userId: number) {
       }
     };
 
-    fetchShoppingCart();
+    loadShoppinCart();
   }, [userId]);
 
   const updateQuantityInDatabase = async (
@@ -120,20 +84,13 @@ function useShoppingCart(userId: number) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}cart/update/${userId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "PUT",
-            body: JSON.stringify({ itemId, productId, quantity: newQuantity }),
-          }
+        const res = await updateCartQuantityInDatabase(
+          itemId,
+          productId,
+          newQuantity,
+          userId,
+          token
         );
-        if (!res.ok) {
-          throw new Error("Failed to update quantity in the database");
-        }
       } else {
         throw new Error("Token is null");
       }
@@ -142,10 +99,12 @@ function useShoppingCart(userId: number) {
     }
   };
   const updateQuantity = async (newQuantity: number, item: CartItem) => {
-    console.log(newQuantity, item);
+
     if (cart) {
       const updatedItems = cart.items.map((cartItem) =>
-        cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: newQuantity }
+          : cartItem
       );
       const newTotal = updatedItems.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
@@ -156,7 +115,9 @@ function useShoppingCart(userId: number) {
         items: updatedItems,
         total: Number(newTotal.toFixed(2)),
       });
-      const product = cart.items.find((cartItem) => cartItem.id === item.id)?.product;
+      const product = cart.items.find(
+        (cartItem) => cartItem.id === item.id
+      )?.product;
       if (product) {
         await updateQuantityInDatabase(item.id, item.productId, newQuantity);
       }
@@ -167,17 +128,7 @@ function useShoppingCart(userId: number) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}cart/remove/${userId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "DELETE",
-            body: JSON.stringify({ productId: itemId }),
-          }
-        );
+        removeFromDatabaseService(itemId, userId, token);
         return;
       } else {
         throw new Error("Token is null");
@@ -234,24 +185,12 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}cart/checkout/${userId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "DELETE",
-            body: JSON.stringify({ cart: cart }),
-          }
-        );
-        return;
+        return checkoutService(userId, cart, token);
       } else {
         throw new Error("Token is null");
       }
     } catch (error) {
       console.error("Error checking out:", error);
-      
     }
   };
 
@@ -311,7 +250,10 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
           <div className="text-lg font-semibold">
             Total: €{cart.total.toFixed(2)}
           </div>
-          <button onClick={checkout(userId, cart)} className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button
+            onClick={checkout(userId, cart)}
+            className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
             Checkout
           </button>
         </div>

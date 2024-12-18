@@ -79,7 +79,7 @@ const RegisterForm: React.FC = () => {
     console.log(userInput);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}users/login`,
         {
           method: "POST",
           headers: {
