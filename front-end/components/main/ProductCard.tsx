@@ -22,7 +22,7 @@ export function ProductCard({
         const decodedToken: any = jwtDecode(token);
         const userId = decodedToken.userId;
 
-        const res = await fetch(`http://localhost:3000/cart/add/${userId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/add/${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

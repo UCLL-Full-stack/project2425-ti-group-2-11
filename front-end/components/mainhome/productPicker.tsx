@@ -16,7 +16,7 @@ const ProductPicker: React.FC = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          "http://localhost:3000/products/desc/limit/10",
+          `${process.env.NEXT_PUBLIC_API_URL}products/desc/limit/10`,
           {
             headers: {
               "Content-Type": "application/json",

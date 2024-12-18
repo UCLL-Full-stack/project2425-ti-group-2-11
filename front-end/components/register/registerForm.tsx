@@ -28,7 +28,7 @@ interface loginUserInput {
   password: string;
 }
 
-  const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [statusMessage, setStatusMessage] = React.useState<string | null>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const { t } = useTranslation();
@@ -78,13 +78,16 @@ interface loginUserInput {
     };
     console.log(userInput);
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInput),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userInput),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
@@ -128,7 +131,7 @@ interface loginUserInput {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/users/register", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

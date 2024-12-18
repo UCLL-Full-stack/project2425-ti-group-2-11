@@ -24,7 +24,7 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:3000/products/desc/limit/${amountLoaded}`,
+          `${process.env.NEXT_PUBLIC_API_URL}products/desc/limit/${amountLoaded}`,
           {
             headers: {
               "Content-Type": "application/json",

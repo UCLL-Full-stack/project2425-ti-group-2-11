@@ -29,7 +29,7 @@ function useShoppingCart(userId: number) {
     const fetchShoppingCart = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:3000/cart/items/${userId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/items/${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ function useShoppingCart(userId: number) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch(`http://localhost:3000/cart/remove/${userId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/remove/${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
