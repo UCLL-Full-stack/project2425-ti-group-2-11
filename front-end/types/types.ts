@@ -13,6 +13,9 @@ export type User = {
     seller?: boolean;
     newsLetter?: boolean;
     role?: Role;
+    createdAt?: Date;
+    lastLogin?: Date;
+    bio?: string;
 };
 
 export type Address = {
