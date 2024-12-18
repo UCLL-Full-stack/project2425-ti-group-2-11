@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Trash } from "lucide-react";
+import { useRouter } from "next/router";
 
 interface CartItem {
   id: string;
@@ -24,18 +25,25 @@ function useShoppingCart(userId: number) {
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchShoppingCart = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/items/${userId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}cart/items/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await res.json();
+        if (!res.ok) {
+          localStorage.removeItem("token");
+          router.push("/login");
+        }
         const total = data.products.reduce((sum: number, item: any) => {
           const price = Number(item.price);
           return sum + price;
@@ -86,14 +94,17 @@ function useShoppingCart(userId: number) {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}cart/remove/${userId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          method: "DELETE",
-          body: JSON.stringify({ productId: itemId }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}cart/remove/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "DELETE",
+            body: JSON.stringify({ productId: itemId }),
+          }
+        );
         return;
       } else {
         throw new Error("Token is null");
