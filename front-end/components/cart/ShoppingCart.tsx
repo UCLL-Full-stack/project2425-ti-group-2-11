@@ -5,13 +5,23 @@ import Image from "next/image";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/router";
 
-interface CartItem {
+interface Product {
   id: string;
   name: string;
   stock: number;
   price: number;
+  media: string;
+}
+
+interface CartItem {
+  id: string;
   quantity: number;
-  image: string;
+  product: Product;
+  productId: number;
+  // name: string;
+  // stock: number;
+  // price: number;
+  // image: string;
 }
 
 interface ShoppingCart {
@@ -40,25 +50,54 @@ function useShoppingCart(userId: number) {
           }
         );
         const data = await res.json();
+        console.log("Response:", data);
         if (!res.ok && res.status === 400) {
           localStorage.removeItem("token");
           router.push("/login");
         }
-        const total = data.products.reduce((sum: number, item: any) => {
-          const price = Number(item.price);
-          return sum + price;
-        }, 0);
+
+        if (data.items.length === 0) {
+          setCart({
+            id: data.id,
+            items: [],
+            total: 0,
+          });
+          setLoading(false);
+          return;
+        }
+
+        const total = data.items.reduce(
+          (sum: number, item: any, quantity: number) => {
+            const price = Number(item.product.price);
+            return sum + price * item.quantity;
+          },
+          0
+        );
+
         console.log("Fetched data:", data);
         const cart: ShoppingCart = {
           id: data.id,
-          items: data.products.map((item: any) => ({
-            id: item.id,
-            stock: item.stock,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity || 1,
-            image: item.media,
-          })),
+          items: data.items
+            .map((item: any) => {
+              if (!item.product) {
+                console.error(
+                  `Product data is missing for item with id: ${item.id}`
+                );
+                return null;
+              }
+              return {
+                id: item.id,
+                quantity: item.quantity || 1,
+                productId: item.product.id,
+                product: {
+                  stock: item.product.stock,
+                  media: item.product.media,
+                  name: item.product.name,
+                  price: item.product.price,
+                },
+              };
+            })
+            .filter((item: any) => item !== null),
           total: total,
         };
         console.log("Constructed cart:", cart.total);
@@ -73,13 +112,43 @@ function useShoppingCart(userId: number) {
     fetchShoppingCart();
   }, [userId]);
 
-  const updateQuantity = (itemId: string, newQuantity: number) => {
+  const updateQuantityInDatabase = async (
+    itemId: string,
+    productId: number,
+    newQuantity: number
+  ) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}cart/update/${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            method: "PUT",
+            body: JSON.stringify({ itemId, productId, quantity: newQuantity }),
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Failed to update quantity in the database");
+        }
+      } else {
+        throw new Error("Token is null");
+      }
+    } catch (error) {
+      console.error("Error updating product quantity in cart:", error);
+    }
+  };
+  const updateQuantity = async (newQuantity: number, item: CartItem) => {
+    console.log(newQuantity, item);
     if (cart) {
-      const updatedItems = cart.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      const updatedItems = cart.items.map((cartItem) =>
+        cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem
       );
       const newTotal = updatedItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum, item) => sum + item.product.price * item.quantity,
         0
       );
       setCart({
@@ -87,6 +156,10 @@ function useShoppingCart(userId: number) {
         items: updatedItems,
         total: Number(newTotal.toFixed(2)),
       });
+      const product = cart.items.find((cartItem) => cartItem.id === item.id)?.product;
+      if (product) {
+        await updateQuantityInDatabase(item.id, item.productId, newQuantity);
+      }
     }
   };
 
@@ -118,7 +191,7 @@ function useShoppingCart(userId: number) {
     if (cart) {
       const updatedItems = cart.items.filter((item) => item.id !== itemId);
       const newTotal = updatedItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum, item) => sum + item.product.price * item.quantity,
         0
       );
       removeFromDatabase(Number(itemId));
@@ -175,26 +248,26 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
                 className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 py-4 border-b last:border-b-0"
               >
                 <Image
-                  src={item.image}
-                  alt={item.name}
+                  src={item.product.media}
+                  alt={item.product.name}
                   width={50}
                   height={50}
                   className="rounded-md"
                 />
                 <div className="flex-grow">
-                  <h3 className="font-semibold">{item.name}</h3>
+                  <h3 className="font-semibold">{item.product.name}</h3>
                   <p className="text-sm text-gray-500">
-                    ${item.price.toFixed(2)}
+                    ${item.product.price.toFixed(2)}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-start">
                   <input
                     type="number"
                     min="1"
-                    max={item.stock}
+                    max={item.product.stock}
                     value={item.quantity}
                     onChange={(e) =>
-                      updateQuantity(item.id, parseInt(e.target.value))
+                      updateQuantity(parseInt(e.target.value), item)
                     }
                     className="w-16 px-2 py-1 text-center border rounded"
                   />

@@ -33,7 +33,7 @@ export function ProductCard({
               Authorization: `Bearer ${token}`,
             },
             method: "POST",
-            body: JSON.stringify({ productId }),
+            body: JSON.stringify({ productId, quantity: 1 }),
           }
         );
         if (!res.ok && res.status === 400) {
@@ -42,6 +42,7 @@ export function ProductCard({
         }
         return;
       } else {
+        router.push("/login");
         throw new Error("Token is null");
       }
     } catch (error) {
@@ -51,11 +52,11 @@ export function ProductCard({
   return (
     <div className="w-full max-w-xs mx-auto overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
       <div className="relative w-full aspect-square md:h-48 md:w-56">
-        <Image
+      <Image
           src={media}
           alt={name}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
           className="rounded-t-lg"
           unoptimized
         />

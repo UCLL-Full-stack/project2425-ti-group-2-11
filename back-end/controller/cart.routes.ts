@@ -13,7 +13,7 @@ cartRouter.get('/items/:userId', async (req: Request, res: Response, next: NextF
 
 cartRouter.post('/add/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.send(await cartService.addToCart(Number(req.params.userId), Number(req.body.productId)));
+        res.send(await cartService.addToCart(Number(req.params.userId), Number(req.body.productId), Number(req.body.quantity)));
     } catch (error) {
         next(error);
     }
@@ -22,6 +22,15 @@ cartRouter.post('/add/:userId', async (req: Request, res: Response, next: NextFu
 cartRouter.delete('/remove/:userId/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         res.send(await cartService.removeFromCart(Number(req.params.userId), Number(req.body.productId)));
+    } catch (error) {
+        next(error);
+    }
+});
+
+cartRouter.put('/update/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { itemId, productId, quantity } = req.body;
+        res.send(await cartService.updateCart(Number(req.params.userId), Number(productId),  Number(quantity), Number(itemId)));
     } catch (error) {
         next(error);
     }
