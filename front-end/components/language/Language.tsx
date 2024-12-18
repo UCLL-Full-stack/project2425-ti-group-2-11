@@ -1,21 +1,16 @@
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useRouter } from 'next/router';
+import useLanguage from './useLanguage';
+
 
 const Language: React.FC = () => {
+  const { handleLanguageChange } = useLanguage();
   const router = useRouter();
-  const { locale, pathname, asPath, query } = router;
-  const { t } = useTranslation();
+  const { locale } = router;
 
-  const handleLanguageChange = (event: { target: { value: string } }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = event.target.value;
-    router.push(
-      {
-        pathname,
-        query,
-      },
-      asPath,
-      { locale: newLocale }
-    );
+    handleLanguageChange(newLocale);
   };
 
   return (
@@ -24,7 +19,7 @@ const Language: React.FC = () => {
         id="language"
         className="ml-2 p-1 rounded-lg bg-transparent text-black border-black border-2"
         value={locale}
-        onChange={handleLanguageChange}
+        onChange={handleChange}
       >
         <option value="en">English</option>
         <option value="nl">Nederlands</option>

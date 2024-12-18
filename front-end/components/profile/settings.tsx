@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { i18n, useTranslation } from "next-i18next";
 import Language from "../language/Language";
 import UserService from "@/services/UserService";
 import { useEffect, useState } from "react";
@@ -61,7 +61,7 @@ const Settings: React.FC = () => {
 
     return (
         <div className="flex flex-col max-h-fit h-screen">
-            <div onClick={() => window.location.href = '/'} className='absolute top-5 right-5 hover:cursor-pointer'><House /></div>à
+            <div onClick={() => window.location.href = '/'} className='absolute top-5 right-5 hover:cursor-pointer'><House /></div>
             <div className="flex-grow">
                 <div className="flex flex-row items-center">{t('language')}: <Language /></div>
                 <div className="flex flex-row items-center gap-2 pt-2 pointer-events-none">
