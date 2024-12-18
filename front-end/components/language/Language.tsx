@@ -7,7 +7,6 @@ const Language: React.FC = () => {
   const { t } = useTranslation();
 
   const handleLanguageChange = (event: { target: { value: string } }) => {
-    // get new locale from event and push it to the router
     const newLocale = event.target.value;
     router.push(
       {
@@ -23,8 +22,7 @@ const Language: React.FC = () => {
     <div>
       <select
         id="language"
-        className="ml-2 p-1 rounded-lg"
-        style={{ position: "absolute", top: "10px", right: "10px" }}
+        className="ml-2 p-1 rounded-lg bg-transparent text-black border-black border-2"
         value={locale}
         onChange={handleLanguageChange}
       >
