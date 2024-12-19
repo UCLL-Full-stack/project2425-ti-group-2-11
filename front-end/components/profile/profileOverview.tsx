@@ -64,7 +64,7 @@ const Selector: React.FC = () => {
                         onClick={handleLogout}
                     >
                         <LogOut className="mr-2 h-4 w-4" />
-                        <span>Logout</span>
+                        <span>{t('logout')}</span>
                     </button>
                 </div>
                 <div>
