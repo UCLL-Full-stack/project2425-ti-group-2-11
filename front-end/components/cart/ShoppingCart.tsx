@@ -99,7 +99,6 @@ function useShoppingCart(userId: number) {
     }
   };
   const updateQuantity = async (newQuantity: number, item: CartItem) => {
-
     if (cart) {
       const updatedItems = cart.items.map((cartItem) =>
         cartItem.id === item.id
@@ -162,6 +161,8 @@ interface ShoppingCartProps {
 }
 
 export default function ShoppingCart({ userId }: ShoppingCartProps) {
+  const router = useRouter();
+
   const { cart, loading, error, updateQuantity, removeItem } =
     useShoppingCart(userId);
 
@@ -180,19 +181,6 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
   if (!cart) {
     return <div>No cart found</div>;
   }
-
-  const checkout = (userId: number, cart: ShoppingCart) => async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        return checkoutService(userId, cart, token);
-      } else {
-        throw new Error("Token is null");
-      }
-    } catch (error) {
-      console.error("Error checking out:", error);
-    }
-  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -251,7 +239,12 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
             Total: €{cart.total.toFixed(2)}
           </div>
           <button
-            onClick={checkout(userId, cart)}
+            onClick={() =>
+              router.push({
+                pathname: "/checkout",
+                query: { userId: userId, cart: JSON.stringify(cart) },
+              })
+            }
             className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             Checkout
