@@ -1,10 +1,7 @@
 import { jwtDecode } from "jwt-decode";
-import { Plus, ShoppingCart } from "lucide-react";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-import { useState } from "react";
-import { StatusMessage, StatusMessageContainer } from "./status-message";
 
 interface ProductCardProps {
   name: string;
@@ -19,7 +16,7 @@ export function ProductCard({
   price,
   media,
   productId,
-  onMessage
+  onMessage,
 }: ProductCardProps) {
   const router = useRouter();
 

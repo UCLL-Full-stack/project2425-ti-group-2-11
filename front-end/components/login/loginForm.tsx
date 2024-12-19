@@ -50,9 +50,6 @@ const LoginForm: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    // console.log(name, value, type);
-    // console.log(value);
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -77,7 +74,6 @@ const LoginForm: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        // console.log(data);
         if (data.message === "Authentication Succesful") {
           window.location.href = "../";
         } else {
@@ -93,8 +89,6 @@ const LoginForm: React.FC = () => {
       }
       console.error("Error:", error);
     }
-
-    // console.log(formData)
   };
   return (
     <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
