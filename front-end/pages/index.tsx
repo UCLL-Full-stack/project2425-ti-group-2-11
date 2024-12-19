@@ -1,4 +1,5 @@
 import Navbar from "@/components/header/navbar";
+import LoginTable from "@/components/loginTable/loginTable";
 import Main from "@/components/main/main";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -24,6 +25,9 @@ const Home: React.FC = () => {
         </header>
         <main className="flex-grow">
           <Main />
+          <div className="flex justify-center items-center">
+            <LoginTable />
+          </div>
         </main>
       </div>
     </>
