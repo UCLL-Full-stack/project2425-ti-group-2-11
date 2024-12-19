@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { User, AtSign, Phone, House } from 'lucide-react';
+import { User, AtSign, Phone, House, CircleDollarSign } from 'lucide-react';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
+import { useTranslation } from 'next-i18next';
 
 interface ProfileProps {
     userId?: number;
@@ -29,6 +30,8 @@ const Overview: React.FC = () => {
     const [street, setStreet] = useState<string>('');
     const [state, setState] = useState<string>('');
     const [counter, setCounter] = useState<number>(0);
+    const [isSeller, setIsSeller] = useState<string>("");
+    const {t} = useTranslation();
 
     const fetchUser = async (userId: number) => {
         console.log('fetching...')
@@ -66,6 +69,11 @@ const Overview: React.FC = () => {
             setName(user.name || '');
             setEmail(user.emailAddress || '');
             setPhoneNumber(user.phoneNumber || '');
+            if (user.seller) {
+                setIsSeller(`${t('isseller')}`)
+            } else {
+                setIsSeller(`${t('noseller')}`)
+            }
 
             if (user.address) {
                 setCity(user.address.city || '');
@@ -109,6 +117,10 @@ const Overview: React.FC = () => {
                 <div className='flex items-center'>
                     <Phone className='mr-2' />
                     {phoneNumber}
+                </div>
+                <div className='flex items-center'>
+                    <CircleDollarSign className='mr-2'/>
+                    {isSeller}
                 </div>
                 <div className='flex items-center'>
                     <House className='mr-2'/>
