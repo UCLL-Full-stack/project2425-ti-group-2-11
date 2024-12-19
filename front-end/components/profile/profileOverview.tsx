@@ -1,50 +1,103 @@
-import { User, Settings, FileText, ShoppingBag, LogOut, House } from 'lucide-react'
+import { User, Settings, FileText, ShoppingBag, LogOut, House } from 'lucide-react';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Overview from './overview';
-import Setting from './settings'
+import Setting from './settings';
 import Bills from './bills';
 import Orders from './orders';
 import { useTranslation } from 'next-i18next';
+import UserService from '@/services/UserService';
+import { jwtDecode } from 'jwt-decode';
+import { Address, Role } from '@/types/types';
 
+interface ProfileProps {
+    userId?: number;
+    name: string;
+    phoneNumber: string;
+    emailAddress: string;
+    password: string;
+    address: Address;
+    seller: boolean;
+    newsLetter: boolean;
+    role: Role;
+}
 
 const Selector: React.FC = () => {
     const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-    const [selectedOption, setSelectedOptions] = useState<String>('overview')
-    const { t } = useTranslation()
+    const [selectedOption, setSelectedOptions] = useState<string>('overview');
+    const { t } = useTranslation();
+    const [userId, setUserId] = useState<number>();
+    const [user, setUser] = useState<any>();
+    const [admin, setAdmin] = useState<boolean>(false);
+    const [owner, setOwner] = useState<boolean>(false);
 
     const router = useRouter();
 
     const navItems = [
-        { name: `${t('overview')}`, icon: User, id: 'overview' },
-        { name: `${t('settings')}`, icon: Settings, id: 'settings' },
-        { name: `${t('bills')}`, icon: FileText, id: 'bills' },
-        { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders' },
-    ]
+        { name: `${t('overview')}`, icon: User, id: 'overview', component: <Overview /> },
+        { name: `${t('settings')}`, icon: Settings, id: 'settings', component: <Setting /> },
+        { name: `${t('bills')}`, icon: FileText, id: 'bills', component: <Bills /> },
+        { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders', component: <Orders /> },
+    ];
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        router.push('/')
-    }
+    const adminItem = { name: `${t('Admin')}`, icon: ShoppingBag, id: 'admin', component: <div>Admin Content</div> };
+    const ownerItem = { name: `${t('Owner')}`, icon: ShoppingBag, id: 'owner', component: <div>Owner Content</div> };
 
-    const renderOptions = () => {
-        switch (selectedOption) {
-            case "overview":
-                return <Overview />;
-            case "settings":
-                return <Setting />;
-            case "bills":
-                return <Bills />;
-            case "orders":
-                return <Orders />;
+    const fetchUser = async (userId: number) => {
+        console.log('fetching...')
+        try {
+            const user = await UserService.getUser(userId);
+            console.log('Fetched user:', user);
+            setUser(user);
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            console.log('fetching token')
+            const token = localStorage.getItem('token');
+            if (token) {
+                console.log('token ' + token)
+                const decoded = jwtDecode<ProfileProps>(token);
+                if (decoded && decoded.userId) {
+                    setUserId(decoded.userId);
+                    console.log('Decoded user ID:', decoded.userId);
+                    fetchUser(decoded.userId);
+                }
+            }
+        }
+        fetchToken()
+    }, [])
+    const [allNavItems, setAllNavItems] = useState([...navItems]);
+
+    useEffect(() => {
+        if (user) {
+            console.log('in if')
+            let allNavItems = [...navItems];
+            if (user.role === "Admin") {
+                allNavItems = [...allNavItems, adminItem];
+            }
+            if (user.role === "Owner") {
+                console.log('user is owner')
+                allNavItems = [...allNavItems, ownerItem];
+                console.log(allNavItems)
+            }
+            setAllNavItems(allNavItems);
+        }
+    }, [user]);
+
+    const renderAllOptions = () => {
+        const selectedItem = allNavItems.find((item) => item.id === selectedOption);
+        return selectedItem ? selectedItem.component : <div>{t('invalid_option')}</div>;
+    };
 
     return (
         <>
-            <div className='w-full bg-card text-card-foreground p-4 space-y-2 border-r relative'>
-                <div className='space-y-2'>
-                    {navItems.map((item) => (
+            <div className="w-full bg-card text-card-foreground p-4 space-y-2 border-r relative">
+                <div className="space-y-2">
+                    {allNavItems.map((item) => (
                         <button
                             key={item.id}
                             className="w-full flex items-center justify-start hover:bg-blue-300 pt-2 pb-2 pl-2 rounded-md"
@@ -55,14 +108,11 @@ const Selector: React.FC = () => {
                         </button>
                     ))}
                 </div>
-                <div className="pt-4 border-t">
-                </div>
-                <div>
-                    {renderOptions()}
-                </div>
+                <div className="pt-4 border-t"></div>
+                <div>{renderAllOptions()}</div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Selector
+export default Selector;
