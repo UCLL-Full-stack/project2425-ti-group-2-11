@@ -30,6 +30,7 @@ export class Product {
     }
 
     constructor(product: {name: string, description: string, media: string, stock: number, price: number, details: string, id?: number | undefined}) {
+        this.validate(product);
         this.id = product.id;
         this.name = product.name;
         this.description = product.description;
@@ -37,6 +38,27 @@ export class Product {
         this.stock = product.stock;
         this.price = product.price;
         this.details = product.details;
+    }
+
+    validate(product: {name: string, description: string, media: string, stock: number, price: number, details: string, id?: number | undefined}) {
+        if (!product.name) {
+            throw new Error('Name is required');
+        }
+        if (!product.description) {
+            throw new Error('Description is required');
+        }
+        if (!product.media) {
+            throw new Error('Media is required');
+        }
+        if (!product.stock) {
+            throw new Error('Stock is required');
+        }
+        if (!product.price) {
+            throw new Error('Price is required');
+        }
+        if (!product.details) {
+            throw new Error('Details is required');
+        }
     }
 
     public getId(): number | undefined {

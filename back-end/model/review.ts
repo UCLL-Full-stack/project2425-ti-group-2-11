@@ -8,10 +8,21 @@ export class Review {
     private reviewText: string;
 
     constructor(review: { id?: number; user: User; product: Product; reviewText: string }) {
+        this.validate(review);
         this.id = review.id;
         this.user = review.user;
         this.product = review.product;
         this.reviewText = review.reviewText;
+    }
+
+    validate(review: { id?: number; user: User; product: Product; reviewText: string }) {
+        if (review.reviewText.length > 1000)  {
+            throw new Error('Review text is too long');
+        }
+
+        if (review.reviewText.length < 1) {
+            throw new Error('Review text is required');
+        }
     }
 
     getId(): number | undefined {

@@ -1,6 +1,8 @@
 import { CartItem, User } from '@prisma/client';
 import { Product } from './product';
 
+
+//No validation is needed for this class, because there is no input given to construct the object
 interface ShoppingCartPrisma {
     id?: number;
     user: User;
