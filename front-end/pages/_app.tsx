@@ -1,10 +1,10 @@
-import useLanguage from "@/components/language/useLanguage";
 import "@/styles/globals.css";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
+import useLanguage from "@/components/language/useLanguage";
 
 const App = ({ Component, pageProps }: AppProps) => {
-    useLanguage();
+    useLanguage()
     return <Component {...pageProps} />;
 }
 export default appWithTranslation(App);
