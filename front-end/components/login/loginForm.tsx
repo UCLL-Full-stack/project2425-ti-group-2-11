@@ -97,7 +97,7 @@ const LoginForm: React.FC = () => {
     // console.log(formData)
   };
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-lg sm:p-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

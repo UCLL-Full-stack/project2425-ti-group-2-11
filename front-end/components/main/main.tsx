@@ -101,7 +101,7 @@ export default function Home() {
       </div>
       <div className="container mx-auto px-4 my-12">
         <div>
-          <AllProducts items={productsDynamic} />
+          <AllProducts items={productsDynamic} onMessage={handleMessage} />
         </div>
       </div>
       <StatusMessageContainer>
