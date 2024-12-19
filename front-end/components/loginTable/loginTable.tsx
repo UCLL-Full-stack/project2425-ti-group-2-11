@@ -11,19 +11,19 @@ const loginTable: React.FC = () => {
                 </thead>
                 <tbody className="mb-3">
                     <tr>
-                        <td>chris.brown@domain.com</td>
-                        <td>AnotherSecurePassword</td>
-                        <td>User</td>
-                    </tr>
-                    <tr>
-                        <td>jhon@iets.be</td>
-                        <td>XX</td>
+                        <td>Jhon.owner@userbazaar.com</td>
+                        <td>JhonsSuperSecretPassword</td>
                         <td>Owner</td>
                     </tr>
                     <tr>
-                        <td>emily.white@domain.com</td>
+                        <td>Emily.admin@userbazaar.com</td>
                         <td>SuperSecretPassword</td>
                         <td>Amin</td>
+                    </tr>
+                    <tr>
+                        <td>Chris.Brown@gmail.com</td>
+                        <td>AnotherSecurePassword</td>
+                        <td>User</td>
                     </tr>
                 </tbody>
             </table>

@@ -38,7 +38,6 @@ const Selector: React.FC = () => {
     const navItems = [
         { name: `${t('overview')}`, icon: User, id: 'overview', component: <Overview /> },
         { name: `${t('settings')}`, icon: Settings, id: 'settings', component: <Setting /> },
-        { name: `${t('bills')}`, icon: FileText, id: 'bills', component: <Bills /> },
         { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders', component: <Orders /> },
     ];
 
