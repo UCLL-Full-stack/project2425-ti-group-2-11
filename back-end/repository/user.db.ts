@@ -104,4 +104,49 @@ const getUserByPhoneNumber = async ({
     }
 };
 
-export default { getAllUsers, getUserByEmail, getUserById, addUser , getUserByPhoneNumber};
+const updateUser = async (user: User): Promise<User> => {
+    try {
+        const userPrisma = await database.user.update({
+            where: { id: user.getId() },
+            data: {
+                name: user.getName(),
+                phoneNumber: user.getPhoneNumber(),
+                emailAddress: user.getEmailAddress(),
+                password: user.getPassword(),
+                address: {
+                    update: {
+                        street: user.getAddress().getStreet(),
+                        houseNumber: user.getAddress().getHouseNumber(),
+                        city: user.getAddress().getCity(),
+                        state: user.getAddress().getState(),
+                        postalCode: user.getAddress().getPostalCode(),
+                        country: user.getAddress().getCountry(),
+                    },
+                },
+                seller: user.getSeller(),
+                newsLetter: user.getNewsLetter(),
+                role: user.getRole(),
+            },
+        });
+
+        return User.from({
+            ...userPrisma,
+            address: {
+                id: userPrisma.addressId,
+                street: user.getAddress().getStreet(),
+                houseNumber: user.getAddress().getHouseNumber(),
+                city: user.getAddress().getCity(),
+                state: user.getAddress().getState(),
+                postalCode: user.getAddress().getPostalCode(),
+                country: user.getAddress().getCountry(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+export default { getAllUsers, getUserByEmail, getUserById, addUser , getUserByPhoneNumber, updateUser};

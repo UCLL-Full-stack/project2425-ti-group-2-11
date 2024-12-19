@@ -182,4 +182,16 @@ const authenticate = async ({
     };
 };
 
-export default { getAllUsers, getUserById, addUser, getUserByEmail, authenticate };
+const updateUserRole = async (id: number, role: Role): Promise<User> => {
+    const user = await getUserById(id);
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
+    }
+
+    user.setRole(role);
+    await userDb.updateUser(user);
+
+    return user;
+};
+
+export default { getAllUsers, getUserById, addUser, getUserByEmail, authenticate, updateUserRole };

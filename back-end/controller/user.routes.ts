@@ -46,4 +46,15 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
+userRouter.put('/updateRole/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.params.userId;
+        const { role } = req.body;
+        const updatedUser = await userService.updateUserRole(Number(userId), role);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+})
+
 export { userRouter };

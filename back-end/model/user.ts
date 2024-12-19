@@ -105,10 +105,13 @@ export class User {
         this.newsLetter = newsLetter;
     };
 
-    setRole = (role: string) => {
-        this.role = role;
-    };
+
     */
+
+   setRole = (role: Role) => {
+       this.role = role;
+    };
+
     //getters
     getId(): number | undefined {
         return this.id;
