@@ -60,13 +60,12 @@ const Owner: React.FC = () => {
             )
         );
 
-        UserService.updateUserRole(userId, newRole)
-            .then(() => console.log(`Role updated for user ${userId}`))
-            .catch((error) => console.error("Failed to update role:", error));
-
-            if (userId === currentUserId) {
-                window.location.reload()
-            }
+        try {
+            UserService.updateUserRole(userId, newRole)
+            console.log(`Role updated for user ${userId}`)
+        } catch (error) {
+            console.log(`Failed to update role for ${userId}: ${error}`)
+        }
     };
 
     return (
