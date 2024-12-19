@@ -1,4 +1,4 @@
-import { User, Settings, FileText, ShoppingBag, LogOut, House } from 'lucide-react';
+import { User, Settings, FileText, ShoppingBag, Shield } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Overview from './overview';
@@ -40,8 +40,8 @@ const Selector: React.FC = () => {
         { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders', component: <Orders /> },
     ];
 
-    const adminItem = { name: `${t('Admin')}`, icon: ShoppingBag, id: 'admin', component: <div>Admin Content</div> };
-    const ownerItem = { name: `${t('Owner')}`, icon: ShoppingBag, id: 'owner', component: <div>Owner Content</div> };
+    const adminItem = { name: `${t('Admin Options')}`, icon: Shield, id: 'admin', component: <div>Admin Content</div> };
+    const ownerItem = { name: `${t('Owner Options')}`, icon: Shield, id: 'owner', component: <div>Owner Content</div> };
 
     const fetchUser = async (userId: number) => {
         console.log('fetching...')
