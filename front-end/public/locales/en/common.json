@@ -50,7 +50,7 @@
     "add": "Add Product",
     "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images"
   },
-  "cart":{
+  "cart": {
     "title": "Shopping Cart",
     "nouserid": "No user ID found",
     "nocart": "No cart found",
@@ -58,10 +58,23 @@
     "total": "Total: €",
     "checkout": "Checkout"
   },
+  "checkout": {
+    "title": "Checkout",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "vat": "VAT",
+    "payment": "Payment Method",
+    "credit_card": "Credit Card",
+    "paypal": "PayPal",
+    "order": "Place Order",
+    "success": "Order placed successfully",
+    "redirect": "You will be redirected to the homepage in 3 seconds",
+    "loading": "Loading...",
+    "total": "Total"
+  },
   "language": "Language",
   "overview": "Overview",
   "settings": "Settings",
   "bills": "Bills",
   "orders": "Orders"
-
 }

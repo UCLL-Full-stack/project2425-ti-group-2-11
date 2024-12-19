@@ -50,15 +50,29 @@
     "details": "Détails",
     "add": "Ajouter un Produit",
     "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
-},
-"cart":{
-  "title": "Panier",
-  "nouserid": "Aucun identifiant d'utilisateur trouvé",
-  "nocart": "Aucun panier trouvé",
-  "cartempty": "Votre panier est vide",
-  "total": "Total: €",
-  "checkout": "Check-out"
-},
+  },
+  "cart": {
+    "title": "Panier",
+    "nouserid": "Aucun identifiant d'utilisateur trouvé",
+    "nocart": "Aucun panier trouvé",
+    "cartempty": "Votre panier est vide",
+    "total": "Total: €",
+    "checkout": "Check-out"
+  },
+  "checkout": {
+    "title": "Check-out",
+    "subtotal": "Sous-total",
+    "shipping": "Expédition",
+    "vat": "TVA",
+    "payment": "Méthode de paiement",
+    "credit_card": "Carte de crédit",
+    "paypal": "PayPal",
+    "order": "Passer la commande",
+    "success": "Commande passée avec succès",
+    "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes",
+    "loading": "Chargement...",
+    "total": "Total"
+  },
   "language": "Langue",
   "overview": "Aperçu",
   "settings": "Paramètres",
