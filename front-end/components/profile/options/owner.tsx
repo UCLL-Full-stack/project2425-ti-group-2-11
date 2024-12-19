@@ -3,10 +3,9 @@ import { Role } from "@/types/types";
 import { useEffect, useState } from "react";
 
 const Owner: React.FC = () => {
-    const [users, setUsers] = useState<any[]>([]); // Stores users and roles
-    const roles = ["Admin", "Owner", "User"]; // Available roles for selection
+    const [users, setUsers] = useState<any[]>([]);
+    const roles = ["Admin", "Owner", "User"];
 
-    // Fetch all users
     const getAllUsers = async () => {
         try {
             const users = await UserService.getAllUsers();
