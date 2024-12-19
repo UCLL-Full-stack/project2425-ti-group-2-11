@@ -55,17 +55,7 @@ const Selector: React.FC = () => {
                         </button>
                     ))}
                 </div>
-                <div className="absolute top-4 right-4 hover:cursor-pointer" onClick={() => window.location.href = '/'}>
-                    <House />
-                </div>
                 <div className="pt-4 border-t">
-                    <button
-                        className='text-red-500 flex items-center hover:bg-red-300 hover:text-red-600 w-full pl-2 pt-2 pb-2 rounded-md'
-                        onClick={handleLogout}
-                    >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Logout</span>
-                    </button>
                 </div>
                 <div>
                     {renderOptions()}

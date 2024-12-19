@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import Language from "../language/Language";
 import CountryOptions from "./CountryOptions";
 import Link from "next/link";
 import AnimatedCheckbox from "./AnimatedCheckbox";
@@ -331,12 +330,6 @@ const RegisterForm: React.FC = () => {
             </div>
             <div className="items-start flex-col">
               <AnimatedCheckbox
-                label={t("register.sellercheckbox")}
-                onchange={handleChange}
-                name="seller"
-                checked={false}
-              />
-              <AnimatedCheckbox
                 label={t("register.newslettercheckbox")}
                 onchange={handleChange}
                 name="newsLetter"
@@ -373,6 +366,7 @@ const RegisterForm: React.FC = () => {
         {errorMessage && (
           <div className="m-1 p-1 bg-red-300 text-red-700">{errorMessage}</div>
         )}
+        <p className="text-gray-600">If you want to become a seller on our platform please contact customer support!</p>
       </div>
     </div>
   );

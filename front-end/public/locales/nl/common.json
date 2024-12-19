@@ -76,5 +76,8 @@
   "overview": "Overzicht",
   "settings": "Instellingen",
   "bills": "Facturen",
-  "orders": "Bestellingen"
+  "orders": "Bestellingen",
+  "logout": "Uitloggen",
+  "isseller": "U bent een verkoper",
+  "noseller": "U bent geen verkoper"
 }
