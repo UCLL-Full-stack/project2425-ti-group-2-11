@@ -11,6 +11,7 @@ const Language: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = event.target.value;
     handleLanguageChange(newLocale);
+    location.replace('http://localhost:8080/nl/profile')
   };
 
   return (
