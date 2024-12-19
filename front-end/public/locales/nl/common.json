@@ -49,15 +49,29 @@
     "details": "Details",
     "add": "Product Toevoegen",
     "disclaimer": "*We ondersteunen momenteel alleen het toevoegen van afbeeldingen via een link. Het uploaden van uw eigen afbeeldingen wordt niet ondersteund."
-},
-"cart":{
-  "title": "Winkelwagen",
-  "nouserid": "Geen gebruikers-ID gevonden",
-  "nocart": "Geen winkelwagen gevonden",
-  "cartempty": "Uw winkelwagen is leeg",
-  "total": "Totaal: €",
-  "checkout": "Afrekenen"
-},
+  },
+  "cart": {
+    "title": "Winkelwagen",
+    "nouserid": "Geen gebruikers-ID gevonden",
+    "nocart": "Geen winkelwagen gevonden",
+    "cartempty": "Uw winkelwagen is leeg",
+    "total": "Totaal: €",
+    "checkout": "Afrekenen"
+  },
+  "checkout": {
+    "title": "Afrekenen",
+    "subtotal": "Subtotaal",
+    "shipping": "Verzending",
+    "vat": "BTW",
+    "payment": "Betaalmethode",
+    "credit_card": "Kredietkaart",
+    "paypal": "PayPal",
+    "order": "Bestelling Plaatsen",
+    "success": "Bestelling succesvol geplaatst",
+    "redirect": "U wordt over 3 seconden doorgestuurd naar de startpagina",
+    "loading": "Laden...",
+    "total": "Totaal"
+  },
   "language": "Taal",
   "overview": "Overzicht",
   "settings": "Instellingen",

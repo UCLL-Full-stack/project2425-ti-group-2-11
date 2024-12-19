@@ -1,6 +1,7 @@
 import { checkoutService } from "@/services/cartService";
 import { ShoppingCart } from "@/types/cartTypes";
 import { CreditCard, ShoppingBag } from "lucide-react";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
   function openModal() {
     setIsOpen(true);
   }
+  const { t } = useTranslation();
 
   const checkout = (userId: number, cart: ShoppingCart) => async () => {
     try {
@@ -29,9 +31,9 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
         if ((await checkout).ok) {
           console.log("Checkout successful");
           openModal();
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 3000);
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 3000);
         }
       } else {
         throw new Error("Token is null");
@@ -54,23 +56,27 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
   }, [cart]);
 
   if (!cart) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    return (
+      <div className="container mx-auto px-4 py-8">{t("checkout.loading")}</div>
+    );
   }
   const customStyleModal = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
     },
   };
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="px-4 sm:px-6 py-4 bg-gray-100 border-b">
-          <h2 className="text-xl font-semibold text-gray-800">Checkout</h2>
+          <h2 className="text-xl font-semibold text-gray-800">
+            {t("checkout.title")}
+          </h2>
         </div>{" "}
         {cart.items.map((item) => (
           <div
@@ -94,20 +100,20 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
         ))}
         <div className="space-y-4 mx-5">
           <div className="flex justify-between items-center py-2">
-            <span className="text-gray-600">Subtotal</span>
+            <span className="text-gray-600">{t("checkout.subtotal")}</span>
             <span className="font-medium">€{total.toFixed(2)}</span>
           </div>
           <div className="flex justify-between items-center py-2">
-            <span className="text-gray-600">Shipping</span>
+            <span className="text-gray-600">{t("checkout.shipping")}</span>
             <span className="font-medium">€{shipping.toFixed(2)}</span>
           </div>
           <div className="flex justify-between items-center py-2">
-            <span className="text-gray-600">Tax</span>
+            <span className="text-gray-600">{t("checkout.vat")}</span>
             <span className="font-medium">€{btw.toFixed(2)}</span>
           </div>
           <div className="border-t border-gray-200 my-4"></div>
           <div className="flex justify-between items-center py-2">
-            <span className="text-lg font-semibold">Total</span>
+            <span className="text-lg font-semibold">{t("checkout.total")}</span>
             <span className="text-lg font-semibold">
               €{Number(cart.total) + shipping}
             </span>
@@ -115,7 +121,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
         </div>
         <div className="mt-8 mx-5">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Payment Method
+            {t("checkout.payment")}
           </h2>
           <div className="space-y-4">
             <label
@@ -136,7 +142,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
               <div className="flex items-center space-x-2">
                 <CreditCard className="h-5 w-5 text-indigo-500" />
                 <span className="text-sm font-medium text-gray-900">
-                  Credit Card
+                  {t("checkout.credit_card")}
                 </span>
               </div>
             </label>
@@ -159,7 +165,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
               <div className="flex items-center space-x-2">
                 <ShoppingBag className="h-5 w-5 text-indigo-500" />
                 <span className="text-sm font-medium text-gray-900">
-                  PayPal
+                  {t("checkout.paypal")}
                 </span>
               </div>
             </label>
@@ -170,18 +176,17 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
             onClick={checkout(userId, cart)}
             className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-8 rounded-md transition duration-150 ease-in-out"
           >
-            Place Order
+            {t("checkout.order")}
           </button>
         </div>
         <div className="">
-            
           <Modal
             isOpen={modalIsOpen}
             contentLabel="Example Modal"
             style={customStyleModal}
           >
-            <p>Payment successful</p>
-            <p>redirecting to home page...</p>
+            <p>{t("checkout.success")}</p>
+            <p>{t("checkout.redirect")}</p>
           </Modal>
         </div>
       </div>
