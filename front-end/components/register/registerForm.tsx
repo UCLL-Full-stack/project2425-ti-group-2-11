@@ -321,7 +321,6 @@ const RegisterForm: React.FC = () => {
                 autoComplete="country"
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg mb-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder={t("register.country")}
                 onChange={handleChange}
               >
                 <option value="">{t("register.selectcountry")}</option>
