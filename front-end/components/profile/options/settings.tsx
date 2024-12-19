@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
-import Language from "../language/Language";
+import Language from "../../language/Language";
 import UserService from "@/services/UserService";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Address, Role } from "@/types/types";
-import AnimatedCheckbox from "../register/AnimatedCheckbox";
+import AnimatedCheckbox from "../../register/AnimatedCheckbox";
 
 interface ProfileProps {
     userId?: number;

@@ -1,14 +1,16 @@
 import { User, Settings, FileText, ShoppingBag, Shield } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Overview from './overview';
-import Setting from './settings';
-import Bills from './bills';
-import Orders from './orders';
+import Overview from './options/overview';
+import Setting from './options/settings';
+import Bills from './options/bills';
+import Orders from './options/orders';
 import { useTranslation } from 'next-i18next';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
+import Admin from './options/admin';
+import Owner from './options/owner';
 
 interface ProfileProps {
     userId?: number;
@@ -40,8 +42,8 @@ const Selector: React.FC = () => {
         { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders', component: <Orders /> },
     ];
 
-    const adminItem = { name: `${t('Admin Options')}`, icon: Shield, id: 'admin', component: <div>Admin Content</div> };
-    const ownerItem = { name: `${t('Owner Options')}`, icon: Shield, id: 'owner', component: <div>Owner Content</div> };
+    const adminItem = { name: `${t('Admin Options')}`, icon: Shield, id: 'admin', component: <Admin /> };
+    const ownerItem = { name: `${t('Owner Options')}`, icon: Shield, id: 'owner', component: <Owner /> };
 
     const fetchUser = async (userId: number) => {
         console.log('fetching...')
