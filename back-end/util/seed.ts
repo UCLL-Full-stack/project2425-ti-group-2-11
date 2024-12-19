@@ -12,6 +12,8 @@ const main = async () => {
     await prisma.shoppingCart.deleteMany();
     await prisma.user.deleteMany();
     await prisma.address.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.cartItem.deleteMany();
 
     // Create Address
     const addressJhon = await prisma.address.create({

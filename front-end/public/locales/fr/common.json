@@ -49,7 +49,15 @@
     "details": "Détails",
     "add": "Ajouter un Produit",
     "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
-  },
+},
+"cart":{
+  "title": "Panier",
+  "nouserid": "Aucun identifiant d'utilisateur trouvé",
+  "nocart": "Aucun panier trouvé",
+  "cartempty": "Votre panier est vide",
+  "total": "Total: €",
+  "checkout": "Check-out"
+},
   "language": "Langue",
   "overview": "Aperçu",
   "settings": "Paramètres",
