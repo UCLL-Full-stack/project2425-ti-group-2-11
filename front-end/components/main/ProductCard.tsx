@@ -3,11 +3,15 @@ import { Plus, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
+import { useState } from "react";
+import { StatusMessage, StatusMessageContainer } from "./status-message";
+
 interface ProductCardProps {
   name: string;
   price: number;
   media: string;
   productId: number;
+  onMessage: (text: string) => void;
 }
 
 export function ProductCard({
@@ -15,6 +19,7 @@ export function ProductCard({
   price,
   media,
   productId,
+  onMessage
 }: ProductCardProps) {
   const router = useRouter();
 
@@ -39,6 +44,8 @@ export function ProductCard({
         if (!res.ok && res.status === 400) {
           localStorage.removeItem("token");
           router.push("/login");
+        } else {
+          onMessage(`Added ${name} to cart`);
         }
         return;
       } else {
@@ -47,12 +54,14 @@ export function ProductCard({
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
+      onMessage("Failed to add product to cart");
     }
   };
+
   return (
     <div className="w-full max-w-xs mx-auto overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
       <div className="relative w-full aspect-square md:h-48 md:w-56">
-      <Image
+        <Image
           src={media}
           alt={name}
           fill
