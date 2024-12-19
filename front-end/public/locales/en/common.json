@@ -50,9 +50,18 @@
     "add": "Add Product",
     "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images"
   },
+  "cart":{
+    "title": "Shopping Cart",
+    "nouserid": "No user ID found",
+    "nocart": "No cart found",
+    "cartempty": "Your cart is empty",
+    "total": "Total: €",
+    "checkout": "Checkout"
+  },
   "language": "Language",
   "overview": "Overview",
   "settings": "Settings",
   "bills": "Bills",
   "orders": "Orders"
+
 }

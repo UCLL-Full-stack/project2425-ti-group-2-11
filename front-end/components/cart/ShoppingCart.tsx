@@ -9,6 +9,7 @@ import {
   updateCartQuantityInDatabase,
 } from "@/services/cartService";
 import type { ShoppingCart, CartItem } from "@/types/cartTypes";
+import { useTranslation } from "next-i18next";
 
 function useShoppingCart(userId: number) {
   const [cart, setCart] = useState<ShoppingCart | null>(null);
@@ -162,6 +163,7 @@ interface ShoppingCartProps {
 
 export default function ShoppingCart({ userId }: ShoppingCartProps) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { cart, loading, error, updateQuantity, removeItem } =
     useShoppingCart(userId);
@@ -179,18 +181,20 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
   }
 
   if (!cart) {
-    return <div>No cart found</div>;
+    return <div>{t("nocart")}</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="px-4 sm:px-6 py-4 bg-gray-100 border-b">
-          <h2 className="text-xl font-semibold text-gray-800">Shopping Cart</h2>
+          <h2 className="text-xl font-semibold text-gray-800">
+            {t("cart.title")}
+          </h2>
         </div>
         {cart.items.length === 0 ? (
           <div className="flex justify-center items-center h-64">
-            <p className="text-lg text-gray-500">Your cart is empty</p>
+            <p className="text-lg text-gray-500">{t("cart.cartempty")}</p>
           </div>
         ) : (
           <div className="p-4 sm:p-6">
@@ -236,7 +240,8 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
         )}
         <div className="px-4 sm:px-6 py-4 bg-gray-100 border-t flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
           <div className="text-lg font-semibold">
-            Total: €{cart.total.toFixed(2)}
+            {t("cart.total")}
+            {cart.total.toFixed(2)}
           </div>
           <button
             onClick={() =>
@@ -247,7 +252,7 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
             }
             className="w-full sm:w-auto px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
-            Checkout
+            {t("cart.checkout")}
           </button>
         </div>
       </div>
