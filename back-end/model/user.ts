@@ -27,6 +27,7 @@ export class User {
         newsLetter: boolean;
         role: Role;
     }) {
+        this.validate(user);
         this.id = user.id;
         this.name = user.name;
         this.phoneNumber = user.phoneNumber;
@@ -36,6 +37,43 @@ export class User {
         this.seller = user.seller;
         this.newsLetter = user.newsLetter;
         this.role = user.role;
+    }
+
+    validate(user: {
+        id?: number;
+        name: string;
+        phoneNumber: string;
+        emailAddress: string;
+        password: string;
+        address: Address;
+        seller: boolean;
+        newsLetter: boolean;
+        role: Role;
+    }) {
+        if (!user.name) {
+            throw new Error('User name is required');
+        }
+        if (!user.phoneNumber) {
+            throw new Error('User phone number is required');
+        }
+        if (!user.emailAddress) {
+            throw new Error('User email address is required');
+        }
+        if (!user.password) {
+            throw new Error('User password is required');
+        }
+        if (!user.address) {
+            throw new Error('User address is required');
+        }
+        if (user.seller === undefined) {
+            throw new Error('User seller is required');
+        }
+        if (user.newsLetter === undefined) {
+            throw new Error('User newsLetter is required');
+        }
+        if (!user.role) {
+            throw new Error('User role is required');
+        }
     }
     /*
     //setters

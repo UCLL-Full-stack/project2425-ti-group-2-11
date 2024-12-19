@@ -10,6 +10,7 @@ export class Address {
     private country: string;
 
     constructor(address: { street: string, city: string, state: string, houseNumber: string, postalCode: string, country: string, id?: number | undefined }) {
+        this.validate(address);
         this.id = address.id;
         this.street = address.street;
         this.houseNumber = address.houseNumber;
@@ -18,6 +19,27 @@ export class Address {
         this.postalCode = address.postalCode;
         this.country = address.country;
     };
+
+    validate(address: { street: string, city: string, state: string, houseNumber: string, postalCode: string, country: string, id?: number | undefined }) {
+        if (!address.street) {
+            throw new Error('Street is required')
+        }
+        if (!address.houseNumber) {
+            throw new Error('House number is required')
+        }
+        if (!address.city) {
+            throw new Error('City is required')
+        }
+        if (!address.state) {
+            throw new Error('State is required')
+        }
+        if (!address.postalCode) {
+            throw new Error('Postal code is required')
+        }
+        if (!address.country) {
+            throw new Error('Country is required')
+        }
+    }
 
     public getId(): number | undefined {
         return this.id;
@@ -50,6 +72,7 @@ export class Address {
     public equals(address: Address): boolean {
         return (
             this.street == address.street &&
+            this.houseNumber == address.houseNumber &&
             this.city == address.city &&
             this.state == address.state &&
             this.postalCode == address.postalCode &&

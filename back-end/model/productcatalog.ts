@@ -1,5 +1,7 @@
 import { Product } from "./product";
 
+//No validation is needed for this class, because there is no input given to construct the object
+
 export class ProductCatalog {
     private id: number | undefined;
     private products : Array<Product>
