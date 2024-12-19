@@ -140,6 +140,174 @@ const main = async () => {
         },
     });
 
+    const users = [
+        {
+            name: 'Alice Johnson',
+            phoneNumber: '+32 123 45 67 90',
+            emailAddress: 'alice.johnson@domain.com',
+            password: 'PasswordAlice123',
+            seller: false,
+            newsLetter: true,
+            role: 'User',
+            address: {
+                street: 'Main Street',
+                houseNumber: '10',
+                city: 'Antwerp',
+                state: 'Antwerp',
+                postalCode: '2000',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Bob Williams',
+            phoneNumber: '+32 234 56 78 91',
+            emailAddress: 'bob.williams@domain.com',
+            password: 'PasswordBob123',
+            seller: true,
+            newsLetter: false,
+            role: 'User',
+            address: {
+                street: 'High Street',
+                houseNumber: '20',
+                city: 'Ghent',
+                state: 'East Flanders',
+                postalCode: '9000',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Charlie Davis',
+            phoneNumber: '+32 345 67 89 12',
+            emailAddress: 'charlie.davis@domain.com',
+            password: 'PasswordCharlie123',
+            seller: false,
+            newsLetter: true,
+            role: 'User',
+            address: {
+                street: 'Market Street',
+                houseNumber: '30',
+                city: 'Bruges',
+                state: 'West Flanders',
+                postalCode: '8000',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Diana Evans',
+            phoneNumber: '+32 456 78 91 23',
+            emailAddress: 'diana.evans@domain.com',
+            password: 'PasswordDiana123',
+            seller: true,
+            newsLetter: false,
+            role: 'User',
+            address: {
+                street: 'Church Street',
+                houseNumber: '40',
+                city: 'Hasselt',
+                state: 'Limburg',
+                postalCode: '3500',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Ethan Harris',
+            phoneNumber: '+32 567 89 12 34',
+            emailAddress: 'ethan.harris@domain.com',
+            password: 'PasswordEthan123',
+            seller: false,
+            newsLetter: true,
+            role: 'User',
+            address: {
+                street: 'King Street',
+                houseNumber: '50',
+                city: 'Mechelen',
+                state: 'Antwerp',
+                postalCode: '2800',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Fiona Green',
+            phoneNumber: '+32 678 91 23 45',
+            emailAddress: 'fiona.green@domain.com',
+            password: 'PasswordFiona123',
+            seller: true,
+            newsLetter: false,
+            role: 'User',
+            address: {
+                street: 'Queen Street',
+                houseNumber: '60',
+                city: 'Leuven',
+                state: 'Flemish Brabant',
+                postalCode: '3000',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'George Hall',
+            phoneNumber: '+32 789 12 34 56',
+            emailAddress: 'george.hall@domain.com',
+            password: 'PasswordGeorge123',
+            seller: false,
+            newsLetter: true,
+            role: 'User',
+            address: {
+                street: 'Prince Street',
+                houseNumber: '70',
+                city: 'Namur',
+                state: 'Namur',
+                postalCode: '5000',
+                country: 'Belgium',
+            },
+        },
+        {
+            name: 'Hannah King',
+            phoneNumber: '+32 891 23 45 67',
+            emailAddress: 'hannah.king@domain.com',
+            password: 'PasswordHannah123',
+            seller: true,
+            newsLetter: false,
+            role: 'User',
+            address: {
+                street: 'Duke Street',
+                houseNumber: '80',
+                city: 'Mons',
+                state: 'Hainaut',
+                postalCode: '7000',
+                country: 'Belgium',
+            },
+        },
+    ];
+
+    for (const user of users) {
+        const hashedPassword = await bcrypt.hash(user.password, 12);
+        const address = await prisma.address.create({
+            data: {
+                street: user.address.street,
+                houseNumber: user.address.houseNumber,
+                city: user.address.city,
+                state: user.address.state,
+                postalCode: user.address.postalCode,
+                country: user.address.country,
+            },
+        });
+
+        await prisma.user.create({
+            data: {
+                name: user.name,
+                phoneNumber: user.phoneNumber,
+                emailAddress: user.emailAddress,
+                password: hashedPassword,
+                seller: user.seller,
+                newsLetter: user.newsLetter,
+                role: user.role,
+                address: {
+                    connect: { id: address.id },
+                },
+            },
+        });
+    }
+
     const product1Emily = await prisma.product.create({
         data: {
             name: 'JBL Headphones',
