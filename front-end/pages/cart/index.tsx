@@ -49,7 +49,7 @@ const Cart: React.FC = () => {
           rel="stylesheet"
         />
       </Head>
-      <Navbar />
+      <Navbar type="cart"/>
       <main>
         {userId !== null ? (
           <ShoppingCart userId={userId} />

@@ -40,7 +40,7 @@ const Navbar: React.FC<{ type?: string }> = ({ type }) => {
             </Link>
           </div>
 
-          {type !== "profile" && (
+          {type !== "profile" && type !== "cart" && (
             <div className="hidden sm:flex items-center flex-1 px-4 flex justify-center">
               <div className="relative w-full max-w-xl">
                 <input
@@ -76,7 +76,7 @@ const Navbar: React.FC<{ type?: string }> = ({ type }) => {
             <Link href={isLoggedIn ? "/cart" : "/login"}>
               <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
             </Link>
-            {type !== "profile" && (
+            {type !== "profile" && type !== "cart" && (
               <button
                 className="ml-4 sm:hidden"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -89,7 +89,7 @@ const Navbar: React.FC<{ type?: string }> = ({ type }) => {
         </div>
       </div>
 
-      {type !== "profile" && (
+      {type !== "profile" && type !== "cart" && (
         <div
           className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isSearchOpen ? "max-h-16 opacity-100" : "max-h-0 opacity-0"
