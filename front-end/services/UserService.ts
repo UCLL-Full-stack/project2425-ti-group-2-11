@@ -27,7 +27,7 @@ const getUser = async (userId: number) => {
     return user;
 };
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `users`, {
         method: "GET",
         headers: {
