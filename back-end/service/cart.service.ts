@@ -1,6 +1,7 @@
 import { CartItem, ShoppingCart } from '@prisma/client';
 import cartDB from '../repository/cart.db';
 import { productDb } from '../repository/product.db';
+import cartDb from '../repository/cart.db';
 
 interface ShoppingCartService extends ShoppingCart {
     items: CartItem[];
@@ -25,9 +26,15 @@ const updateCart = async (userId: number, productId: number, quantity: number, i
 };
 
 const checkout = async (userId: number, cart: ShoppingCartService) => {
+    const newOrder = await cartDB.createOrder({
+        userId: userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    });
     for (const item of cart.items) {
         console.log(item, item.productId, item.quantity);
         await productDb.updateProductStock(item.productId, item.quantity);
+        await cartDB.addItemToOrder(newOrder.id, item.productId, item.quantity, cart.id);
         await cartDB.removeFromCart(userId, item.id);
     }
     return true;

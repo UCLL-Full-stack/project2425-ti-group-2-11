@@ -11,9 +11,9 @@ const main = async () => {
     await prisma.productCatalog.deleteMany();
     await prisma.product.deleteMany();
     await prisma.shoppingCart.deleteMany();
+    await prisma.order.deleteMany();
     await prisma.user.deleteMany();
     await prisma.address.deleteMany();
-    await prisma.order.deleteMany();
 
     // Create Address
     const addressJhon = await prisma.address.create({
@@ -121,7 +121,6 @@ const main = async () => {
             },
         },
     });
-
 
     const passwordEmily = await bcrypt.hash('SuperSecretPassword', 12);
 
@@ -329,7 +328,6 @@ const main = async () => {
             details: '65-inch, 4K UHD, HDR',
         },
     });
-
 
     const passwordChris = await bcrypt.hash('AnotherSecurePassword', 10);
 

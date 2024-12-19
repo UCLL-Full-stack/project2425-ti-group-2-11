@@ -23,6 +23,7 @@ model User {
   reviews        Review[]
   ProductCatalog ProductCatalog?
   ShoppingCart   ShoppingCart?
+  Order          Order[]
 
   @@map("users")
 }
@@ -65,8 +66,6 @@ model ShoppingCart {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  Order Order[]
-
   @@map("shopping_carts")
 }
 
@@ -79,6 +78,8 @@ model CartItem {
   shoppingCart   ShoppingCart @relation(fields: [shoppingCartId], references: [id])
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  orderId        Int?
+  order          Order?       @relation(fields: [orderId], references: [id], name: "OrderItems")
 
   @@map("cart_items")
 }
@@ -105,7 +106,10 @@ model Review {
 }
 
 model Order {
-  id     Int          @id @default(autoincrement())
-  cartId Int
-  cart   ShoppingCart @relation(fields: [cartId], references: [id])
+  id        Int        @id @default(autoincrement())
+  items     CartItem[] @relation("OrderItems")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
 }

@@ -192,4 +192,33 @@ const updateCart = async (
     }
 };
 
-export default { addToCart, removeFromCart, getCartItems, createShoppingCart, updateCart };
+const createOrder = async (orderData: { userId: number; createdAt: Date; updatedAt: Date }) => {
+    return await database.order.create({
+        data: orderData,
+    });
+};
+
+const addItemToOrder = async (
+    orderId: number,
+    productId: number,
+    quantity: number,
+    shoppingCartId: number
+) => {
+    return await database.cartItem.create({
+        data: {
+            orderId: orderId,
+            productId: productId,
+            quantity: quantity,
+            shoppingCartId: shoppingCartId,
+        },
+    });
+};
+export default {
+    addToCart,
+    removeFromCart,
+    getCartItems,
+    createShoppingCart,
+    updateCart,
+    createOrder,
+    addItemToOrder,
+};
