@@ -25,10 +25,38 @@ const Admin: React.FC = () => {
     setToken(token);
   }, []);
 
+  useEffect(() => {
+    const setUniformWidth = (id: string) => {
+      const elements = document.querySelectorAll(`#${id}`);
+      let maxWidth = 0;
+
+      elements.forEach((element) => {
+        const width = element.getBoundingClientRect().width;
+        if (width > maxWidth) {
+          maxWidth = width;
+        }
+      });
+
+      elements.forEach((element) => {
+        (element as HTMLElement).style.width = `${maxWidth}px`;
+      });
+    };
+
+    setUniformWidth("username");
+    setUniformWidth("emailaddress");
+  }, [users]);
+
   const loadUsers = async () => {
     try {
       const data = await getAllUsers();
-      data && setUsers(data);
+      if (data) {
+        const sortedData = data.sort((a: User, b: User) => {
+          if (a.id === undefined) return 1;
+          if (b.id === undefined) return -1;
+          return a.id - b.id;
+        });
+        setUsers(sortedData);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -92,7 +120,10 @@ const Admin: React.FC = () => {
                   className="flex rounded justify-between bg-white shadow-md py-2 px-2"
                   key={user.id}
                 >
-                  <p>{user.name}</p>
+                  <div className="flex gap-5">
+                    <p id="username">{user.name}</p>{" "}
+                    <p id="emailaddress">{user.emailAddress}</p>
+                  </div>
                   <div className="flex gap-5">
                     {user.seller ? (
                       <Tooltip
