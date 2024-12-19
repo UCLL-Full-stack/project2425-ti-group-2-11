@@ -46,10 +46,8 @@ const Selector: React.FC = () => {
     const ownerItem = { name: `${t('Owner Options')}`, icon: Shield, id: 'owner', component: <Owner /> };
 
     const fetchUser = async (userId: number) => {
-        console.log('fetching...')
         try {
             const user = await UserService.getUser(userId);
-            console.log('Fetched user:', user);
             setUser(user);
         } catch (error) {
             console.error('Failed to fetch user data:', error);
@@ -58,14 +56,11 @@ const Selector: React.FC = () => {
 
     useEffect(() => {
         const fetchToken = async () => {
-            console.log('fetching token')
             const token = localStorage.getItem('token');
             if (token) {
-                console.log('token ' + token)
                 const decoded = jwtDecode<ProfileProps>(token);
                 if (decoded && decoded.userId) {
                     setUserId(decoded.userId);
-                    console.log('Decoded user ID:', decoded.userId);
                     fetchUser(decoded.userId);
                 }
             }
@@ -76,15 +71,12 @@ const Selector: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            console.log('in if')
             let allNavItems = [...navItems];
             if (user.role === "Admin") {
                 allNavItems = [...allNavItems, adminItem];
             }
             if (user.role === "Owner") {
-                console.log('user is owner')
                 allNavItems = [...allNavItems, ownerItem];
-                console.log(allNavItems)
             }
             setAllNavItems(allNavItems);
         }

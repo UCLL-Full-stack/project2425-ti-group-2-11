@@ -46,7 +46,7 @@ const RegisterForm: React.FC = () => {
     country: "",
     seller: false,
     newsLetter: false,
-    role: "user",
+    role: "User",
   });
 
   const setError = async (message: string) => {
@@ -123,7 +123,7 @@ const RegisterForm: React.FC = () => {
       address,
       seller: formData.seller,
       newsLetter: formData.newsLetter,
-      role: "user",
+      role: "User",
     };
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");

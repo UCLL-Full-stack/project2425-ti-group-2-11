@@ -34,10 +34,8 @@ const Overview: React.FC = () => {
     const {t} = useTranslation();
 
     const fetchUser = async (userId: number) => {
-        console.log('fetching...')
         try {
             const user = await UserService.getUser(userId);
-            console.log('Fetched user:', user);
             setUser(user);
         } catch (error) {
             console.error('Failed to fetch user data:', error);
@@ -46,14 +44,11 @@ const Overview: React.FC = () => {
 
     useEffect(() => {
         const fetchToken = async () => {
-            console.log('fetching token')
             const token = localStorage.getItem('token');
             if (token) {
-                console.log('token ' + token)
                 const decoded = jwtDecode<ProfileProps>(token);
                 if (decoded && decoded.userId) {
                     setUserId(decoded.userId);
-                    console.log('Decoded user ID:', decoded.userId);
                     fetchUser(decoded.userId);
                 }
             }
