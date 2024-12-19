@@ -24,3 +24,33 @@ test('given: to identical products, when: asking if equal, then: true is returne
 
     expect(product1.equals(product2)).toBe(true);
 })
+
+test('given: two different products, when: asking if equal, then: false is returned', () => {
+    const product1 = new Product({ name: VALID_NAME, description: VALID_DESCRIPTION, media: VALID_MEDIA, stock: VALID_STOCK, price: VALID_PRICE, details: VALID_DETAILS });
+    const product2 = new Product({ name: 'JBL oortjes', description: 'JBL oortjes met noice canceling', media: '/home/media/jbl.png', stock: 50, price: 90, details: 'noice canceling, max volume: 120db' });
+
+    expect(product1.equals(product2)).toBe(false);
+});
+
+test('given: product with empty name, when: creating product, then: error is thrown', () => {
+    expect(() => new Product({ name: '', description: VALID_DESCRIPTION, media: VALID_MEDIA, stock: VALID_STOCK, price: VALID_PRICE, details: VALID_DETAILS })).toThrow('Name is required');
+});
+
+test('given: product with empty description, when: creating product, then: error is thrown', () => {
+    expect(() => new Product({ name: VALID_NAME, description: '', media: VALID_MEDIA, stock: VALID_STOCK, price: VALID_PRICE, details: VALID_DETAILS })).toThrow('Description is required');
+});
+
+test('given: product with empty media, when: creating product, then: error is thrown', () => {
+    expect(() => new Product({ name: VALID_NAME, description: VALID_DESCRIPTION, media: '', stock: VALID_STOCK, price: VALID_PRICE, details: VALID_DETAILS })).toThrow('Media is required');
+});
+
+test('given: product with empty stock, when: creating product, then: error is thrown', () => {
+    expect(() => new Product({ name: VALID_NAME, description: VALID_DESCRIPTION, media: VALID_MEDIA, stock: 0, price: VALID_PRICE, details: VALID_DETAILS })).toThrow('Stock is required');
+});
+
+test('given: product with empty price, when: creating product, then: error is thrown', () => {
+    expect(() => new Product({ name: VALID_NAME, description: VALID_DESCRIPTION, media: VALID_MEDIA, stock: VALID_STOCK, price: 0, details: VALID_DETAILS })).toThrow('Price is required');
+});
+
+
+
