@@ -8,13 +8,16 @@ const addToCart = async (
     quantity: number
 ): Promise<ShoppingCart> => {
     try {
-        const cart = await database.shoppingCart.findFirst({
+        let cart = await database.shoppingCart.findFirst({
             where: { userId },
             include: { items: { include: { product: true } } },
         });
 
         if (!cart) {
-            throw new Error('Cart not found');
+            cart = await database.shoppingCart.create({
+                data: { userId },
+                include: { items: { include: { product: true } } },
+            });
         }
 
         const product = await productDb.getProductById(productId);
@@ -46,6 +49,7 @@ const addToCart = async (
         if (!updatedCart) {
             throw new Error('Failed to update cart');
         }
+
         return updatedCart;
     } catch (error) {
         console.error(error);
