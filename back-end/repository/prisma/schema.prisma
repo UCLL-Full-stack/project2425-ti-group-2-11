@@ -46,6 +46,7 @@ model Product {
   stock           Int
   price           Int
   details         String
+  reviews         Review[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   cartItems       CartItem[]
@@ -86,8 +87,11 @@ model ProductCatalog {
 model Review {
   id        Int      @id @default(autoincrement())
   userId    Int
+  productId Int
   user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   review    String   @db.VarChar(1000)
+  stars     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

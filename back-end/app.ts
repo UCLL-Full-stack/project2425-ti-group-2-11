@@ -39,9 +39,19 @@ app.use(
         ],
     }), helmet()
 );
-// const swaggerOpts = {};
-// const swaggerSpec = swaggerJSDoc(swaggerOpts);
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerOpts = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'UserBazaar',
+            version: '1.0.0',
+            description: "API docs for user bazaar"
+        },
+    },
+    apis: ['./controller/*.ts', './routes/*.ts'],
+};
+const swaggerSpec = swaggerJSDoc(swaggerOpts);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/users', userRouter);
 app.use('/products', productRouter);
