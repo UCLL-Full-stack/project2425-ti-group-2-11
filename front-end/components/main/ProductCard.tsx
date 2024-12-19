@@ -59,18 +59,18 @@ export function ProductCard({
   };
 
   return (
-    <div className="w-full max-w-xs mx-auto overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
-      <div className="relative w-full aspect-square md:h-48 md:w-56">
+    <div className="w-full flex flex-col items-center max-w-xs mx-auto overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
+      <div className="relative w-full align-self-center aspect-square md:h-48 md:w-56">
         <Image
           src={media}
           alt={name}
           fill
           style={{ objectFit: "cover" }}
-          className="rounded-t-lg"
+          className="rounded-t-lg "
           unoptimized
         />
       </div>
-      <div className="p-4">
+      <div className="p-4 w-full">
         <h3 className="text-sm font-semibold mb-2 h-12 md:h-14 line-clamp-2 md:line-clamp-3">
           {name}
         </h3>
