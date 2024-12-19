@@ -49,10 +49,13 @@
     "details": "Details",
     "add": "Product Toevoegen",
     "disclaimer": "*We ondersteunen momenteel alleen het toevoegen van afbeeldingen via een link. Het uploaden van uw eigen afbeeldingen wordt niet ondersteund."
-},
+  },
   "language": "Taal",
   "overview": "Overzicht",
   "settings": "Instellingen",
   "bills": "Facturen",
-  "orders": "Bestellingen"
+  "orders": "Bestellingen",
+  "logout": "Uitloggen",
+  "isseller": "U bent een verkoper",
+  "noseller": "U bent geen verkoper"
 }

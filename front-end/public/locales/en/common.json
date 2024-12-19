@@ -54,5 +54,8 @@
   "overview": "Overview",
   "settings": "Settings",
   "bills": "Bills",
-  "orders": "Orders"
+  "orders": "Orders",
+  "logout": "Logout",
+  "isseller": "You are a seller",
+  "noseller": "You are not a seller"
 }

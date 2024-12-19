@@ -3,7 +3,6 @@
     "title": "User Bazaar",
     "featured": "Produits en vedette"
   },
-
   "navbar": {
     "search": "Chercher"
   },
@@ -50,10 +49,13 @@
     "details": "Détails",
     "add": "Ajouter un Produit",
     "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
-},
+  },
   "language": "Langue",
   "overview": "Aperçu",
   "settings": "Paramètres",
   "bills": "Factures",
-  "orders": "Commandes"
+  "orders": "Commandes",
+  "logout": "Déconnecter",
+  "isseller": "Vous êtes un vendeur",
+  "noseller": "Vous n'êtes pas un vendeur"
 }
