@@ -168,7 +168,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     try {
         const userInput = <UserInputLogin>req.body;
         const response = await userService.authenticate(userInput);
-        res.status(200).json({ message: "Authentication Succesful", ...response });
+        res.status(200).json({ message: 'Authentication Succesful', ...response });
     } catch (error) {
         next(error);
     }
@@ -279,6 +279,44 @@ userRouter.put('/updateRole/:userId', async (req: Request, res: Response, next: 
     } catch (error) {
         next(error);
     }
-})
+});
 
+userRouter.put('/seller/grant/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.params.userId;
+        const token = req.body.token;
+        const updatedUser = await userService.grantSellerStatus(Number(userId), String(token));
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
+userRouter.put(
+    '/seller/revoke/:userId',
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.params.userId;
+            const token = req.body.token;
+            const updatedUser = await userService.revokeSellerStatus(Number(userId), String(token));
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+userRouter.delete(
+    '/seller/remove/:userId',
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.params.userId;
+            const token = req.body.token;
+            const deletedUser = await userService.deleteUser(Number(userId), String(token));
+            res.status(200);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 export { userRouter };

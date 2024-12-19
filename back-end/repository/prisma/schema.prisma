@@ -23,6 +23,8 @@ model User {
   reviews        Review[]
   ProductCatalog ProductCatalog?
   ShoppingCart   ShoppingCart?
+
+  @@map("users")
 }
 
 model Address {
@@ -36,6 +38,8 @@ model Address {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   User        User?
+
+  @@map("addresses")
 }
 
 model Product {
@@ -62,6 +66,8 @@ model ShoppingCart {
   updatedAt DateTime   @updatedAt
 
   Order Order[]
+
+  @@map("shopping_carts")
 }
 
 model CartItem {
@@ -73,6 +79,8 @@ model CartItem {
   shoppingCart   ShoppingCart @relation(fields: [shoppingCartId], references: [id])
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  @@map("cart_items")
 }
 
 model ProductCatalog {

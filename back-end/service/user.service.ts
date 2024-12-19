@@ -5,7 +5,12 @@ import userDb from '../repository/user.db';
 import { AuthenticationResponse, UserInput, AddressInput, Role } from '../types';
 import { generateJwtToken } from '../util/jwt';
 import bcrypt from 'bcrypt';
-import { error } from 'console';
+import { JwtPayload } from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
+
+export interface CustomJwtPayload extends JwtPayload {
+    role: string;
+}
 
 const getAllUsers = async (): Promise<User[]> => {
     return [...(await userDb.getAllUsers())];
@@ -194,4 +199,59 @@ const updateUserRole = async (id: number, role: Role): Promise<User> => {
     return user;
 };
 
-export default { getAllUsers, getUserById, addUser, getUserByEmail, authenticate, updateUserRole };
+const grantSellerStatus = async (id: number, token: string): Promise<User> => {
+    const user = await getUserById(id);
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
+    }
+    if (decodedToken.role !== 'Admin' && decodedToken.role !== 'Owner') {
+        return user;
+    }
+    user.setSeller(true);
+    return await userDb.updateUser(user);
+};
+
+const revokeSellerStatus = async (id: number, token: string): Promise<User> => {
+    const user = await getUserById(id);
+
+    if (!token || token.split('.').length !== 3) {
+        throw new Error('Invalid token format');
+    }
+
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
+    if (!user) {
+        throw new Error(`User with id ${id} not found`);
+    }
+    if (decodedToken.role !== 'Admin' && decodedToken.role !== 'Owner') {
+        return user;
+    }
+    user.setSeller(false);
+    return await userDb.updateUser(user);
+};
+
+const deleteUser = async (userId: number, token: string): Promise<User | null> => {
+    if (!token || token.split('.').length !== 3) {
+        throw new Error('Invalid token format');
+    }
+
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
+
+    if (decodedToken.role !== 'Admin' && decodedToken.role !== 'Owner') {
+        throw new Error("Wrong role!")
+    }
+    await userDb.deleteUser(userId);
+    return null;
+};
+
+export default {
+    getAllUsers,
+    getUserById,
+    addUser,
+    getUserByEmail,
+    authenticate,
+    updateUserRole,
+    grantSellerStatus,
+    revokeSellerStatus,
+    deleteUser,
+};

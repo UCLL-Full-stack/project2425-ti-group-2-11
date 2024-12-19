@@ -1,9 +1,6 @@
 import { Role } from '../types';
 import { Address } from './address';
-import {User as UserPrisma,
-        Address as AddressPrisma
-}
-from '@prisma/client'
+import { User as UserPrisma, Address as AddressPrisma } from '@prisma/client';
 
 export class User {
     private id?: number;
@@ -97,19 +94,19 @@ export class User {
         this.address = address;
     };
 
+    
+    setNewsLetter = (newsLetter: boolean) => {
+        this.newsLetter = newsLetter;
+        };
+        
+        
+        */
+
     setSeller = (seller: boolean) => {
         this.seller = seller;
     };
-
-    setNewsLetter = (newsLetter: boolean) => {
-        this.newsLetter = newsLetter;
-    };
-
-
-    */
-
-   setRole = (role: Role) => {
-       this.role = role;
+    setRole = (role: Role) => {
+        this.role = role;
     };
 
     //getters
@@ -155,7 +152,7 @@ export class User {
         );
     }
 
-    static from ({
+    static from({
         id,
         name,
         phoneNumber,
@@ -165,8 +162,8 @@ export class User {
         seller,
         newsLetter,
         role,
-    }: UserPrisma & {address: AddressPrisma}) {
-        return new User ({
+    }: UserPrisma & { address: AddressPrisma }) {
+        return new User({
             id,
             name,
             phoneNumber,
@@ -176,6 +173,6 @@ export class User {
             seller,
             newsLetter,
             role: role as Role,
-        })
+        });
     }
 }

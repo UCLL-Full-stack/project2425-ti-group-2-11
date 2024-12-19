@@ -15,6 +15,19 @@ const getAllUsers = async (): Promise<User[]> => {
     }
 };
 
+const deleteUser = async (id: number) => {
+    try {
+        const userPrisma = await database.user.delete({
+            where: { id },
+            include: { address: true, ShoppingCart: true },
+        });
+        return userPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findUnique({
@@ -113,6 +126,7 @@ const updateUser = async (user: User): Promise<User> => {
                 phoneNumber: user.getPhoneNumber(),
                 emailAddress: user.getEmailAddress(),
                 password: user.getPassword(),
+                seller: user.getSeller(),
                 address: {
                     update: {
                         street: user.getAddress().getStreet(),
@@ -123,7 +137,6 @@ const updateUser = async (user: User): Promise<User> => {
                         country: user.getAddress().getCountry(),
                     },
                 },
-                seller: user.getSeller(),
                 newsLetter: user.getNewsLetter(),
                 role: user.getRole(),
             },
@@ -149,4 +162,12 @@ const updateUser = async (user: User): Promise<User> => {
     }
 };
 
-export default { getAllUsers, getUserByEmail, getUserById, addUser , getUserByPhoneNumber, updateUser};
+export default {
+    getAllUsers,
+    getUserByEmail,
+    getUserById,
+    addUser,
+    getUserByPhoneNumber,
+    updateUser,
+    deleteUser,
+};
