@@ -10,7 +10,7 @@ const useLanguage = () => {
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage && savedLanguage !== i18n.language) {
       changeLanguage(savedLanguage);
-      window.location.reload();
+      // window.location.reload();
     }
   }, []);
 
