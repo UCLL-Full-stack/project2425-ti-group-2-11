@@ -45,7 +45,7 @@ const swaggerOpts = {
         info: {
             title: 'UserBazaar',
             version: '1.0.0',
-            description: "API docs for user bazaar"
+            description:  "API docs for user bazaar. Please login first with the /users/login and copy the code inside the field you get when clicking the green button \'Authorize\'. \nUse email: Jhon.owner@userbazaar.com password: JhonsSuperSecretPassword\nAlways add products to the cart before asking the items in the cart, otherwise you get an empty list"
         },
     },
     apis: ['./controller/*.ts', './routes/*.ts'],

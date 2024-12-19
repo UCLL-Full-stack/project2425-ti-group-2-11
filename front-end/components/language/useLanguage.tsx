@@ -9,20 +9,21 @@ const useLanguage = () => {
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage && savedLanguage !== i18n.language) {
-      i18n.changeLanguage(savedLanguage);
-      router.push(router.pathname, router.asPath, { locale: savedLanguage });
+      changeLanguage(savedLanguage);
+      // window.location.reload();
     }
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
-  const handleLanguageChange = (language: string) => {
+  const changeLanguage = (language: string) => {
     if (language !== i18n.language) {
       i18n.changeLanguage(language);
       localStorage.setItem('language', language);
-      router.push(router.pathname, router.asPath, { locale: language });
+      router.push(router.asPath, router.asPath, { locale: language });
     }
   };
 
-  return { handleLanguageChange };
+  return { changeLanguage };
 };
 
 export default useLanguage;
+

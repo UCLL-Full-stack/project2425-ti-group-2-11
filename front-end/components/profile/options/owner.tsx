@@ -1,6 +1,7 @@
 import UserService from "@/services/UserService";
 import { Address, Role } from "@/types/types";
 import { jwtDecode } from "jwt-decode";
+import { Section } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ProfileProps {
@@ -31,17 +32,17 @@ const Owner: React.FC = () => {
     };
 
     useEffect(() => {
-            const fetchToken = async () => {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    const decoded = jwtDecode<ProfileProps>(token);
-                    if (decoded && decoded.userId) {
-                        setCurrentUserId(decoded.userId);
-                    }
+        const fetchToken = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const decoded = jwtDecode<ProfileProps>(token);
+                if (decoded && decoded.userId) {
+                    setCurrentUserId(decoded.userId);
                 }
             }
-            fetchToken()
-        }, [])
+        }
+        fetchToken()
+    }, [])
 
     useEffect(() => {
         getAllUsers();
@@ -69,28 +70,32 @@ const Owner: React.FC = () => {
     };
 
     return (
-        <div>
-            {users.map((user) => (
-                <div
-                    key={user.id}
-                    className="grid grid-cols-2 items-center gap-2 max-w-80 "
-                >
-                    <p className="pb-2 mt-2">{user.name}</p>
+        <>
+            <div className="w-full flex flex-col gap-3">
+                {users.map((user) =>
+                    <section
+                        className="flex rounded justify-between bg-white shadow-md py-2 px-2"
+                        key={user.id}>
+                        <p>{user.name}</p>
+                        <div className="flex gap-5">
+                            <select
+                                value={user.role || "Role not found"}
+                                onChange={(e) => handleChange(user.id, e.target.value as Role)}
+                                className="ml-2 p-1 rounded-lg bg-transparent text-black border-black border-2"
+                            >
+                                {roles.map((role) => (
+                                    <option key={role} value={role}>
+                                        {role}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </section>
+                )}
+            </div>
+        </>
 
-                    <select
-                        value={user.role || "Role not found"}
-                        onChange={(e) => handleChange(user.id, e.target.value as Role)}
-                        className="ml-2 p-1 rounded-lg bg-transparent text-black border-black border-2"
-                    >
-                        {roles.map((role) => (
-                            <option key={role} value={role}>
-                                {role}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            ))}
-        </div>
+
     );
 };
 

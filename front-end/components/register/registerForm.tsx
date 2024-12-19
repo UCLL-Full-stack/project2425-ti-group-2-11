@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import CountryOptions from "./CountryOptions";
 import Link from "next/link";
 import AnimatedCheckbox from "./AnimatedCheckbox";
+import Language from "../language/Language";
 
 interface FormData {
   name: string;
@@ -152,6 +153,9 @@ const RegisterForm: React.FC = () => {
   };
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="fixed top-0 right-0">
+        <Language />
+      </div>
       <div className="bg-white w-full max-w-md space-y-8 p-6 rounded-lg shadow-lg sm:p-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

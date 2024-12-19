@@ -2,15 +2,14 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import useLanguage from './useLanguage';
 
-
 const Language: React.FC = () => {
-  const { handleLanguageChange } = useLanguage();
+  const { changeLanguage } = useLanguage();
   const router = useRouter();
   const { locale } = router;
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = event.target.value;
-    handleLanguageChange(newLocale);
+    changeLanguage(newLocale);
   };
 
   return (
@@ -30,3 +29,4 @@ const Language: React.FC = () => {
 };
 
 export default Language;
+
