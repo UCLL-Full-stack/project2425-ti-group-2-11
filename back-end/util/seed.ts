@@ -71,13 +71,13 @@ const main = async () => {
         },
     });
 
-    const passwordJhon = await bcrypt.hash('XX', 12);
+    const passwordJhon = await bcrypt.hash('JhonsSuperSecretPassword', 12);
 
     const John = await prisma.user.create({
         data: {
             name: 'Jhon Doe',
             phoneNumber: '+32 123 45 67 89',
-            emailAddress: 'jhon@iets.be',
+            emailAddress: 'Jhon.owner@userbazaar.com',
             password: passwordJhon,
             seller: true,
             newsLetter: true,
@@ -129,7 +129,7 @@ const main = async () => {
         data: {
             name: 'Emily White',
             phoneNumber: '+32 499 22 33 44',
-            emailAddress: 'emily.white@domain.com',
+            emailAddress: 'Emily.admin@userbazaar.com',
             password: passwordEmily,
             seller: true,
             newsLetter: false,
@@ -337,7 +337,7 @@ const main = async () => {
         data: {
             name: 'Chris Brown',
             phoneNumber: '+32 488 77 66 55',
-            emailAddress: 'chris.brown@domain.com',
+            emailAddress: 'Chris.Brown@gmail.com',
             password: passwordChris,
             seller: false,
             newsLetter: true,
