@@ -3,33 +3,27 @@
  * paths:
  *  /users:
  *      get:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  *      post:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  *  /users/login:
  *      post:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  *  /users/register:
  *      post:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  * /users/{id}:
  *      get:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  * /users/updateRole/{userId}:
  *      put:
- *          description: ok
  *          tags:
- *          - User
+ *          - User Management
  * components:
  *   securitySchemes:
  *     bearerAuth:
