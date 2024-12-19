@@ -25,9 +25,9 @@ const Home: React.FC = () => {
         </header>
         <main className="flex-grow">
           <Main />
-          <div className="flex justify-center items-center">
+          {/* <div className="flex justify-center items-center">
             <LoginTable />
-          </div>
+          </div> */}
         </main>
       </div>
     </>
