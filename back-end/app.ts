@@ -9,6 +9,7 @@ import { productRouter } from './controller/product.routes';
 import errorHandler from './middelware/errorHandler';
 import { expressjwt } from 'express-jwt';
 import cartRouter from './controller/cart.routes';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -36,7 +37,7 @@ app.use(
             '/users/login',
             /^\/products\/(desc|asc)\/limit\/\d+$/,
         ],
-    })
+    }), helmet()
 );
 // const swaggerOpts = {};
 // const swaggerSpec = swaggerJSDoc(swaggerOpts);
