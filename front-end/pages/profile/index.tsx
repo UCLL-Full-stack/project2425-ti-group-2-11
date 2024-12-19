@@ -14,8 +14,10 @@ const Profile: React.FC = () => {
     }
   }, [router]);
   return (
-    <>
+    <><main>
+      <Navbar type="profile"/>
       <ProfileOverview />
+    </main>
     </>
   );
 };

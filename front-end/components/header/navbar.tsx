@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ShoppingCart, User, Search } from "lucide-react";
+import { ShoppingCart, User, Search, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ type?: string }> = ({ type }) => {
   const { t } = useTranslation();
-
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -19,6 +20,11 @@ const Navbar: React.FC = () => {
       }
     }
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -34,8 +40,63 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="hidden sm:flex items-center flex-1 px-4 flex justify-center">
-            <div className="relative w-full max-w-xl">
+          {type !== "profile" && (
+            <div className="hidden sm:flex items-center flex-1 px-4 flex justify-center">
+              <div className="relative w-full max-w-xl">
+                <input
+                  type="text"
+                  placeholder={t("navbar.search")}
+                  className="w-full py-2 pl-4 pr-10 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center">
+            {type !== "profile" && (
+              <Link href={isLoggedIn ? "/profile" : "/login"}>
+                <User className="h-6 w-6 text-gray-600 cursor-pointer mr-4 transition-colors hover:text-blue-500" />
+              </Link>
+            )}
+            {type === "profile" && (
+              <button
+                onClick={() => {
+                  logout();
+                }}
+                className="text-red-500 flex items-center hover:bg-red-300 hover:text-red-600 w-full px-2 py-2 mr-2 rounded-md"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </button>
+            )}
+
+            <Link href={isLoggedIn ? "/cart" : "/login"}>
+              <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
+            </Link>
+            {type !== "profile" && (
+              <button
+                className="ml-4 sm:hidden"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                aria-label="Toggle search"
+              >
+                <Search className="h-6 w-6 text-gray-600 transition-colors hover:text-blue-500" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {type !== "profile" && (
+        <div
+          className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isSearchOpen ? "max-h-16 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="px-4 py-2">
+            <div className="relative">
               <input
                 type="text"
                 placeholder={t("navbar.search")}
@@ -46,43 +107,8 @@ const Navbar: React.FC = () => {
               </div>
             </div>
           </div>
-
-          <div className="flex items-center">
-            <Link href={isLoggedIn ? "/profile" : "/login"}>
-              <User className="h-6 w-6 text-gray-600 cursor-pointer mr-4 transition-colors hover:text-blue-500" />
-            </Link>
-            <Link href={isLoggedIn ? "/cart" : "/login"}>
-              <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
-            </Link>
-            <button
-              className="ml-4 sm:hidden"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              aria-label="Toggle search"
-            >
-              <Search className="h-6 w-6 text-gray-600 transition-colors hover:text-blue-500" />
-            </button>
-          </div>
         </div>
-      </div>
-
-      <div
-        className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isSearchOpen ? "max-h-16 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="px-4 py-2">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder={t("navbar.search")}
-              className="w-full py-2 pl-4 pr-10 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </nav>
   );
 };
