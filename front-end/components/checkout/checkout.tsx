@@ -2,7 +2,9 @@ import { checkoutService } from "@/services/cartService";
 import { ShoppingCart } from "@/types/cartTypes";
 import { CreditCard, ShoppingBag } from "lucide-react";
 import Image from "next/image";
+import React from "react";
 import { useEffect, useState } from "react";
+import Modal from "react-modal";
 
 interface CheckoutProps {
   userId: number;
@@ -14,12 +16,23 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
   const [btw, setBtw] = useState<number>(0);
   const [shipping, setShipping] = useState<number>(0);
   const [selectedMethod, setSelectedMethod] = useState("card");
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
 
   const checkout = (userId: number, cart: ShoppingCart) => async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        return checkoutService(userId, cart, token);
+        const checkout = checkoutService(userId, cart, token);
+        if ((await checkout).ok) {
+          console.log("Checkout successful");
+          openModal();
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 3000);
+        }
       } else {
         throw new Error("Token is null");
       }
@@ -27,7 +40,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
       console.error("Error checking out:", error);
     }
   };
-  
+
   useEffect(() => {
     if (cart) {
       const calculatedBtw = cart.total * 0.21;
@@ -43,7 +56,16 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
   if (!cart) {
     return <div className="container mx-auto px-4 py-8">Loading...</div>;
   }
-
+  const customStyleModal = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="w-full max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -150,6 +172,17 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
           >
             Place Order
           </button>
+        </div>
+        <div className="">
+            
+          <Modal
+            isOpen={modalIsOpen}
+            contentLabel="Example Modal"
+            style={customStyleModal}
+          >
+            <p>Payment successful</p>
+            <p>redirecting to home page...</p>
+          </Modal>
         </div>
       </div>
     </div>
