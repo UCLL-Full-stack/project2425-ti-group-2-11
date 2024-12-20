@@ -25,19 +25,29 @@ const updateCart = async (userId: number, productId: number, quantity: number, i
     return await cartDB.updateCart(userId, itemId, productId, quantity);
 };
 
-const checkout = async (userId: number, cart: ShoppingCartService) => {
-    const newOrder = await cartDB.createOrder({
-        userId: userId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    });
-    for (const item of cart.items) {
-        console.log(item, item.productId, item.quantity);
-        await productDb.updateProductStock(item.productId, item.quantity);
-        await cartDB.addItemToOrder(newOrder.id, item.productId, item.quantity, cart.id);
-        await cartDB.removeFromCart(userId, item.id);
+export const checkout = async (userId: number, cart: any) => {
+    const existingCart = await cartDB.getCartByUserId(userId);
+
+    if (!existingCart) {
+        throw new Error('Cart not found');
     }
-    return true;
+
+    console.log('Existing cart items before checkout:', existingCart.items);
+    console.log('Cart items received for checkout:', cart.items);
+
+    const newOrder = await cartDB.createOrder(userId, cart.items);
+
+    await cartDB.clearCart(userId);
+
+    console.log('New order created:', newOrder);
+
+    return newOrder;
 };
 
-export default { addToCart, removeFromCart, getCartItems, updateCart, checkout };
+const getOrdersByUserId = async (userId: number) => {
+    const response = await cartDB.getOrdersByUserId(userId);
+    console.log('Orders fetched:', response);
+    return response;
+};
+
+export default { addToCart, removeFromCart, getCartItems, updateCart, checkout, getOrdersByUserId };

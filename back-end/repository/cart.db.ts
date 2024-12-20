@@ -1,4 +1,4 @@
-import { ShoppingCart, CartItem } from '@prisma/client';
+import { ShoppingCart, CartItem, Order } from '@prisma/client';
 import database from './database';
 import { productDb } from './product.db';
 
@@ -57,42 +57,32 @@ const addToCart = async (
     }
 };
 
-const removeFromCart = async (userId: number, itemId: number): Promise<ShoppingCart> => {
+export const removeFromCart = async (userId: number, itemId: number) => {
     try {
+        const cartItem = await database.cartItem.findUnique({
+            where: { id: itemId },
+        });
+
+        if (!cartItem) {
+            console.error(`Cart item not found: ${itemId}`);
+            return null;
+        }
+
         const cart = await database.shoppingCart.findFirst({
-            where: { userId },
-            include: { items: { include: { product: true } } },
+            where: { id: cartItem.shoppingCartId!, userId },
         });
 
         if (!cart) {
-            throw new Error('Cart not found');
+            console.error(`Cart item not found or does not belong to user: ${itemId}`);
+            return null;
         }
 
-        const existingItem = cart.items.find((item) => item.id === itemId);
-        if (!existingItem) {
-            throw new Error('Item not found in cart');
-        }
-
-        console.log(`Removing item ${itemId} from cart for user ${userId}`);
-        await database.cartItem.delete({
-            where: { id: existingItem.id },
+        return await database.cartItem.delete({
+            where: { id: itemId },
         });
-
-        const updatedCart = await database.shoppingCart.findFirst({
-            where: { id: cart.id },
-            include: { items: { include: { product: true } } },
-        });
-
-        if (!updatedCart) {
-            throw new Error('Failed to update cart');
-        }
-
-        console.log(`Cart updated for user ${userId}:`, updatedCart);
-
-        return updatedCart;
     } catch (error) {
         console.error('Error in removeFromCart:', error);
-        throw new Error('Database error. See server log for details.');
+        throw new Error('Failed to remove item from cart.');
     }
 };
 
@@ -192,10 +182,23 @@ const updateCart = async (
     }
 };
 
-const createOrder = async (orderData: { userId: number; createdAt: Date; updatedAt: Date }) => {
-    return await database.order.create({
-        data: orderData,
+export const createOrder = async (userId: number, items: any[]) => {
+    console.log('Creating order for user:', userId);
+    console.log('Items to be added to order:', items);
+
+    const newOrder = await database.order.create({
+        data: {
+            userId: userId,
+            items: {
+                create: items.map((item) => ({
+                    productId: item.productId,
+                    quantity: item.quantity,
+                })),
+            },
+        },
     });
+
+    return newOrder;
 };
 
 const addItemToOrder = async (
@@ -204,7 +207,7 @@ const addItemToOrder = async (
     quantity: number,
     shoppingCartId: number
 ) => {
-    return await database.cartItem.create({
+    const newItem = await database.cartItem.create({
         data: {
             orderId: orderId,
             productId: productId,
@@ -212,6 +215,56 @@ const addItemToOrder = async (
             shoppingCartId: shoppingCartId,
         },
     });
+
+    await database.order.update({
+        where: { id: orderId },
+        data: {
+            items: {
+                connect: { id: newItem.id },
+            },
+        },
+    });
+
+    return newItem;
+};
+
+const getOrdersByUserId = async (userId: number) => {
+    return await database.order.findMany({
+        where: {
+            userId: userId,
+        },
+        include: {
+            items: {
+                include: {
+                    product: true,
+                },
+            },
+        },
+    });
+};
+
+const getCartByUserId = async (userId: number) => {
+    return await database.shoppingCart.findFirst({
+        where: { userId },
+        include: { items: { include: { product: true } } },
+    });
+};
+
+const clearCart = async (userId: number) => {
+    const cart = await database.shoppingCart.findFirst({
+        where: { userId },
+        include: { items: true },
+    });
+    if (!cart) {
+        throw new Error('Cart not found');
+    }
+    await database.cartItem.deleteMany({
+        where: {
+            shoppingCartId: cart.id,
+        },
+    });
+
+    return cart;
 };
 export default {
     addToCart,
@@ -221,4 +274,7 @@ export default {
     updateCart,
     createOrder,
     addItemToOrder,
+    getOrdersByUserId,
+    clearCart,
+    getCartByUserId,
 };

@@ -153,7 +153,7 @@ function useShoppingCart(userId: number) {
       });
     }
   };
-
+  console.log(cart);
   return { cart, loading, error, updateQuantity, removeItem };
 }
 

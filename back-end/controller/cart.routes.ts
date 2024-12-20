@@ -78,7 +78,6 @@ cartRouter.get('/items/:userId', async (req: Request, res: Response, next: NextF
     }
 });
 
-
 /**
  * @swagger
  * /cart/add/{userId}:
@@ -123,7 +122,13 @@ cartRouter.get('/items/:userId', async (req: Request, res: Response, next: NextF
  */
 cartRouter.post('/add/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.send(await cartService.addToCart(Number(req.params.userId), Number(req.body.productId), Number(req.body.quantity)));
+        res.send(
+            await cartService.addToCart(
+                Number(req.params.userId),
+                Number(req.body.productId),
+                Number(req.body.quantity)
+            )
+        );
     } catch (error) {
         next(error);
     }
@@ -169,7 +174,9 @@ cartRouter.post('/add/:userId', async (req: Request, res: Response, next: NextFu
  */
 cartRouter.delete('/remove/:userId/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.send(await cartService.removeFromCart(Number(req.params.userId), Number(req.body.productId)));
+        res.send(
+            await cartService.removeFromCart(Number(req.params.userId), Number(req.body.productId))
+        );
     } catch (error) {
         next(error);
     }
@@ -224,7 +231,14 @@ cartRouter.delete('/remove/:userId/', async (req: Request, res: Response, next: 
 cartRouter.put('/update/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { itemId, productId, quantity } = req.body;
-        res.send(await cartService.updateCart(Number(req.params.userId), Number(productId),  Number(quantity), Number(itemId)));
+        res.send(
+            await cartService.updateCart(
+                Number(req.params.userId),
+                Number(productId),
+                Number(quantity),
+                Number(itemId)
+            )
+        );
     } catch (error) {
         next(error);
     }
@@ -277,7 +291,52 @@ cartRouter.put('/update/:userId', async (req: Request, res: Response, next: Next
  */
 cartRouter.delete('/checkout/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.send(await cartService.checkout(Number(req.params.userId), req.body.cart));
+        const { userId } = req.params;
+        const { cart } = req.body;
+
+        console.log('Received cart for checkout:', cart);
+
+        const newOrder = await cartService.checkout(Number(userId), cart);
+
+        res.status(200).send(newOrder);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /cart/orders/{userId}:
+ *   get:
+ *     summary: Get all orders for a user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *     responses:
+ *       200:
+ *         description: A list of orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+cartRouter.get('/orders/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const response = await cartService.getOrdersByUserId(Number(req.params.userId));
+        console.log('Orders fetched routes:', response);
+        res.send(response);
     } catch (error) {
         next(error);
     }
