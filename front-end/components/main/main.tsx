@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 import { StatusMessage, StatusMessageContainer } from "./status-message";
 import { AllProducts } from "./AllProducts";
 import { fetchProducts } from "@/services/mainService";
+import { useRouter } from "next/router";
 
 interface Product {
   id: number;
@@ -15,6 +16,7 @@ interface Product {
   price: number;
   media: string;
   stock: number;
+  details: string
 }
 interface Message {
   id: string;
@@ -64,6 +66,12 @@ export default function Home() {
     fetchDataDynamic();
   }, [amountLoaded10]);
 
+  const router = useRouter();
+  const handleClick = (id: number) => {
+    router.push(`/products/${id}`);
+  }
+
+
   return (
     <>
       <div className="container mx-auto px-4 my-12">
@@ -86,14 +94,16 @@ export default function Home() {
           <div className="hidden md:block">
             <ScrollableRow
               items={products10.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  name={product.name}
-                  price={product.price}
-                  media={product.media}
-                  productId={product.id}
-                  onMessage={handleMessage}
-                />
+                <button onClick={() => handleClick(product.id)}>
+                  <ProductCard
+                    key={product.id}
+                    name={product.name}
+                    price={product.price}
+                    media={product.media}
+                    productId={product.id}
+                    onMessage={handleMessage}
+                  />
+                </button>
               ))}
             />
           </div>
