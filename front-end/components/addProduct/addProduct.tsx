@@ -3,11 +3,17 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { addProductType } from "@/types/cartTypes";
 import axios from "axios";
+import Modal from "react-modal";
+import router from "next/router";
 
 const addProduct: React.FC = () => {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
+  function openModal() {
+    setIsOpen(true);
+  }
   const [formData, setFormData] = useState<addProductType>({
     name: "",
     description: "",
@@ -16,6 +22,17 @@ const addProduct: React.FC = () => {
     price: 0,
     details: "",
   });
+
+  const customStyleModal = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -82,8 +99,19 @@ const addProduct: React.FC = () => {
     console.log(formData);
     try {
       const response = await postProduct(formData);
-      console.log(response);
-    } catch (error) {}
+      console.log("Response:", response);
+      if (response && response.ok) {
+        console.log("File uploaded successfully");
+        openModal();
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      } else {
+        console.error("Failed to upload file:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleChange = (
@@ -213,6 +241,10 @@ const addProduct: React.FC = () => {
             {t("product.disclaimer")}
           </footer>
         </div>
+        <Modal isOpen={modalIsOpen} contentLabel="" style={customStyleModal}>
+          <p>{t("product.success")}</p>
+          <p>{t("product.redirect")}</p>
+        </Modal>
       </div>
     </>
   );

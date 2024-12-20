@@ -48,7 +48,10 @@
     "price": "Price",
     "details": "Details",
     "add": "Add Product",
-    "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images"
+    "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images",
+    "success": "Product added successfully",
+    "redirect": "You will be redirected to the homepage in 3 seconds"
+
   },
   "cart": {
     "title": "Shopping Cart",

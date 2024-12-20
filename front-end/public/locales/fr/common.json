@@ -48,7 +48,9 @@
     "price": "Prix",
     "details": "Détails",
     "add": "Ajouter un Produit",
-    "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images."
+    "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images.",
+    "success": "Produit ajouté avec succès",
+    "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes"
   },
   "cart": {
     "title": "Panier",
@@ -71,6 +73,7 @@
     "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes",
     "loading": "Chargement...",
     "total": "Total"
+    
   },
   "language": "Langue",
   "overview": "Aperçu",

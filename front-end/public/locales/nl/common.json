@@ -48,7 +48,9 @@
     "price": "Prijs",
     "details": "Details",
     "add": "Product Toevoegen",
-    "disclaimer": "*We ondersteunen momenteel alleen het toevoegen van afbeeldingen via een link. Het uploaden van uw eigen afbeeldingen wordt niet ondersteund."
+    "disclaimer": "*We ondersteunen momenteel alleen het toevoegen van afbeeldingen via een link. Het uploaden van uw eigen afbeeldingen wordt niet ondersteund.",
+    "success": "Product succesvol toegevoegd",
+    "redirect": "U wordt over 3 seconden doorgestuurd naar de startpagina"
   },
   "cart": {
     "title": "Winkelwagen",

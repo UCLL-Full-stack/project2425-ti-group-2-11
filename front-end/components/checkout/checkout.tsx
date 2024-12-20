@@ -17,7 +17,7 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
   const [btw, setBtw] = useState<number>(0);
   const [shipping, setShipping] = useState<number>(0);
   const [selectedMethod, setSelectedMethod] = useState("card");
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() {
     setIsOpen(true);
   }
@@ -182,7 +182,6 @@ const CheckoutComponent: React.FC<CheckoutProps> = ({ userId, cart }) => {
         <div className="">
           <Modal
             isOpen={modalIsOpen}
-            contentLabel="Example Modal"
             style={customStyleModal}
           >
             <p>{t("checkout.success")}</p>

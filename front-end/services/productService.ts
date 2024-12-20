@@ -32,5 +32,5 @@ export const postProduct = async (product: addProductType) => {
     if (!res.ok) {
         throw new Error("Failed to add product");
     }
-    return res.json();
+    return res;
 }
