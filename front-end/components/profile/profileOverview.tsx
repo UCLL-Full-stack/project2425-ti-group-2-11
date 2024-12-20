@@ -5,12 +5,13 @@ import Overview from './options/overview';
 import Setting from './options/settings';
 import Bills from './options/bills';
 import Orders from './options/orders';
-import { useTranslation } from 'next-i18next';
+import { i18n, useTranslation } from 'next-i18next';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
 import Admin from './options/admin';
 import Owner from './options/owner';
+import useLanguage from '../language/useLanguage';
 
 interface ProfileProps {
     userId?: number;
@@ -32,6 +33,8 @@ const Selector: React.FC = () => {
     const [user, setUser] = useState<any>();
     const [admin, setAdmin] = useState<boolean>(false);
     const [owner, setOwner] = useState<boolean>(false);
+    const { changeLanguage } = useLanguage();
+    const [currentLanguage, setCurrentLanguage] = useState(i18n?.language || 'en');
 
     const router = useRouter();
 
@@ -69,17 +72,33 @@ const Selector: React.FC = () => {
     const [allNavItems, setAllNavItems] = useState([...navItems]);
 
     useEffect(() => {
+      const handleLanguageChange = () => {
+        if (i18n) {
+            setCurrentLanguage(i18n.language);
+        }
+      };
+
+      if (i18n) {
+        i18n.on('languageChanged', handleLanguageChange);
+      }
+
+      return () => {
+        i18n?.off('languageChanged', handleLanguageChange);
+      };
+    }, [i18n]);
+
+    useEffect(() => {
         if (user) {
-            let allNavItems = [...navItems];
+            let updatedNavItems = [...navItems];
             if (user.role === "Admin") {
-                allNavItems = [...allNavItems, adminItem];
+                updatedNavItems = [...updatedNavItems, adminItem];
             }
             if (user.role === "Owner") {
-                allNavItems = [...allNavItems, ownerItem];
+                updatedNavItems = [...updatedNavItems, ownerItem];
             }
-            setAllNavItems(allNavItems);
+            setAllNavItems(updatedNavItems);
         }
-    }, [user]);
+    }, [user, currentLanguage]);
 
     const renderAllOptions = () => {
         const selectedItem = allNavItems.find((item) => item.id === selectedOption);
