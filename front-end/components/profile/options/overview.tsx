@@ -128,7 +128,7 @@ const Overview: React.FC = () => {
                 </div>
                 <div className='flex items-center'>
                     <Tooltip
-                        title={'user since'}
+                        title={t('usersince')}
                         placement='bottom'>
                         <div className='flex items-center'>
                             <Calendar className='mr-2' />
