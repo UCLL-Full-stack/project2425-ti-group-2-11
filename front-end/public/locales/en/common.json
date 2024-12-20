@@ -50,8 +50,8 @@
     "add": "Add Product",
     "disclaimer": "*We currently only support adding images via a link. We don't support uploading your own images",
     "success": "Product added successfully",
-    "redirect": "You will be redirected to the homepage in 3 seconds"
-
+    "redirect": "You will be redirected to the homepage in 3 seconds",
+    "hurry": "Hurry, only a few items left in stock!"
   },
   "cart": {
     "title": "Shopping Cart",
@@ -75,6 +75,15 @@
     "loading": "Loading...",
     "total": "Total"
   },
+  "order": {
+    "number": "Order Number",
+    "boughtat": "Bought At",
+    "items": "Items",
+    "productname": "Product Name",
+    "quantity": "Quantity",
+    "price": "Price",
+    "description": "Description"
+  },
   "language": "Language",
   "overview": "Overview",
   "settings": "Settings",
@@ -82,5 +91,9 @@
   "orders": "Orders",
   "logout": "Logout",
   "isseller": "You are a seller",
-  "noseller": "You are not a seller"
+  "noseller": "You are not a seller",
+  "owneroptions": "Owner options",
+  "adminoptions": "Admin options",
+  "allusers": "All Users",
+  "allproducts": "All Products"
 }

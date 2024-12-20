@@ -1,17 +1,18 @@
-import { User, Settings, FileText, ShoppingBag, Shield } from "lucide-react";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import Overview from "./options/overview";
-import Setting from "./options/settings";
-import Bills from "./options/bills";
-import Orders from "./options/orders";
-import { useTranslation } from "next-i18next";
-import UserService from "@/services/UserService";
-import { jwtDecode } from "jwt-decode";
-import { Address, Role } from "@/types/types";
-import Admin from "./options/admin";
-import Owner from "./options/owner";
-import ProductCatalog from "./options/productcatalog";
+import { User, Settings, FileText, ShoppingBag, Shield } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import Overview from './options/overview';
+import Setting from './options/settings';
+import Bills from './options/bills';
+import Orders from './options/orders';
+import { i18n, useTranslation } from 'next-i18next';
+import UserService from '@/services/UserService';
+import { jwtDecode } from 'jwt-decode';
+import { Address, Role } from '@/types/types';
+import Admin from './options/admin';
+import Owner from './options/owner';
+import useLanguage from '../language/useLanguage';
+import ProductCatalog from './options/productcatalog';
 
 interface ProfileProps {
   userId?: number;
@@ -26,13 +27,15 @@ interface ProfileProps {
 }
 
 const Selector: React.FC = () => {
-  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-  const [selectedOption, setSelectedOptions] = useState<string>("overview");
-  const { t } = useTranslation();
-  const [userId, setUserId] = useState<number>();
-  const [user, setUser] = useState<any>();
-  const [admin, setAdmin] = useState<boolean>(false);
-  const [owner, setOwner] = useState<boolean>(false);
+    const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+    const [selectedOption, setSelectedOptions] = useState<string>('overview');
+    const { t } = useTranslation();
+    const [userId, setUserId] = useState<number>();
+    const [user, setUser] = useState<any>();
+    const [admin, setAdmin] = useState<boolean>(false);
+    const [owner, setOwner] = useState<boolean>(false);
+    const { changeLanguage } = useLanguage();
+    const [currentLanguage, setCurrentLanguage] = useState(i18n?.language || 'en');
 
   const router = useRouter();
 
@@ -69,7 +72,6 @@ const Selector: React.FC = () => {
     id: "owner",
     component: <Owner />,
   };
-
   const productCatalogItem = {
     name: `${t("Product Catalog")}`,
     icon: FileText,
@@ -117,6 +119,34 @@ const Selector: React.FC = () => {
       setAllNavItems(allNavItems);
     }
   }, [user]);
+    useEffect(() => {
+      const handleLanguageChange = () => {
+        if (i18n) {
+            setCurrentLanguage(i18n.language);
+        }
+      };
+
+      if (i18n) {
+        i18n.on('languageChanged', handleLanguageChange);
+      }
+
+      return () => {
+        i18n?.off('languageChanged', handleLanguageChange);
+      };
+    }, [i18n]);
+
+    useEffect(() => {
+        if (user) {
+            let updatedNavItems = [...navItems];
+            if (user.role === "Admin") {
+                updatedNavItems = [...updatedNavItems, adminItem];
+            }
+            if (user.role === "Owner") {
+                updatedNavItems = [...updatedNavItems, ownerItem];
+            }
+            setAllNavItems(updatedNavItems);
+        }
+    }, [user, currentLanguage]);
 
   const renderAllOptions = () => {
     const selectedItem = allNavItems.find((item) => item.id === selectedOption);

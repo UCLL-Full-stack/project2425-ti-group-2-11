@@ -76,7 +76,7 @@ const Navbar: React.FC<{ type?: string; user?: User }> = ({ type, user }) => {
                 className="text-red-500 flex items-center hover:bg-red-300 hover:text-red-600 w-full px-2 py-2 mr-2 rounded-md"
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
+                <span>{t('logout')}</span>
               </button>
             )}
 
