@@ -79,9 +79,5 @@
   "orders": "Bestellingen",
   "logout": "Uitloggen",
   "isseller": "U bent een verkoper",
-  "noseller": "U bent geen verkoper",
-  "usersince": "Gebruiker sinds",
-  "owneroptions": "Eigenaaropties",
-  "adminoptions": "Beheerderopties",
-  "allusers": "Alle Gebruikers"
+  "noseller": "U bent geen verkoper"
 }

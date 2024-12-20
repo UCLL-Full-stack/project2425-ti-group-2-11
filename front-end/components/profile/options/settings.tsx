@@ -55,8 +55,7 @@ const Settings: React.FC = () => {
         }
     }, [user]);
 
-    const updateSeller = () => { } // here to satisfy the requirment to have an onchange function in the animatedCheckbox.
-                                  // Does nothing because users can't change their own seller status
+    const updateSeller = () => { } // here to satisfy the requirment to have an onchange function in the animatedCheckbox, does nothing
 
     return (
         <>

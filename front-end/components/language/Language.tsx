@@ -10,7 +10,6 @@ const Language: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = event.target.value;
     changeLanguage(newLocale);
-    router.reload();
   };
 
   return (

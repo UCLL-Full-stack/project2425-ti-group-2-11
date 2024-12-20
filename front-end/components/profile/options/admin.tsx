@@ -9,12 +9,10 @@ import {
 } from "@/services/UserService";
 import { Store, Trash } from "lucide-react";
 import Tooltip from "@mui/material/Tooltip";
-import { useTranslation } from "react-i18next";
 
 const Admin: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [token, setToken] = useState<string | null>(null);
-  const {t} = useTranslation();
 
   interface DecodedToken {
     name: string;
@@ -109,7 +107,7 @@ const Admin: React.FC = () => {
     return (
       <>
         <div>
-          <h1 className="mb-3">{t('allusers')}</h1>
+          <h1 className="mb-3">All users</h1>
         </div>
         <div className="w-full flex flex-col gap-3">
           {users.map(

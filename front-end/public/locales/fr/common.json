@@ -79,9 +79,5 @@
   "orders": "Commandes",
   "logout": "Déconnecter",
   "isseller": "Vous êtes un vendeur",
-  "noseller": "Vous n'êtes pas un vendeur",
-  "usersince": "Utilisateur depuis",
-  "owneroptions": "Options du propriétaire",
-  "adminoptions": "Options de l'administrateur",
-  "allusers": "Tout utilisateur"
+  "noseller": "Vous n'êtes pas un vendeur"
 }
