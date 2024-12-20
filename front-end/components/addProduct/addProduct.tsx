@@ -102,10 +102,10 @@ const addProduct: React.FC = () => {
       console.log("Response:", response);
       if (response && response.ok) {
         console.log("File uploaded successfully");
-        // openModal();
-        // setTimeout(() => {
-        //   router.push("/");
-        // }, 3000);
+        openModal();
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
       } else {
         console.error("Failed to upload file:", response.statusText);
       }
