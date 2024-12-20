@@ -63,6 +63,8 @@ const addUser = async (user: User): Promise<User> => {
                 seller: user.getSeller(),
                 newsLetter: user.getNewsLetter(),
                 role: user.getRole(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
             },
         });
         return User.from({
