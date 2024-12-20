@@ -79,5 +79,9 @@
   "orders": "Orders",
   "logout": "Logout",
   "isseller": "You are a seller",
-  "noseller": "You are not a seller"
+  "noseller": "You are not a seller",
+  "usersince": "User since",
+  "owneroptions": "Owner options",
+  "adminoptions": "Admin options",
+  "allusers": "All Users"
 }

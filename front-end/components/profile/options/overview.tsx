@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { User, AtSign, Phone, House, CircleDollarSign } from 'lucide-react';
+import { User, AtSign, Phone, House, CircleDollarSign, Calendar } from 'lucide-react';
 import UserService from '@/services/UserService';
 import { jwtDecode } from 'jwt-decode';
 import { Address, Role } from '@/types/types';
 import { useTranslation } from 'next-i18next';
+import { Tooltip } from '@mui/material';
 
 interface ProfileProps {
     userId?: number;
@@ -15,6 +16,7 @@ interface ProfileProps {
     seller: boolean;
     newsLetter: boolean;
     role: Role;
+    createdAt: Date;
 }
 
 const Overview: React.FC = () => {
@@ -31,12 +33,14 @@ const Overview: React.FC = () => {
     const [state, setState] = useState<string>('');
     const [counter, setCounter] = useState<number>(0);
     const [isSeller, setIsSeller] = useState<string>("");
-    const {t} = useTranslation();
+    const [createdAt, setCreatedAt] = useState<Date>();
+    const { t } = useTranslation();
 
     const fetchUser = async (userId: number) => {
         try {
             const user = await UserService.getUser(userId);
             setUser(user);
+            console.log(user);
         } catch (error) {
             console.error('Failed to fetch user data:', error);
         }
@@ -64,6 +68,7 @@ const Overview: React.FC = () => {
             setName(user.name || '');
             setEmail(user.emailAddress || '');
             setPhoneNumber(user.phoneNumber || '');
+            setCreatedAt(new Date(user.createdAt));
             if (user.seller) {
                 setIsSeller(`${t('isseller')}`)
             } else {
@@ -100,7 +105,7 @@ const Overview: React.FC = () => {
 
     return (
         <>
-            <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4">
+            <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4 p-2">
                 <div className="flex items-center">
                     <User className="mr-2" />
                     {name}
@@ -114,12 +119,22 @@ const Overview: React.FC = () => {
                     {phoneNumber}
                 </div>
                 <div className='flex items-center'>
-                    <CircleDollarSign className='mr-2'/>
+                    <CircleDollarSign className='mr-2' />
                     {isSeller}
                 </div>
                 <div className='flex items-center'>
-                    <House className='mr-2'/>
+                    <House className='mr-2' />
                     {street} {houseNumber}, {postalCode} {city} {country}
+                </div>
+                <div className='flex items-center'>
+                    <Tooltip
+                        title={t('usersince')}
+                        placement='bottom'>
+                        <div className='flex items-center'>
+                            <Calendar className='mr-2' />
+                            {createdAt?.toLocaleDateString()}
+                        </div>
+                    </Tooltip>
                 </div>
             </div>
         </>

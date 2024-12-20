@@ -12,6 +12,7 @@ export class User {
     private seller: boolean;
     private newsLetter: boolean;
     private role: Role;
+    private createdAt?: Date;
 
     constructor(user: {
         id?: number;
@@ -23,6 +24,7 @@ export class User {
         seller: boolean;
         newsLetter: boolean;
         role: Role;
+        createdAt?: Date;
     }) {
         this.validate(user);
         this.id = user.id;
@@ -34,6 +36,7 @@ export class User {
         this.seller = user.seller;
         this.newsLetter = user.newsLetter;
         this.role = user.role;
+        this.createdAt = user.createdAt;
     }
 
     validate(user: {
@@ -94,12 +97,12 @@ export class User {
         this.address = address;
     };
 
-    
+
     setNewsLetter = (newsLetter: boolean) => {
         this.newsLetter = newsLetter;
         };
-        
-        
+
+
         */
 
     setSeller = (seller: boolean) => {
@@ -137,6 +140,9 @@ export class User {
     getRole(): Role {
         return this.role;
     }
+    getcreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
 
     equals(user: User): boolean {
         return (
@@ -162,6 +168,7 @@ export class User {
         seller,
         newsLetter,
         role,
+        createdAt,
     }: UserPrisma & { address: AddressPrisma }) {
         return new User({
             id,
@@ -173,6 +180,7 @@ export class User {
             seller,
             newsLetter,
             role: role as Role,
+            createdAt,
         });
     }
 }
