@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ShoppingCart, User, Search, LogOut } from "lucide-react";
+import {
+  ShoppingCart,
+  User as UserIcon,
+  Search,
+  LogOut,
+  ShoppingBag,
+} from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { User } from "@/types/types";
 
-const Navbar: React.FC<{ type?: string }> = ({ type }) => {
+const Navbar: React.FC<{ type?: string; user?: User }> = ({ type, user }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,7 +65,7 @@ const Navbar: React.FC<{ type?: string }> = ({ type }) => {
           <div className="flex items-center">
             {type !== "profile" && (
               <Link href={isLoggedIn ? "/profile" : "/login"}>
-                <User className="h-6 w-6 text-gray-600 cursor-pointer mr-4 transition-colors hover:text-blue-500" />
+                <UserIcon className="h-6 w-6 text-gray-600 cursor-pointer mr-4 transition-colors hover:text-blue-500" />
               </Link>
             )}
             {type === "profile" && (
@@ -74,8 +81,13 @@ const Navbar: React.FC<{ type?: string }> = ({ type }) => {
             )}
 
             <Link href={isLoggedIn ? "/cart" : "/login"}>
-              <ShoppingCart className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
+              <ShoppingCart className="h-6 w-6 mr-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
             </Link>
+            {user?.seller && (
+              <Link href={isLoggedIn ? "/addproduct" : "/login"}>
+                <ShoppingBag className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
+              </Link>
+            )}
             {type !== "profile" && type !== "cart" && (
               <button
                 className="ml-4 sm:hidden"

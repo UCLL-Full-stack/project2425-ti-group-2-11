@@ -102,3 +102,11 @@ productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 });
+
+productRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(await productService.createProduct(req.body));
+    } catch (error) {
+        next(error);
+    }
+});

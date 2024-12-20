@@ -19,7 +19,7 @@ const Profile: React.FC = () => {
           rel="stylesheet"
         />
       </Head>
-      <main className="min-h-screen flex flex-col justify-center gap-5">
+      <main className="min-h-screen flex flex-col justify-center gap-5 overscroll-y-contain">
         <LoginForm />
         <div className="flex justify-center items-center">
           <LoginTable />

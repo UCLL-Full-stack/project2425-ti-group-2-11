@@ -8,7 +8,7 @@ export interface Product {
 
 }
 export type CartItem = {
-  id: string;
+  id?: string;
   quantity: number;
   product: Product;
   productId: number;
@@ -19,3 +19,13 @@ export type ShoppingCart = {
   items: CartItem[];
   total: number;
 };
+
+export type addProductType = {
+  id?: number;
+  name: string;
+  description: string;
+  stock: number;
+  media: string;
+  price: number;
+  details: string;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrdersByUserId } from "@/services/cartService";
 import { jwtDecode } from "jwt-decode";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Orders: React.FC = () => {
   interface DecodedToken {
@@ -31,6 +32,14 @@ const Orders: React.FC = () => {
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [token, setToken] = useState<string | null>(null);
+  const [collapsed, setCollapsed] = useState<{ [key: number]: boolean }>({});
+
+  const toggleCollapse = (orderId: number) => {
+    setCollapsed((prevState) => ({
+      ...prevState,
+      [orderId]: !prevState[orderId],
+    }));
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -51,7 +60,15 @@ const Orders: React.FC = () => {
         }
         const data = await response.json();
         setOrders(data);
-        console.log(data);
+
+        const initialCollapsedState = data.reduce(
+          (acc: { [key: number]: boolean }, order: Order) => {
+            acc[order.id] = true;
+            return acc;
+          },
+          {}
+        );
+        setCollapsed(initialCollapsedState);
       }
     };
     fetchOrders();
@@ -63,26 +80,48 @@ const Orders: React.FC = () => {
         <p>No orders found.</p>
       ) : (
         orders.map((order) => (
-          <div key={order.id} className="bg-gray-100 p-4 my-4">
-            <h3>Order ID: {order.id}</h3>
-            <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
-            <p>Updated At: {new Date(order.updatedAt).toLocaleString()}</p>
-            <h4>Items:</h4>
-            <ul>
-              {order.items.map((item) => (
-                <li key={item.id}>
-                  <p>Product Name: {item.product.name}</p>
-                  <p>Description: {item.product.description}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Price: ${item.product.price}</p>
-                  <img
-                    src={item.product.media}
-                    alt={item.product.name}
-                    width="100"
-                  />
-                </li>
-              ))}
-            </ul>
+          <div
+            key={order.id}
+            onClick={() => toggleCollapse(order.id)}
+            className="cursor-pointer bg-white rounded shadow-md p-4 my-4"
+          >
+            <div className="flex justify-between">
+              <div>
+                <h3>Order number: {order.id}</h3>
+                <p>Bought At: {new Date(order.createdAt).toLocaleString()}</p>
+                <h4>Items:</h4>
+              </div>
+              <div>
+                {collapsed[order.id] ? (
+                  <ChevronDown size={24} />
+                ) : (
+                  <ChevronUp size={24} />
+                )}
+              </div>
+            </div>
+            {!collapsed[order.id] && (
+              <ul>
+                {order.items.map((item) => (
+                  <li key={item.id} className="flex flex-row items-center">
+                    <img
+                      src={item.product.media}
+                      alt={item.product.name}
+                      width="100"
+                    />
+                    <div className="flex flex-col ml-4 w-full h-full">
+                      <p>Product Name: {item.product.name}</p>
+                      <p>Quantity: {item.quantity}</p>
+                      <p>Price: ${item.product.price}</p>
+                    </div>
+                    <div className="flex flex-col ml-4 w-full h-full justify-start">
+                      <p className="w-full min-h-full">
+                        Description: {item.product.description}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))
       )}
