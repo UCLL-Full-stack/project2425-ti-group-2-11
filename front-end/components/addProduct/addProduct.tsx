@@ -2,7 +2,6 @@ import { postProduct } from "@/services/productService";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { addProductType } from "@/types/cartTypes";
-import axios from "axios";
 import Modal from "react-modal";
 import router from "next/router";
 
@@ -21,6 +20,7 @@ const addProduct: React.FC = () => {
     stock: 0,
     price: 0,
     details: "",
+    userId: 0,
   });
 
   const customStyleModal = {
@@ -102,10 +102,10 @@ const addProduct: React.FC = () => {
       console.log("Response:", response);
       if (response && response.ok) {
         console.log("File uploaded successfully");
-        openModal();
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
+        // openModal();
+        // setTimeout(() => {
+        //   router.push("/");
+        // }, 3000);
       } else {
         console.error("Failed to upload file:", response.statusText);
       }

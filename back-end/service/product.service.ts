@@ -19,4 +19,16 @@ const createProduct = async (product: any) => {
     const newProduct = await productDb.createProduct(product);
     return newProduct;
 };
-export default { getAllProducts, getProductsLimitDesc, getProductById, createProduct };
+
+const getProductCatalog = async (userId: number) => {
+    const productCatalog = await productDb.getProductCatalog(userId);
+    return productCatalog;
+};
+
+export default {
+    getAllProducts,
+    getProductsLimitDesc,
+    getProductById,
+    createProduct,
+    getProductCatalog,
+};

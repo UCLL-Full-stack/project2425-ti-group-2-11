@@ -1,11 +1,13 @@
 export interface Product {
+  updatedAt: string | number | Date;
+  createdAt: string | number | Date;
   id: number;
   name: string;
   price: number;
   media: string;
   stock: number;
   details: string;
-
+  description: string;
 }
 export type CartItem = {
   id?: string;
@@ -28,4 +30,5 @@ export type addProductType = {
   media: string;
   price: number;
   details: string;
+  userId?: number;
 }

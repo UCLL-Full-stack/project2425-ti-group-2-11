@@ -119,7 +119,11 @@ function useShoppingCart(userId: number) {
         (cartItem) => cartItem.id === item.id
       )?.product;
       if (product) {
-        await updateQuantityInDatabase(item.id, item.productId, newQuantity);
+        if (item.id) {
+          await updateQuantityInDatabase(item.id, item.productId, newQuantity);
+        } else {
+          console.error("Item ID is undefined");
+        }
       }
     }
   };
@@ -228,7 +232,7 @@ export default function ShoppingCart({ userId }: ShoppingCartProps) {
                     className="w-16 px-2 py-1 text-center border rounded"
                   />
                   <button
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => item.id && removeItem(item.id)}
                     className="p-2 text-sm text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
                     <Trash size={16} />

@@ -3,7 +3,7 @@ import LoginForm from "@/components/login/loginForm";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import LoginTable from "@/components/loginTable/loginTable";
-import AddProduct from "@/components/addProduct/addProduct";
+import AddProduct from "@/components/addProduct/addproduct";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();

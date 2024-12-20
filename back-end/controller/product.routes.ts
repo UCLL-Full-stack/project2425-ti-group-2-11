@@ -32,8 +32,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import productService from '../service/product.service';
 
-
-
 const productRouter = express.Router();
 
 /**
@@ -105,7 +103,16 @@ productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction
 
 productRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log('req.body', req.body)
         res.send(await productService.createProduct(req.body));
+    } catch (error) {
+        next(error);
+    }
+});
+
+productRouter.get('/catalog/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(await productService.getProductCatalog(Number(req.params.userId)));
     } catch (error) {
         next(error);
     }
