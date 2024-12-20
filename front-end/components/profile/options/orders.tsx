@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrdersByUserId } from "@/services/cartService";
 import { jwtDecode } from "jwt-decode";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const Orders: React.FC = () => {
   interface DecodedToken {
@@ -84,9 +85,20 @@ const Orders: React.FC = () => {
             onClick={() => toggleCollapse(order.id)}
             className="cursor-pointer bg-white rounded shadow-md p-4 my-4"
           >
-            <h3>Order ID: {order.id}</h3>
-            <p>Bought At: {new Date(order.createdAt).toLocaleString()}</p>
-            <h4>Items:</h4>
+            <div className="flex justify-between">
+              <div>
+                <h3>Order number: {order.id}</h3>
+                <p>Bought At: {new Date(order.createdAt).toLocaleString()}</p>
+                <h4>Items:</h4>
+              </div>
+              <div>
+                {collapsed[order.id] ? (
+                  <ChevronDown size={24} />
+                ) : (
+                  <ChevronUp size={24} />
+                )}
+              </div>
+            </div>
             {!collapsed[order.id] && (
               <ul>
                 {order.items.map((item) => (
@@ -102,7 +114,9 @@ const Orders: React.FC = () => {
                       <p>Price: ${item.product.price}</p>
                     </div>
                     <div className="flex flex-col ml-4 w-full h-full justify-start">
-                      <p className="w-full min-h-full">Description: {item.product.description}</p>
+                      <p className="w-full min-h-full">
+                        Description: {item.product.description}
+                      </p>
                     </div>
                   </li>
                 ))}
