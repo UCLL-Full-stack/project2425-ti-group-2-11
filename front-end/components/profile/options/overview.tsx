@@ -105,7 +105,7 @@ const Overview: React.FC = () => {
 
     return (
         <>
-            <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4 pb-2 pl-2">
+            <div className="border-2 border-black rounded-lg min-h-min flex flex-col gap-4 p-2">
                 <div className="flex items-center">
                     <User className="mr-2" />
                     {name}
