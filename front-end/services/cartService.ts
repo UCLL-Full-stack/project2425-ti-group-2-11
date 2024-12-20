@@ -1,6 +1,5 @@
-import { jwtDecode } from "jwt-decode";
+import { ShoppingCart } from "@/types/cartTypes";
 import router from "next/router";
-import { useState } from "react";
 
 export const fetchShoppingCart = async (userId: number, token: string) => {
   try {
@@ -22,7 +21,9 @@ export const fetchShoppingCart = async (userId: number, token: string) => {
     }
 
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const updateCartQuantityInDatabase = async (
@@ -74,9 +75,10 @@ export const removeFromDatabaseService = async (
 
 export const checkoutService = async (
   userId: number,
-  cart: any,
+  cart: ShoppingCart,
   token: string
 ) => {
+  console.log(cart);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}cart/checkout/${userId}`,
     {
@@ -88,8 +90,26 @@ export const checkoutService = async (
       body: JSON.stringify({ cart: cart }),
     }
   );
+  console.log(res);
   if (!res.ok) {
     throw new Error("Failed to checkout");
   }
+  return res;
+};
+
+export const getOrdersByUserId = async (userId: number, token: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}cart/orders/${userId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to get orders by user id");
+  }
+  
   return res;
 };
