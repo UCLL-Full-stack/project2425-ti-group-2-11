@@ -2,6 +2,7 @@ import { postProduct } from "@/services/productService";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { addProductType } from "@/types/cartTypes";
+import axios from "axios";
 
 const addProduct: React.FC = () => {
   const { t } = useTranslation();
@@ -16,7 +17,9 @@ const addProduct: React.FC = () => {
     details: "",
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       if (
@@ -36,10 +39,33 @@ const addProduct: React.FC = () => {
       const formData = new FormData();
       formData.append("media", file);
 
+      const token = localStorage.getItem("token");
+
       setFormData((prevFormData) => ({
         ...prevFormData,
         media: newName,
       }));
+
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}upload`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          console.log("File uploaded successfully");
+        } else {
+          console.error("Failed to upload file");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
