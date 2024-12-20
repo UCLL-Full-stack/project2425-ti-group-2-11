@@ -50,7 +50,8 @@
     "add": "Ajouter un Produit",
     "disclaimer": "*Nous prenons actuellement en charge uniquement l'ajout via un lien. Nous ne prenons pas en charge le téléchargement de vos propres images.",
     "success": "Produit ajouté avec succès",
-    "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes"
+    "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes",
+    "hurry": "Dépêchez-vous, il ne reste que quelques articles en stock !"
   },
   "cart": {
     "title": "Panier",
@@ -73,7 +74,16 @@
     "redirect": "Vous serez redirigé vers la page d'accueil dans 3 secondes",
     "loading": "Chargement...",
     "total": "Total"
-    
+
+  },
+  "order": {
+    "number": "Numéro de commande",
+    "boughtat": "Acheté le",
+    "items": "Articles",
+    "productname": "Nom du produit",
+    "quantity": "Quantité",
+    "price": "Prix",
+    "description": "Description"
   },
   "language": "Langue",
   "overview": "Aperçu",
@@ -82,5 +92,9 @@
   "orders": "Commandes",
   "logout": "Déconnecter",
   "isseller": "Vous êtes un vendeur",
-  "noseller": "Vous n'êtes pas un vendeur"
+  "noseller": "Vous n'êtes pas un vendeur",
+  "owneroptions": "Options du propriétaire",
+  "adminoptions": "Options de l'administrateur",
+  "allusers": "Tout utilisateur",
+  "allproducts": "Tout Produits"
 }
