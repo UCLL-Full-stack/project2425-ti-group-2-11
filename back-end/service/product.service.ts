@@ -10,4 +10,9 @@ const getProductsLimitDesc = async (limit: number) => {
     return products;
 };
 
-export default { getAllProducts , getProductsLimitDesc };
+const getProductById = async (productId: number) => {
+    const product = await productDb.getProductById(productId);
+    return product;
+};
+
+export default { getAllProducts , getProductsLimitDesc, getProductById };

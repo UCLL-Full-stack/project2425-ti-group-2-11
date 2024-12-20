@@ -4,7 +4,8 @@ export interface Product {
   price: number;
   media: string;
   stock: number;
-  
+  details: string;
+
 }
 export type CartItem = {
   id: string;

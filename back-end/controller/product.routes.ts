@@ -94,3 +94,11 @@ productRouter.get('/desc/limit/:limit', async (req: Request, res: Response, next
 });
 
 export { productRouter };
+
+productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(await productService.getProductById(Number(req.params.id)));
+    } catch (error) {
+        next(error);
+    }
+});
