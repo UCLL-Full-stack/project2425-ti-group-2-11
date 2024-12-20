@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { id } from 'date-fns/locale';
 
 const prisma = new PrismaClient();
 
@@ -307,28 +306,6 @@ const main = async () => {
         });
     }
 
-    const product1Emily = await prisma.product.create({
-        data: {
-            name: 'JBL Headphones',
-            description: 'Noise-cancelling over-ear headphones',
-            media: '/productPictures/jbl.png',
-            stock: 50,
-            price: 199,
-            details: 'Wireless, 20 hours battery life',
-        },
-    });
-
-    const product2Emily = await prisma.product.create({
-        data: {
-            name: 'Samsung QLED TV',
-            description: 'Smart TV with Quantum Dot technology',
-            media: '/productPictures/SamsungQled.jpg',
-            stock: 10,
-            price: 1499,
-            details: '65-inch, 4K UHD, HDR',
-        },
-    });
-
     const passwordChris = await bcrypt.hash('AnotherSecurePassword', 10);
 
     const Chris = await prisma.user.create({
@@ -343,17 +320,6 @@ const main = async () => {
             address: {
                 connect: { id: addressChris.id },
             },
-        },
-    });
-
-    const product1Chris = await prisma.product.create({
-        data: {
-            name: 'JBL Headphones',
-            description: 'Noise-cancelling over-ear headphones',
-            media: '/productPictures/jbl.png',
-            stock: 50,
-            price: 199,
-            details: 'Wireless, 20 hours battery life',
         },
     });
 
@@ -463,6 +429,30 @@ const main = async () => {
             price: 299,
             details: 'Neon Blue and Red Joy-Con',
         },
+        {
+            name: 'HP Spectre x360',
+            description: 'Convertible laptop with 4K display',
+            media: '/productPictures/HPSpectrex360.jpg',
+            stock: 20,
+            price: 1399,
+            details: '13.3-inch, Intel Core i7, 16GB RAM, 512GB SSD',
+        },
+        {
+            name: 'Canon EOS R5',
+            description: 'Full-frame mirrorless camera',
+            media: '/productPictures/CanonEOSR5.jpg',
+            stock: 15,
+            price: 3899,
+            details: '45MP, 8K video recording',
+        },
+        {
+            name: 'GoPro HERO9',
+            description: 'Waterproof action camera',
+            media: '/productPictures/GoProHERO9.jpg',
+            stock: 50,
+            price: 399,
+            details: '5K video, 20MP photos',
+        }
     ];
 
     for (const product of products) {
