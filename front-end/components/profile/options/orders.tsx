@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getOrdersByUserId } from "@/services/cartService";
 import { jwtDecode } from "jwt-decode";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslation } from "next-i18next";
 
 const Orders: React.FC = () => {
   interface DecodedToken {
@@ -33,6 +34,8 @@ const Orders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [token, setToken] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<{ [key: number]: boolean }>({});
+
+  const { t } = useTranslation()
 
   const toggleCollapse = (orderId: number) => {
     setCollapsed((prevState) => ({
@@ -87,9 +90,9 @@ const Orders: React.FC = () => {
           >
             <div className="flex justify-between">
               <div>
-                <h3>Order number: {order.id}</h3>
-                <p>Bought At: {new Date(order.createdAt).toLocaleString()}</p>
-                <h4>Items:</h4>
+                <h3>{t('order.number')}: {order.id}</h3>
+                <p>{t('order.boughtat')}: {new Date(order.createdAt).toLocaleString()}</p>
+                <h4>{t('order.items')}:</h4>
               </div>
               <div>
                 {collapsed[order.id] ? (
@@ -109,13 +112,13 @@ const Orders: React.FC = () => {
                       width="100"
                     />
                     <div className="flex flex-col ml-4 w-full h-full">
-                      <p>Product Name: {item.product.name}</p>
-                      <p>Quantity: {item.quantity}</p>
-                      <p>Price: ${item.product.price}</p>
+                      <p>{t('order.productname')}: {item.product.name}</p>
+                      <p>{t('order.quantity')}: {item.quantity}</p>
+                      <p>{t('order.price')}: ${item.product.price}</p>
                     </div>
                     <div className="flex flex-col ml-4 w-full h-full justify-start">
                       <p className="w-full min-h-full">
-                        Description: {item.product.description}
+                      {t('order.description')}: {item.product.description}
                       </p>
                     </div>
                   </li>

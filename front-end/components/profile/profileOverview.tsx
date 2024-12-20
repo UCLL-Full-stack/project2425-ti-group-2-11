@@ -41,8 +41,8 @@ const Selector: React.FC = () => {
         { name: `${t('orders')}`, icon: ShoppingBag, id: 'orders', component: <Orders /> },
     ];
 
-    const adminItem = { name: `${t('Admin Options')}`, icon: Shield, id: 'admin', component: <Admin /> };
-    const ownerItem = { name: `${t('Owner Options')}`, icon: Shield, id: 'owner', component: <Owner /> };
+    const adminItem = { name: `${t('adminoptions')}`, icon: Shield, id: 'admin', component: <Admin /> };
+    const ownerItem = { name: `${t('owneroptions')}`, icon: Shield, id: 'owner', component: <Owner /> };
 
     const fetchUser = async (userId: number) => {
         try {
