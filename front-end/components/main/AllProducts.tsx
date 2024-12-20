@@ -14,7 +14,12 @@ export const AllProducts: React.FC<AllProductsProps> = ({ items, onMessage }) =>
   const router = useRouter();
   const { t } = useTranslation()
   const handleClick = (id: number) => {
-    router.push(`/products/${id}`);
+    const token = localStorage.getItem('token')
+    if (token) {
+      router.push(`/products/${id}`);
+    } else{
+      router.push("/login");
+    }
   }
 
   return (

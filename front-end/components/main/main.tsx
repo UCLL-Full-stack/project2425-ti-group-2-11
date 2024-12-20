@@ -68,7 +68,12 @@ export default function Home() {
 
   const router = useRouter();
   const handleClick = (id: number) => {
-    router.push(`/products/${id}`);
+    const token = localStorage.getItem('token')
+    if (token) {
+      router.push(`/products/${id}`);
+    } else{
+      router.push("/login");
+    }
   }
 
 
