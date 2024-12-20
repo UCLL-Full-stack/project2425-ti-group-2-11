@@ -15,4 +15,8 @@ const getProductById = async (productId: number) => {
     return product;
 };
 
-export default { getAllProducts , getProductsLimitDesc, getProductById };
+const createProduct = async (product: any) => {
+    const newProduct = await productDb.createProduct(product);
+    return newProduct;
+};
+export default { getAllProducts, getProductsLimitDesc, getProductById, createProduct };

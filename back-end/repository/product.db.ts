@@ -68,11 +68,35 @@ const updateProductStock = async (productId: number, amount: number): Promise<vo
     } catch (error) {}
 };
 
+const createProduct = async (product: any): Promise<Product> => {
+    try {
+        if (!(product instanceof Product)) {
+            product = new Product(product);
+        }
+
+        const productPrisma = await database.product.create({
+            data: {
+                name: product.getName(),
+                description: product.getDescription(),
+                media: product.getMedia(),
+                stock: Number(product.getStock()),
+                price: Number(product.getPrice()),
+                details: product.getDetails(),
+            },
+        });
+        return Product.from(productPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 const productDb = {
     getAllProducts,
     getProductsLimitDesc,
     getProductById,
     updateProductStock,
+    createProduct,
 };
 
 export { productDb };

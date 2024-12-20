@@ -84,7 +84,7 @@ const Navbar: React.FC<{ type?: string; user?: User }> = ({ type, user }) => {
               <ShoppingCart className="h-6 w-6 mr-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
             </Link>
             {user?.seller && (
-              <Link href={isLoggedIn ? "/addProduct" : "/login"}>
+              <Link href={isLoggedIn ? "/addproduct" : "/login"}>
                 <ShoppingBag className="h-6 w-6 text-gray-600 cursor-pointer transition-colors hover:text-blue-500" />
               </Link>
             )}
