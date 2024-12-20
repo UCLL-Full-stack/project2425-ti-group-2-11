@@ -20,7 +20,8 @@ export function ProductCard({
 }: ProductCardProps) {
   const router = useRouter();
 
-  const addToCart = async (productId: number) => {
+  const addToCart = async (productId: number, event: React.MouseEvent) => {
+    event.stopPropagation();
     try {
       const token = localStorage.getItem("token");
       if (token) {
@@ -74,7 +75,7 @@ export function ProductCard({
         <div className="flex justify-between">
           <p className="text-lg font-bold text-blue-600">€{price.toFixed(2)}</p>
           <button
-            onClick={() => addToCart(productId)}
+            onClick={(event) => addToCart(productId, event)}
             className="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm sm:text-base py-2 px-3 sm:px-4 rounded-md shadow-sm transition duration-300 ease-in-out transform hover:scale-102 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center space-x-1 sm:space-x-2 w-auto"
           >
             <Plus size={16} className="sm:w-5 sm:h-5" />
