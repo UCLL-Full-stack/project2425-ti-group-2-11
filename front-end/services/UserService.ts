@@ -15,7 +15,7 @@ const loginUser = (user: User) => {
   });
 };
 
-const getUser = async (userId: number) => {
+export const getUser = async (userId: number) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_API_URL + `users/${userId}`,
     {
