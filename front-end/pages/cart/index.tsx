@@ -6,37 +6,31 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
+import { User } from "@/types/types";
+import { getUser } from "@/services/UserService";
+
+interface DecodedToken {
+  userId: string;
+}
 
 const Cart: React.FC = () => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const [userId, setUserId] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
 
+  const [user, setUser] = useState<User>();
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) {
-      router.push("/login");
-    } else {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        console.log(decodedToken);
-        setUserId(decodedToken.userId);
-      } catch (error) {
-        console.error("Invalid token:", error);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
+      return;
     }
-  }, [router]);
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
+    const decodedToken = jwtDecode<DecodedToken>(token);
+    const fetchUser = async () => {
+      const user = await getUser(Number(decodedToken.userId));
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
+
   return (
     <>
       <Head>
@@ -49,10 +43,10 @@ const Cart: React.FC = () => {
           rel="stylesheet"
         />
       </Head>
-      <Navbar type="cart"/>
+      <Navbar type="cart" user={user} />
       <main className="overscroll-y-contain">
-        {userId !== null ? (
-          <ShoppingCart userId={userId} />
+        {user && user.id ? (
+          <ShoppingCart userId={user.id} />
         ) : (
           <div>{t("cart.nouserid")}</div>
         )}
