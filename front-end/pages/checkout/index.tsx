@@ -32,7 +32,7 @@ const Checkout: React.FC = () => {
           rel="stylesheet"
         />
       </Head>
-      <main>
+      <main className="overscroll-y-contain">
         <Navbar />
         <CheckoutComponent userId={Number(userId)} cart={cart} />
       </main>

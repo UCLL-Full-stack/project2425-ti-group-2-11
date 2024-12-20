@@ -50,7 +50,7 @@ const Cart: React.FC = () => {
         />
       </Head>
       <Navbar type="cart"/>
-      <main>
+      <main className="overscroll-y-contain">
         {userId !== null ? (
           <ShoppingCart userId={userId} />
         ) : (

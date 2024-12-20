@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   body {
-    @apply w-full sm:min-w-0 bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 bg-fixed;
+    @apply w-full sm:min-w-0 bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 bg-fixed overscroll-contain;
   }
+
   #__next {
     height: 100%;
   }
-  
+
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
 }

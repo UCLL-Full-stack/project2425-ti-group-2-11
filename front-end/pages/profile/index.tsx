@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
     }
   }, [router]);
   return (
-    <><main>
+    <><main className="overscroll-y-contain">
       <Navbar type="profile"/>
       <ProfileOverview />
     </main>

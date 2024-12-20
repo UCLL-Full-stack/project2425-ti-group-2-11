@@ -16,7 +16,7 @@ const Register: React.FC = () => {
                 <link rel="icon" href="/logo-512-white.svg" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
-            <main>
+            <main className="overscroll-y-contain">
                     <RegisterForm />
             </main>
         </>

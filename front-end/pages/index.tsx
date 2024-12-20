@@ -19,11 +19,11 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo-512-white.svg" />
       </Head>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col overscroll-y-contain">
         <header className="sticky top-0 z-10 bg-white shadow-sm">
           <Navbar />
         </header>
-        <main className="flex-grow">
+        <main className="flex-grow ">
           <Main />
         </main>
       </div>
